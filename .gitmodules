@@ -1,0 +1,3 @@
+[submodule "Packages/yaocenji.radiance-cascades"]
+	path = Packages/yaocenji.radiance-cascades
+	url = https://github.com/Yaocenji/Radiance-Cascades-URP.git
