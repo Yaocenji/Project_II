@@ -64,6 +64,33 @@ namespace Project_II.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""mainAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""77ba8af3-9912-4ead-ab78-30fa14244aab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""secondaryAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""38df79d7-d5d8-49ca-b522-e32b6b71ab0f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""50445c56-1cd4-442b-93be-037a1a6c838e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -176,6 +203,72 @@ namespace Project_II.InputSystem
                     ""action"": ""mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0307d8cc-85af-487b-aa10-58eb0966797b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""mainAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6aa0423a-eae6-47e7-ae3f-a50e02cd4975"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""mainAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c4e6f2d-981f-403a-8b40-7d1dc61ab50c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""secondaryAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f5d4135-95f1-4d4a-b6ec-dfa6255c791c"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""secondaryAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fddce858-f7ab-40f7-b852-47d6ae9b5003"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f887dfed-9c97-4bec-ad9f-d10ad6d9b0f3"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -188,6 +281,9 @@ namespace Project_II.InputSystem
             m_Character_run = m_Character.FindAction("run", throwIfNotFound: true);
             m_Character_sneak = m_Character.FindAction("sneak", throwIfNotFound: true);
             m_Character_mouse = m_Character.FindAction("mouse", throwIfNotFound: true);
+            m_Character_mainAttack = m_Character.FindAction("mainAttack", throwIfNotFound: true);
+            m_Character_secondaryAttack = m_Character.FindAction("secondaryAttack", throwIfNotFound: true);
+            m_Character_reload = m_Character.FindAction("reload", throwIfNotFound: true);
         }
 
         ~@InputAction_0()
@@ -258,6 +354,9 @@ namespace Project_II.InputSystem
         private readonly InputAction m_Character_run;
         private readonly InputAction m_Character_sneak;
         private readonly InputAction m_Character_mouse;
+        private readonly InputAction m_Character_mainAttack;
+        private readonly InputAction m_Character_secondaryAttack;
+        private readonly InputAction m_Character_reload;
         public struct CharacterActions
         {
             private @InputAction_0 m_Wrapper;
@@ -266,6 +365,9 @@ namespace Project_II.InputSystem
             public InputAction @run => m_Wrapper.m_Character_run;
             public InputAction @sneak => m_Wrapper.m_Character_sneak;
             public InputAction @mouse => m_Wrapper.m_Character_mouse;
+            public InputAction @mainAttack => m_Wrapper.m_Character_mainAttack;
+            public InputAction @secondaryAttack => m_Wrapper.m_Character_secondaryAttack;
+            public InputAction @reload => m_Wrapper.m_Character_reload;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -287,6 +389,15 @@ namespace Project_II.InputSystem
                 @mouse.started += instance.OnMouse;
                 @mouse.performed += instance.OnMouse;
                 @mouse.canceled += instance.OnMouse;
+                @mainAttack.started += instance.OnMainAttack;
+                @mainAttack.performed += instance.OnMainAttack;
+                @mainAttack.canceled += instance.OnMainAttack;
+                @secondaryAttack.started += instance.OnSecondaryAttack;
+                @secondaryAttack.performed += instance.OnSecondaryAttack;
+                @secondaryAttack.canceled += instance.OnSecondaryAttack;
+                @reload.started += instance.OnReload;
+                @reload.performed += instance.OnReload;
+                @reload.canceled += instance.OnReload;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -303,6 +414,15 @@ namespace Project_II.InputSystem
                 @mouse.started -= instance.OnMouse;
                 @mouse.performed -= instance.OnMouse;
                 @mouse.canceled -= instance.OnMouse;
+                @mainAttack.started -= instance.OnMainAttack;
+                @mainAttack.performed -= instance.OnMainAttack;
+                @mainAttack.canceled -= instance.OnMainAttack;
+                @secondaryAttack.started -= instance.OnSecondaryAttack;
+                @secondaryAttack.performed -= instance.OnSecondaryAttack;
+                @secondaryAttack.canceled -= instance.OnSecondaryAttack;
+                @reload.started -= instance.OnReload;
+                @reload.performed -= instance.OnReload;
+                @reload.canceled -= instance.OnReload;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -326,6 +446,9 @@ namespace Project_II.InputSystem
             void OnRun(InputAction.CallbackContext context);
             void OnSneak(InputAction.CallbackContext context);
             void OnMouse(InputAction.CallbackContext context);
+            void OnMainAttack(InputAction.CallbackContext context);
+            void OnSecondaryAttack(InputAction.CallbackContext context);
+            void OnReload(InputAction.CallbackContext context);
         }
     }
 }

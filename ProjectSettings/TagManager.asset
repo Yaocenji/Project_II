@@ -8,17 +8,17 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
+  - Wall
+  - Player
+  - Ally
+  - Enemy
+  - FriendlyFire
+  - EnemyFire
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - FMOD_Trigger
   - 
   - 
   - 

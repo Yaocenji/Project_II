@@ -110,7 +110,7 @@ namespace ProjectII.Manager
             if (inputAction == null)
             {
                 inputAction = new InputAction_0();
-                Debug.Log("InputAction 已创建");
+                //Debug.Log("InputAction 已创建");
             }
         }
 

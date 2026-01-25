@@ -75,4 +75,10 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 
-/MyBuild/
+# 我的打包文件和插件
+/Build/
+/Assets/Weapons of Choice FREE - Komposite Sound/
+/Assets/Plugins/
+/Assets/FirstGearGames/
+/Assets/Nature - Essentials/
+/Assets/FMOD Projects/

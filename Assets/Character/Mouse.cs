@@ -28,6 +28,8 @@ namespace ProjectII.Character
 
         // 当前虚拟鼠标的世界位置（用于计算朝向）
         private Vector2 virtualMouseWorldPosition;
+        
+        public Vector2 VirtualMouseWorldPosition{get =>  virtualMouseWorldPosition;}
 
         // 是否使用手柄输入
         private bool isUsingGamepad = false;
@@ -127,6 +129,10 @@ namespace ProjectII.Character
             {
                 // 没有输入时，保持当前状态
                 isUsingGamepad = false;
+                
+                // 即使鼠标没有移动，也要更新虚拟鼠标的世界位置
+                // 因为摄像机可能跟随角色移动，导致屏幕位置对应的世界位置发生变化
+                UpdateVirtualMouseWorldPositionFromScreen();
             }
         }
 
@@ -278,6 +284,8 @@ namespace ProjectII.Character
             {
                 SetDirection(targetDirection);
             }
+
+            //Debug.Log("UpdateCharacterLookDirection: " + targetDirection);
         }
 
         /// <summary>
@@ -305,8 +313,50 @@ namespace ProjectII.Character
             }
 
             // 将屏幕坐标转换为世界坐标
-            Vector3 worldPos = mainCamera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, mainCamera.nearClipPlane));
+            // 对于正交相机，Z 参数表示从相机到目标平面的距离
+            // 对于2D游戏，通常场景在 Z=0 平面，相机在负 Z 方向
+            // 所以使用相机到原点的距离（即相机的 Z 位置的绝对值）
+            float cameraZ = mainCamera.orthographic ? 
+                Mathf.Abs(mainCamera.transform.position.z) : 
+                mainCamera.nearClipPlane;
+            
+            Vector3 worldPos = mainCamera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, cameraZ));
             return new Vector2(worldPos.x, worldPos.y);
+        }
+
+        /// <summary>
+        /// 从当前虚拟鼠标的屏幕位置更新世界位置
+        /// 用于在鼠标不移动但摄像机移动时更新朝向
+        /// </summary>
+        private void UpdateVirtualMouseWorldPositionFromScreen()
+        {
+            if (virtualMouseRectTransform == null || mainCamera == null)
+            {
+                return;
+            }
+
+            // 获取Canvas
+            Canvas canvas = virtualMouseRectTransform.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                return;
+            }
+
+            // 获取当前虚拟鼠标的屏幕位置
+            Vector2 currentScreenPos;
+            if (canvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            {
+                currentScreenPos = virtualMouseRectTransform.anchoredPosition;
+            }
+            else
+            {
+                currentScreenPos = RectTransformUtility.WorldToScreenPoint(
+                    canvas.worldCamera ?? mainCamera, 
+                    virtualMouseRectTransform.position);
+            }
+
+            // 将屏幕坐标转换为世界坐标（用于计算朝向）
+            virtualMouseWorldPosition = ScreenToWorldPosition(currentScreenPos);
         }
 
         /// <summary>

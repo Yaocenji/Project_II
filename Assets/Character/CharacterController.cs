@@ -75,10 +75,10 @@ namespace ProjectII.Character
             GetInputActionFromInputManager();
 
             // 确保刚体是运动学的
-            if (rb != null)
-            {
-                rb.bodyType = RigidbodyType2D.Kinematic;
-            }
+            // if (rb != null)
+            // {
+            //     rb.bodyType = RigidbodyType2D.Kinematic;
+            // }
 
             // 注册sneak的切换回调
             if (inputActions != null)
@@ -221,10 +221,10 @@ namespace ProjectII.Character
             currentSpeed = smoothedVelocity;
 
             // 对于运动学刚体，使用MovePosition进行更精确的控制
-            if (rb.bodyType == RigidbodyType2D.Kinematic)
-            {
+            //if (rb.bodyType == RigidbodyType2D.Kinematic)
+            //{
                 rb.MovePosition(rb.position + smoothedVelocity * Time.fixedDeltaTime);
-            }
+            //}
         }
 
         /// <summary>
