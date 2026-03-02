@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{054329f5-2c19-4be0-a8d5-02d88589ecc8}">
+		<property name="assetPath">
+			<value>Footsteps - Essentials/Footsteps_Water/Footsteps_Water_Run/Footsteps_Water_Run_05.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>1.0040625000000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7778a130-3b56-46ce-b95b-ed241850be89}</destination>
+		</relationship>
+	</object>
+</objects>

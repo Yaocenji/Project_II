@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7106918, g: 0.7106918, b: 0.7106918, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -99,12 +99,79 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overrideAlbedo: {fileID: 0}
   normalMap: {fileID: 0}
-  emissionColor: {r: 0.344, g: 0.344, b: 0.344, a: 1}
+  emissionColor: {r: 0, g: 0, b: 0, a: 1}
   isWall: 1
-  occlusion: 0.388
+  occlusion: 0.75
   giCoefficient: 1
   manualRotation: 0
   overrideAngle: 0
+--- !u!1 &2952711670260733646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8276071843920816067}
+  - component: {fileID: 9058698509637759018}
+  m_Layer: 7
+  m_Name: FootStepEmmiter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8276071843920816067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952711670260733646}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4636170913461280093}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9058698509637759018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952711670260733646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1145307246
+      Data2: 1101832705
+      Data3: 1658175621
+      Data4: -299792432
+    Path: event:/SFX/Env/FootStepPlayer/FootStepPlayer
+  Event: 
+  EventPlayTrigger: 0
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params:
+  - Name: GroundMaterial
+    Value: 1
+  - Name: PlayerMove
+    Value: 0
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &5196825799893713076
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +198,7 @@ Transform:
   m_GameObject: {fileID: 5196825799893713076}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.22, y: -0.06, z: 1}
+  m_LocalPosition: {x: 0.177, y: 0.105, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -149,11 +216,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc6ecfdbea55214c8b3d12fafe5e9d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightColor: {r: 8, g: 8, b: 8, a: 1}
-  radius: 7
-  decayFactor: 1.2
-  innerAngle: 75
-  outerAngle: 120
+  lightColor: {r: 1.4980394, g: 1.4980394, b: 1.4980394, a: 1}
+  radius: 5
+  decayFactor: 0.5
+  innerAngle: 360
+  outerAngle: 360
   isValidLight: 0
 --- !u!1 &5216806646433931930
 GameObject:
@@ -191,6 +258,7 @@ Transform:
   - {fileID: 6387837106418409003}
   - {fileID: 6387295312526705188}
   - {fileID: 7862021301004943075}
+  - {fileID: 8276071843920816067}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &4986686263735678601
@@ -268,11 +336,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 23270604802636422}
-  sneakSpeed: 1
-  walkSpeed: 1.5
-  runSpeed: 3
+  sneakSpeed: 0.5
+  walkSpeed: 1
+  runSpeed: 2.5
   rotationSmoothTime: 0.15
   velocitySmoothTime: 0.15
+  footstepSFX_Emitter: {fileID: 9058698509637759018}
+  footStepDistanceInterval: 0.5
 --- !u!1 &8950759866896298813
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +418,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7106918, g: 0.7106918, b: 0.7106918, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -372,9 +442,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overrideAlbedo: {fileID: 0}
   normalMap: {fileID: 0}
-  emissionColor: {r: 0.344, g: 0.344, b: 0.344, a: 1}
+  emissionColor: {r: 0, g: 0, b: 0, a: 1}
   isWall: 1
-  occlusion: 0.388
+  occlusion: 0.75
   giCoefficient: 1
   manualRotation: 0
   overrideAngle: 0

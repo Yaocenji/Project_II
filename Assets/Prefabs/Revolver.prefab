@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 721047489597908175}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -172,9 +172,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0264dc0e4481b314c83a3d8980c923dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spreadAngle: 5
+  range: 10
   bulletPrefab: {fileID: 1693799101713458533, guid: 12af478fb4882ef4c8ec495d7ea29ff0, type: 3}
+  tracerVFX: {fileID: 0}
   shootSFX_Emitter: {fileID: 8522274637213482653}
   reloadSFX_Emitter: {fileID: 1618146865645413217}
   maxAmmo: 6
   reloadTime: 2
   fireInterval: 0.75
+  baseSpreadAngle: 2
+  maxMovementSpread: 3
+  maxSpreadMovementSpeed: 12
+  maxRotationSpread: 12
+  maxRotationSpeed: 180
+  spreadPerShot: 8
+  maxShootSpread: 12
+  spreadRecoverySpeed: 4

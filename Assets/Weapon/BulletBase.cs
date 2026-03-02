@@ -31,7 +31,7 @@ namespace ProjectII.Weapon
         [SerializeField] private LayerMask hitLayerMask = -1; // 可碰撞的层
 
         [Header("Raycast Settings (仅即时命中类型)")]
-        [SerializeField] private float raycastDistance = 100f; // 射线检测距离
+        [SerializeField] protected float raycastDistance = 100f; // 射线检测距离
 
         /// <summary>
         /// 这里保留子弹池的引用。
@@ -173,7 +173,7 @@ namespace ProjectII.Weapon
             // }
         }
 
-        public void BeginBullet()
+        public virtual void BeginBullet()
         {
             if (!isInitialized)
             {
@@ -193,7 +193,7 @@ namespace ProjectII.Weapon
         /// 执行射线检测（仅即时命中类型）
         /// 射线方向为右（transform.right）
         /// </summary>
-        private void PerformRaycast()
+        protected virtual void PerformRaycast()
         {
             Vector2 rayOrigin = transform.position;
             Vector2 rayDirection = transform.right;
@@ -233,8 +233,8 @@ namespace ProjectII.Weapon
         
         IEnumerator DelayedDeleteInstantHit()
         {
-            // 延迟0.1秒，删除即时命中类型的子弹
-            // 等待0.1秒
+            // 延迟0.5秒，删除即时命中类型的子弹
+            // 等待0.5秒
             yield return new WaitForSeconds(0.1f); 
     
             // 如果子弹类型是即时命中，并且子弹池不为空，则释放子弹

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{16598d55-79e3-4435-a935-5aa87930cda2}">
+		<property name="assetPath">
+			<value>Footsteps - Essentials/Footsteps_DirtyGround/Footsteps_DirtyGround_Land/Footsteps_DirtyGround_Jump_Start_03.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>1</value>
+		</property>
+		<property name="length">
+			<value>0.59664583333333332</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7778a130-3b56-46ce-b95b-ed241850be89}</destination>
+		</relationship>
+	</object>
+</objects>

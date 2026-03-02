@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="MixerReturn" id="{71403ddf-370a-49f6-b048-0301aaf9d5db}">
+		<property name="name">
+			<value>SFX_Env_Nature_Reverb</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{431a5ff1-351b-4b16-bdf0-7001b0969d66}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{a5b2fd79-4077-4dda-b290-ede72e551e18}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{f63e1458-4880-4caa-9281-f137e125432b}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{431a5ff1-351b-4b16-bdf0-7001b0969d66}">
+		<relationship name="effects">
+			<destination>{b774003a-69dd-4ca2-b0d8-2bf615a569af}</destination>
+			<destination>{ba2836fc-6620-4ca9-b32c-913878755e70}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{a5b2fd79-4077-4dda-b290-ede72e551e18}" />
+	<object class="MixerBusFader" id="{b774003a-69dd-4ca2-b0d8-2bf615a569af}" />
+	<object class="ThreeEQEffect" id="{ba2836fc-6620-4ca9-b32c-913878755e70}" />
+</objects>

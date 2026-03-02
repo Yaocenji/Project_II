@@ -59,7 +59,12 @@ namespace ProjectII.Character
         // 平滑插值相关
         private float currentRotationVelocity;
         private Vector2 currentVelocity;
-        private Vector2 currentSpeed; // 当前实际速度，用于运动学刚体
+
+        
+        //debug 
+        public FMODUnity.StudioEventEmitter footstepSFX_Emitter;
+        private float footStepDistance = 0;
+        public float footStepDistanceInterval = 0.75f;
 
         private void Awake()
         {
@@ -74,11 +79,14 @@ namespace ProjectII.Character
             // 从InputManager获取InputAction引用
             GetInputActionFromInputManager();
 
-            // 确保刚体是运动学的
-            // if (rb != null)
-            // {
-            //     rb.bodyType = RigidbodyType2D.Kinematic;
-            // }
+            // 确保刚体是 Dynamic 类型，并设置基本属性
+            if (rb != null)
+            {
+                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.gravityScale = 0f; // 2D 俯视角游戏不需要重力
+                rb.angularDrag = 0f; // 移除角阻力，让角速度能被正确读取
+                // 不锁定旋转，让 angularVelocity 能正确记录
+            }
 
             // 注册sneak的切换回调
             if (inputActions != null)
@@ -121,6 +129,10 @@ namespace ProjectII.Character
             // 更新方向和速度状态
             UpdateDirection();
             UpdateSpeedState();
+
+            // 虽然这样代码很不优雅，但是这是最简单的方法，因为之后会用SDF来计算玩家视野，所以需要一个玩家位置的变量
+            Shader.SetGlobalVector("_Player_PosWS_Direction_Angle", new Vector4(transform.position.x, transform.position.y, transform.rotation.eulerAngles.z, 45f));
+            Shader.SetGlobalVector("_Player_Radius_Eye_Inner_Outter_Blank", new Vector4(.25f, .5f, 3.0f, 0));
         }
 
         private void FixedUpdate()
@@ -138,6 +150,14 @@ namespace ProjectII.Character
 
             // 在FixedUpdate中调用Rotate方法，平滑旋转角色朝向
             Rotate();
+            
+            // 累加路程
+            footStepDistance += Time.fixedDeltaTime * rb.velocity.magnitude;
+            if (footStepDistance > footStepDistanceInterval)
+            {
+                footStepDistance = 0;
+                footstepSFX_Emitter.Play();
+            }
         }
 
         /// <summary>
@@ -194,37 +214,26 @@ namespace ProjectII.Character
                 return;
             }
 
-            // 1、平滑地将角色方向改为当前方向，应该用transform
+            // 1、平滑地将角色方向改为当前方向
             // 只有奔跑的时候，强制角色转向朝移动方向
             // 慢走和行走的时候不管（之后会用准星位置来控制指向）
             if (direction.magnitude > 0.01f && CurrentSpeedState == SpeedState.Run)
             {
                 float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                float currentAngle = transform.eulerAngles.z;
-                
-                // 处理角度环绕
-                float angleDifference = Mathf.DeltaAngle(currentAngle, targetAngle);
-                float smoothedAngle = Mathf.SmoothDampAngle(currentAngle, currentAngle + angleDifference, 
-                    ref currentRotationVelocity, rotationSmoothTime);
-                
-                transform.rotation = Quaternion.Euler(0, 0, smoothedAngle);
+                ApplyRotation(targetAngle);
             }
             // 慢走和行走状态：留空，之后会用准星位置来控制指向
 
-            // 2、平滑地将角色速度改为当前速度状态，配合运动学刚体
+            // 2、平滑地将角色速度改为当前速度状态，使用 Rigidbody2D.velocity
             float targetSpeed = GetSpeedForState(CurrentSpeedState);
             Vector2 targetVelocity = direction * targetSpeed;
 
-            // 使用SmoothDamp平滑速度变化（对于运动学刚体，使用自己的速度变量）
-            Vector2 smoothedVelocity = Vector2.SmoothDamp(currentSpeed, targetVelocity, 
+            // 使用SmoothDamp平滑速度变化，直接设置刚体速度
+            Vector2 smoothedVelocity = Vector2.SmoothDamp(rb.velocity, targetVelocity, 
                 ref currentVelocity, velocitySmoothTime);
-            currentSpeed = smoothedVelocity;
-
-            // 对于运动学刚体，使用MovePosition进行更精确的控制
-            //if (rb.bodyType == RigidbodyType2D.Kinematic)
-            //{
-                rb.MovePosition(rb.position + smoothedVelocity * Time.fixedDeltaTime);
-            //}
+            
+            // 直接设置刚体速度，让物理引擎处理位移
+            rb.velocity = smoothedVelocity;
         }
 
         /// <summary>
@@ -261,15 +270,29 @@ namespace ProjectII.Character
 
             // 计算目标角度
             float targetAngle = Mathf.Atan2(TargetLookDirection.y, TargetLookDirection.x) * Mathf.Rad2Deg;
-            float currentAngle = transform.eulerAngles.z;
+            ApplyRotation(targetAngle);
+        }
+
+        /// <summary>
+        /// 应用旋转，使用刚体的 MoveRotation 并设置角速度
+        /// </summary>
+        /// <param name="targetAngle">目标角度（度）</param>
+        private void ApplyRotation(float targetAngle)
+        {
+            if (rb == null) return;
+
+            float currentAngle = rb.rotation;
 
             // 处理角度环绕
             float angleDifference = Mathf.DeltaAngle(currentAngle, targetAngle);
             float smoothedAngle = Mathf.SmoothDampAngle(currentAngle, currentAngle + angleDifference,
                 ref currentRotationVelocity, rotationSmoothTime);
 
-            // 平滑旋转角色朝向目标方向
-            transform.rotation = Quaternion.Euler(0, 0, smoothedAngle);
+            // 使用刚体的 MoveRotation 来旋转，这样刚体会记录正确的角速度
+            rb.MoveRotation(smoothedAngle);
+            
+            // 手动设置角速度，以便其他脚本可以读取
+            rb.angularVelocity = currentRotationVelocity;
         }
 
         /// <summary>

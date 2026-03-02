@@ -82,3 +82,8 @@ crashlytics-build.properties
 /Assets/FirstGearGames/
 /Assets/Nature - Essentials/
 /Assets/FMOD Projects/
+/Assets/Footsteps - Essentials/
+/FMOD projects/ProjectII/.cache/
+
+// 打包文件
+*.zip

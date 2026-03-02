@@ -24,7 +24,16 @@ namespace ProjectII.Weapon
         protected ObjectPool<GameObject> bulletPool;
 
         // 武器散布角度（单侧、角度）
-        private float spreadAngle = 5.0f;
+        public float spreadAngle = 5.0f;
+        // 武器射程（世界空间）
+        public float range = 10.0f;
+        public float SpreadAngle{get => spreadAngle;}
+        public float Range{get => range;}
+
+        // 能否开火标志位（由派生类根据具体规则设置）
+        protected bool canFire = true;
+        
+        public bool CanFire {get => canFire;}
 
         protected virtual void Awake()
         {
@@ -58,7 +67,7 @@ namespace ProjectII.Weapon
             }
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             if (inputActions == null)
             {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="MixerGroup" id="{649dfbd1-7877-400c-b28d-160fe41123cb}">
+		<property name="name">
+			<value>Revolve</value>
+		</property>
+		<relationship name="effectChain">
+			<destination>{4a53f7cf-7cc2-44e1-9d7a-2f3430298c69}</destination>
+		</relationship>
+		<relationship name="panner">
+			<destination>{e69b980e-d47b-4aa4-bda4-df88de47ff1a}</destination>
+		</relationship>
+		<relationship name="output">
+			<destination>{3b06e082-e7b7-4a46-a616-c2cca1913cee}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusEffectChain" id="{4a53f7cf-7cc2-44e1-9d7a-2f3430298c69}">
+		<relationship name="effects">
+			<destination>{baaeebb9-1645-47ab-8921-14c78f052e1d}</destination>
+		</relationship>
+	</object>
+	<object class="MixerBusPanner" id="{e69b980e-d47b-4aa4-bda4-df88de47ff1a}" />
+	<object class="MixerBusFader" id="{baaeebb9-1645-47ab-8921-14c78f052e1d}" />
+</objects>

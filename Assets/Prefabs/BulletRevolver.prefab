@@ -47,5 +47,5 @@ MonoBehaviour:
   bulletType: 0
   hitLayerMask:
     serializedVersion: 2
-    m_Bits: 4019
+    m_Bits: 4033
   raycastDistance: 25

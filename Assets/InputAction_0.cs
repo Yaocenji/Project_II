@@ -91,6 +91,15 @@ namespace Project_II.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""ebe66e4c-9608-4b73-b144-1e8494ada9d0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -269,6 +278,17 @@ namespace Project_II.InputSystem
                     ""action"": ""reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""089ded12-34b7-4678-b616-e7d5c57600d0"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -284,6 +304,7 @@ namespace Project_II.InputSystem
             m_Character_mainAttack = m_Character.FindAction("mainAttack", throwIfNotFound: true);
             m_Character_secondaryAttack = m_Character.FindAction("secondaryAttack", throwIfNotFound: true);
             m_Character_reload = m_Character.FindAction("reload", throwIfNotFound: true);
+            m_Character_interaction = m_Character.FindAction("interaction", throwIfNotFound: true);
         }
 
         ~@InputAction_0()
@@ -357,6 +378,7 @@ namespace Project_II.InputSystem
         private readonly InputAction m_Character_mainAttack;
         private readonly InputAction m_Character_secondaryAttack;
         private readonly InputAction m_Character_reload;
+        private readonly InputAction m_Character_interaction;
         public struct CharacterActions
         {
             private @InputAction_0 m_Wrapper;
@@ -368,6 +390,7 @@ namespace Project_II.InputSystem
             public InputAction @mainAttack => m_Wrapper.m_Character_mainAttack;
             public InputAction @secondaryAttack => m_Wrapper.m_Character_secondaryAttack;
             public InputAction @reload => m_Wrapper.m_Character_reload;
+            public InputAction @interaction => m_Wrapper.m_Character_interaction;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -398,6 +421,9 @@ namespace Project_II.InputSystem
                 @reload.started += instance.OnReload;
                 @reload.performed += instance.OnReload;
                 @reload.canceled += instance.OnReload;
+                @interaction.started += instance.OnInteraction;
+                @interaction.performed += instance.OnInteraction;
+                @interaction.canceled += instance.OnInteraction;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -423,6 +449,9 @@ namespace Project_II.InputSystem
                 @reload.started -= instance.OnReload;
                 @reload.performed -= instance.OnReload;
                 @reload.canceled -= instance.OnReload;
+                @interaction.started -= instance.OnInteraction;
+                @interaction.performed -= instance.OnInteraction;
+                @interaction.canceled -= instance.OnInteraction;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -449,6 +478,7 @@ namespace Project_II.InputSystem
             void OnMainAttack(InputAction.CallbackContext context);
             void OnSecondaryAttack(InputAction.CallbackContext context);
             void OnReload(InputAction.CallbackContext context);
+            void OnInteraction(InputAction.CallbackContext context);
         }
     }
 }
