@@ -132,8 +132,8 @@ GameObject:
   m_Component:
   - component: {fileID: 18101346}
   - component: {fileID: 18101349}
-  - component: {fileID: 18101348}
   - component: {fileID: 18101347}
+  - component: {fileID: 18101350}
   m_Layer: 6
   m_Name: "\u706F\u67610 (3)"
   m_TagString: Untagged
@@ -201,26 +201,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &18101348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 18101345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.9960787, g: 1.4415092, b: 2.0054176, a: 1}
-  isWall: 1
-  occlusion: 0.2
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &18101349
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -241,7 +221,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -273,6 +253,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &18101350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18101345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &31345657
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,8 +350,8 @@ GameObject:
   m_Component:
   - component: {fileID: 48851104}
   - component: {fileID: 48851107}
-  - component: {fileID: 48851106}
   - component: {fileID: 48851105}
+  - component: {fileID: 48851108}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (29)"
   m_TagString: Untagged
@@ -423,26 +419,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &48851106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 48851103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &48851107
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -463,7 +439,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -495,6 +471,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &48851108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48851103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.64779866, g: 0.64779866, b: 0.64779866, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &66791727
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,8 +497,8 @@ GameObject:
   m_Component:
   - component: {fileID: 66791728}
   - component: {fileID: 66791731}
-  - component: {fileID: 66791730}
   - component: {fileID: 66791729}
+  - component: {fileID: 66791732}
   m_Layer: 6
   m_Name: "\u5427\u53F0"
   m_TagString: Untagged
@@ -574,26 +566,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &66791730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 66791727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.01
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &66791731
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -614,7 +586,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -646,6 +618,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &66791732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66791727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &69463154
 GameObject:
   m_ObjectHideFlags: 0
@@ -734,8 +722,8 @@ GameObject:
   m_Component:
   - component: {fileID: 114428409}
   - component: {fileID: 114428412}
-  - component: {fileID: 114428411}
   - component: {fileID: 114428410}
+  - component: {fileID: 114428413}
   m_Layer: 6
   m_Name: "\u706F\u67610 (10)"
   m_TagString: Untagged
@@ -803,26 +791,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114428411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 114428408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.1185474, g: 0.32166427, b: 0.32166427, a: 1}
-  isWall: 1
-  occlusion: 0.5
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &114428412
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -843,7 +811,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -875,6 +843,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &114428413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114428408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &136643015
 GameObject:
   m_ObjectHideFlags: 0
@@ -885,8 +869,8 @@ GameObject:
   m_Component:
   - component: {fileID: 136643016}
   - component: {fileID: 136643019}
-  - component: {fileID: 136643018}
   - component: {fileID: 136643017}
+  - component: {fileID: 136643020}
   m_Layer: 6
   m_Name: "\u706F\u67610 (4)"
   m_TagString: Untagged
@@ -954,26 +938,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &136643018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136643015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.9960787, g: 1.4415092, b: 2.0054176, a: 1}
-  isWall: 1
-  occlusion: 0.2
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &136643019
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -994,7 +958,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1026,6 +990,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &136643020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136643015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &192542670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,8 +1016,8 @@ GameObject:
   m_Component:
   - component: {fileID: 192542671}
   - component: {fileID: 192542674}
-  - component: {fileID: 192542673}
   - component: {fileID: 192542672}
+  - component: {fileID: 192542675}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (31)"
   m_TagString: Untagged
@@ -1105,26 +1085,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &192542673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 192542670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &192542674
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1145,7 +1105,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1177,6 +1137,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &192542675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192542670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.64779866, g: 0.64779866, b: 0.64779866, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &215901096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1187,8 +1163,8 @@ GameObject:
   m_Component:
   - component: {fileID: 215901097}
   - component: {fileID: 215901100}
-  - component: {fileID: 215901099}
   - component: {fileID: 215901098}
+  - component: {fileID: 215901101}
   m_Layer: 6
   m_Name: "\u706F\u67610 (5)"
   m_TagString: Untagged
@@ -1256,26 +1232,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &215901099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 215901096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0.22620387, g: 0.59409, b: 1.4980392, a: 1}
-  isWall: 1
-  occlusion: 0.02
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &215901100
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1296,7 +1252,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1328,6 +1284,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &215901101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215901096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &244052288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,8 +1310,8 @@ GameObject:
   m_Component:
   - component: {fileID: 244052289}
   - component: {fileID: 244052292}
-  - component: {fileID: 244052291}
   - component: {fileID: 244052290}
+  - component: {fileID: 244052293}
   m_Layer: 6
   m_Name: "\u684C\u5B50"
   m_TagString: Untagged
@@ -1407,26 +1379,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &244052291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244052288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.002
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &244052292
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1447,7 +1399,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1479,6 +1431,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &244052293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244052288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &266457817
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,8 +1499,8 @@ GameObject:
   m_Component:
   - component: {fileID: 321403921}
   - component: {fileID: 321403924}
-  - component: {fileID: 321403923}
   - component: {fileID: 321403922}
+  - component: {fileID: 321403925}
   m_Layer: 6
   m_Name: "\u55B7\u6CC9 (1)"
   m_TagString: Untagged
@@ -1600,26 +1568,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &321403923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 321403920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.05
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &321403924
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1640,7 +1588,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1672,6 +1620,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &321403925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321403920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &392593140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1682,8 +1646,8 @@ GameObject:
   m_Component:
   - component: {fileID: 392593141}
   - component: {fileID: 392593144}
-  - component: {fileID: 392593143}
   - component: {fileID: 392593142}
+  - component: {fileID: 392593145}
   m_Layer: 6
   m_Name: "\u5927\u95E8"
   m_TagString: Untagged
@@ -1751,26 +1715,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &392593143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392593140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.005
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &392593144
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1791,7 +1735,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1823,6 +1767,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &392593145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392593140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &419620650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,8 +1793,8 @@ GameObject:
   m_Component:
   - component: {fileID: 419620651}
   - component: {fileID: 419620654}
-  - component: {fileID: 419620653}
   - component: {fileID: 419620652}
+  - component: {fileID: 419620655}
   m_Layer: 6
   m_Name: "\u706F\u67610 (2)"
   m_TagString: Untagged
@@ -1902,26 +1862,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &419620653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419620650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 5.992157, g: 5.0933337, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.2
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &419620654
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1942,7 +1882,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1974,6 +1914,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &419620655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419620650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &448724176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1984,8 +1940,8 @@ GameObject:
   m_Component:
   - component: {fileID: 448724177}
   - component: {fileID: 448724180}
-  - component: {fileID: 448724179}
   - component: {fileID: 448724178}
+  - component: {fileID: 448724181}
   m_Layer: 6
   m_Name: "\u684C\u5B50 (3)"
   m_TagString: Untagged
@@ -2053,26 +2009,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &448724179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 448724176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.01
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &448724180
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2093,7 +2029,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2125,6 +2061,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &448724181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 448724176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &463781412
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,8 +2087,8 @@ GameObject:
   m_Component:
   - component: {fileID: 463781413}
   - component: {fileID: 463781416}
-  - component: {fileID: 463781415}
   - component: {fileID: 463781414}
+  - component: {fileID: 463781417}
   m_Layer: 6
   m_Name: "\u5927\u95E8 (1)"
   m_TagString: Untagged
@@ -2204,26 +2156,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &463781415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 463781412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.005
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &463781416
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2244,7 +2176,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2276,6 +2208,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &463781417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463781412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &464074431
 GameObject:
   m_ObjectHideFlags: 0
@@ -2286,8 +2234,8 @@ GameObject:
   m_Component:
   - component: {fileID: 464074432}
   - component: {fileID: 464074435}
-  - component: {fileID: 464074434}
   - component: {fileID: 464074433}
+  - component: {fileID: 464074436}
   m_Layer: 6
   m_Name: "\u55B7\u6CC9 (2)"
   m_TagString: Untagged
@@ -2355,26 +2303,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &464074434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 464074431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.05
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &464074435
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2395,7 +2323,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2427,6 +2355,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &464074436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464074431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &490154292
 GameObject:
   m_ObjectHideFlags: 0
@@ -2437,8 +2381,8 @@ GameObject:
   m_Component:
   - component: {fileID: 490154293}
   - component: {fileID: 490154296}
-  - component: {fileID: 490154295}
   - component: {fileID: 490154294}
+  - component: {fileID: 490154297}
   m_Layer: 6
   m_Name: "\u706F\u67610 (1)"
   m_TagString: Untagged
@@ -2506,26 +2450,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &490154295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 490154292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.1185474, g: 1.8007654, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.2
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &490154296
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2546,7 +2470,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2578,6 +2502,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &490154297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490154292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &507412347
 GameObject:
   m_ObjectHideFlags: 0
@@ -2621,8 +2561,8 @@ GameObject:
   m_Component:
   - component: {fileID: 509968512}
   - component: {fileID: 509968515}
-  - component: {fileID: 509968514}
   - component: {fileID: 509968513}
+  - component: {fileID: 509968516}
   m_Layer: 6
   m_Name: "\u55B7\u6CC9"
   m_TagString: Untagged
@@ -2690,26 +2630,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &509968514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509968511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.05
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &509968515
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2730,7 +2650,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2762,6 +2682,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &509968516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509968511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2799,7 +2735,7 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: 0
+  m_RendererIndex: 1
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -2971,13 +2907,13 @@ Transform:
   m_Children:
   - {fileID: 18101346}
   - {fileID: 136643016}
-  - {fileID: 215901097}
   - {fileID: 1441743551}
   - {fileID: 2133733014}
   - {fileID: 1683088734}
   - {fileID: 114428409}
   - {fileID: 875178527}
   - {fileID: 867038823}
+  - {fileID: 215901097}
   - {fileID: 509968512}
   - {fileID: 464074432}
   - {fileID: 321403921}
@@ -3120,8 +3056,8 @@ GameObject:
   m_Component:
   - component: {fileID: 673261589}
   - component: {fileID: 673261592}
-  - component: {fileID: 673261591}
   - component: {fileID: 673261590}
+  - component: {fileID: 673261593}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (28)"
   m_TagString: Untagged
@@ -3189,26 +3125,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &673261591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 673261588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &673261592
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3229,7 +3145,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3261,6 +3177,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &673261593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673261588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &681749456
 GameObject:
   m_ObjectHideFlags: 0
@@ -3271,8 +3203,8 @@ GameObject:
   m_Component:
   - component: {fileID: 681749457}
   - component: {fileID: 681749460}
-  - component: {fileID: 681749459}
   - component: {fileID: 681749458}
+  - component: {fileID: 681749461}
   m_Layer: 6
   m_Name: "\u5427\u53F0 (1)"
   m_TagString: Untagged
@@ -3340,26 +3272,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &681749459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 681749456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.01
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &681749460
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3380,7 +3292,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3412,6 +3324,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &681749461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681749456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 4.594794, g: 4.594794, b: 4.594794, a: 0}
+  giCoefficient: 1
 --- !u!1 &732803713
 GameObject:
   m_ObjectHideFlags: 0
@@ -3621,8 +3549,8 @@ GameObject:
   m_Component:
   - component: {fileID: 808414997}
   - component: {fileID: 808415000}
-  - component: {fileID: 808414999}
   - component: {fileID: 808414998}
+  - component: {fileID: 808415001}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (33)"
   m_TagString: Untagged
@@ -3690,26 +3618,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &808414999
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808414996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &808415000
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3730,7 +3638,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3762,6 +3670,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &808415001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808414996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.64779866, g: 0.64779866, b: 0.64779866, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &816657137
 GameObject:
   m_ObjectHideFlags: 0
@@ -3772,8 +3696,8 @@ GameObject:
   m_Component:
   - component: {fileID: 816657138}
   - component: {fileID: 816657141}
-  - component: {fileID: 816657140}
   - component: {fileID: 816657139}
+  - component: {fileID: 816657142}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (26)"
   m_TagString: Untagged
@@ -3841,26 +3765,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &816657140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 816657137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &816657141
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3881,7 +3785,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3913,6 +3817,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &816657142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816657137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &821928749
 GameObject:
   m_ObjectHideFlags: 0
@@ -4016,8 +3936,8 @@ GameObject:
   m_Component:
   - component: {fileID: 824687133}
   - component: {fileID: 824687136}
-  - component: {fileID: 824687135}
   - component: {fileID: 824687134}
+  - component: {fileID: 824687137}
   m_Layer: 6
   m_Name: "\u684C\u5B50 (1)"
   m_TagString: Untagged
@@ -4085,26 +4005,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &824687135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 824687132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.01
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &824687136
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4125,7 +4025,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4157,6 +4057,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &824687137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824687132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &867038822
 GameObject:
   m_ObjectHideFlags: 0
@@ -4167,8 +4083,8 @@ GameObject:
   m_Component:
   - component: {fileID: 867038823}
   - component: {fileID: 867038826}
-  - component: {fileID: 867038825}
   - component: {fileID: 867038824}
+  - component: {fileID: 867038827}
   m_Layer: 6
   m_Name: "\u706F\u67610 (7)"
   m_TagString: Untagged
@@ -4236,26 +4152,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &867038825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867038822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.1185474, g: 0.32166427, b: 0.32166427, a: 1}
-  isWall: 1
-  occlusion: 0.5
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &867038826
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4276,7 +4172,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4308,6 +4204,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &867038827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867038822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &875178526
 GameObject:
   m_ObjectHideFlags: 0
@@ -4318,8 +4230,8 @@ GameObject:
   m_Component:
   - component: {fileID: 875178527}
   - component: {fileID: 875178530}
-  - component: {fileID: 875178529}
   - component: {fileID: 875178528}
+  - component: {fileID: 875178531}
   m_Layer: 6
   m_Name: "\u706F\u67610 (11)"
   m_TagString: Untagged
@@ -4387,26 +4299,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &875178529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875178526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.1185474, g: 0.32166427, b: 0.32166427, a: 1}
-  isWall: 1
-  occlusion: 0.5
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &875178530
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4427,7 +4319,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4459,6 +4351,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &875178531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875178526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &878744392
 GameObject:
   m_ObjectHideFlags: 0
@@ -4721,8 +4629,8 @@ GameObject:
   m_Component:
   - component: {fileID: 995239455}
   - component: {fileID: 995239458}
-  - component: {fileID: 995239457}
   - component: {fileID: 995239456}
+  - component: {fileID: 995239459}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (30)"
   m_TagString: Untagged
@@ -4790,26 +4698,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &995239457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 995239454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &995239458
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4830,7 +4718,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4862,6 +4750,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &995239459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 995239454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.64779866, g: 0.64779866, b: 0.64779866, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1031112602
 GameObject:
   m_ObjectHideFlags: 0
@@ -5026,8 +4930,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1139262958}
   - component: {fileID: 1139262961}
-  - component: {fileID: 1139262960}
   - component: {fileID: 1139262959}
+  - component: {fileID: 1139262962}
   m_Layer: 6
   m_Name: "\u684C\u5B50 (9)"
   m_TagString: Untagged
@@ -5095,26 +4999,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1139262960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1139262957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.002
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1139262961
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5135,7 +5019,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5167,6 +5051,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1139262962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139262957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1216551637
 GameObject:
   m_ObjectHideFlags: 0
@@ -5177,8 +5077,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1216551638}
   - component: {fileID: 1216551641}
-  - component: {fileID: 1216551640}
   - component: {fileID: 1216551639}
+  - component: {fileID: 1216551642}
   m_Layer: 6
   m_Name: "\u55B7\u6CC9 (3)"
   m_TagString: Untagged
@@ -5246,26 +5146,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1216551640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1216551637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.05
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1216551641
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5286,7 +5166,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5318,6 +5198,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1216551642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1216551637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1263305963
 GameObject:
   m_ObjectHideFlags: 0
@@ -5514,8 +5410,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1310921110}
   - component: {fileID: 1310921113}
-  - component: {fileID: 1310921112}
   - component: {fileID: 1310921111}
+  - component: {fileID: 1310921114}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (32)"
   m_TagString: Untagged
@@ -5583,26 +5479,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1310921112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1310921109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1310921113
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5623,7 +5499,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5655,6 +5531,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1310921114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310921109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.64779866, g: 0.64779866, b: 0.64779866, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1311124879
 GameObject:
   m_ObjectHideFlags: 0
@@ -5921,6 +5813,66 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!1 &1435269370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1435269371}
+  - component: {fileID: 1435269372}
+  m_Layer: 0
+  m_Name: RCWBManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1435269371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435269370}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.35716838, y: -8.493697, z: 0.008593798}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1435269372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435269370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afccd2787e9364c42ae051772a538c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  depthColors:
+  - ifDraw: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - ifDraw: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - ifDraw: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - ifDraw: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - ifDraw: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - ifDraw: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
+  - ifDraw: 1
+    color: {r: 1, g: 1, b: 1, a: 1}
+  sceneAABB: {x: -100, y: 100, z: -100, w: 100}
 --- !u!1 &1441743550
 GameObject:
   m_ObjectHideFlags: 0
@@ -5931,8 +5883,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1441743551}
   - component: {fileID: 1441743554}
-  - component: {fileID: 1441743553}
   - component: {fileID: 1441743552}
+  - component: {fileID: 1441743555}
   m_Layer: 6
   m_Name: "\u706F\u67610 (6)"
   m_TagString: Untagged
@@ -6000,26 +5952,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1441743553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1441743550}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.1185474, g: 0.32166427, b: 0.32166427, a: 1}
-  isWall: 1
-  occlusion: 0.5
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1441743554
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6040,7 +5972,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6072,6 +6004,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1441743555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441743550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1482878111
 GameObject:
   m_ObjectHideFlags: 0
@@ -6261,8 +6209,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1683088734}
   - component: {fileID: 1683088737}
-  - component: {fileID: 1683088736}
   - component: {fileID: 1683088735}
+  - component: {fileID: 1683088738}
   m_Layer: 6
   m_Name: "\u706F\u67610 (9)"
   m_TagString: Untagged
@@ -6330,26 +6278,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1683088736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683088733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.1185474, g: 0.32166427, b: 0.32166427, a: 1}
-  isWall: 1
-  occlusion: 0.5
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1683088737
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6370,7 +6298,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6402,6 +6330,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1683088738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683088733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1729638048
 GameObject:
   m_ObjectHideFlags: 0
@@ -6412,8 +6356,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1729638049}
   - component: {fileID: 1729638052}
-  - component: {fileID: 1729638051}
   - component: {fileID: 1729638050}
+  - component: {fileID: 1729638053}
   m_Layer: 6
   m_Name: "\u5927\u95E8 (2)"
   m_TagString: Untagged
@@ -6481,26 +6425,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1729638051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1729638048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.005
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1729638052
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6521,7 +6445,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6553,6 +6477,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1729638053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729638048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1737202375
 GameObject:
   m_ObjectHideFlags: 0
@@ -6563,8 +6503,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1737202376}
   - component: {fileID: 1737202379}
-  - component: {fileID: 1737202378}
   - component: {fileID: 1737202377}
+  - component: {fileID: 1737202380}
   m_Layer: 6
   m_Name: "\u684C\u5B50 (2)"
   m_TagString: Untagged
@@ -6632,26 +6572,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1737202378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1737202375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.01
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1737202379
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6672,7 +6592,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6704,6 +6624,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1737202380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737202375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1777582670
 GameObject:
   m_ObjectHideFlags: 0
@@ -6715,7 +6651,6 @@ GameObject:
   - component: {fileID: 1777582671}
   - component: {fileID: 1777582673}
   - component: {fileID: 1777582672}
-  - component: {fileID: 1777582674}
   m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
@@ -6758,7 +6693,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32169,26 +32104,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &1777582674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1777582670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 1
-  giCoefficient: 0.47
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!1 &1783217053
 GameObject:
   m_ObjectHideFlags: 0
@@ -32443,8 +32358,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1936431105}
   - component: {fileID: 1936431108}
-  - component: {fileID: 1936431107}
   - component: {fileID: 1936431106}
+  - component: {fileID: 1936431109}
   m_Layer: 6
   m_Name: "\u684C\u5B50 (4)"
   m_TagString: Untagged
@@ -32512,26 +32427,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1936431107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936431104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 0
-  occlusion: 0.01
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1936431108
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -32552,7 +32447,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32584,6 +32479,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1936431109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936431104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &1988723986
 GameObject:
   m_ObjectHideFlags: 0
@@ -32594,8 +32505,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1988723987}
   - component: {fileID: 1988723990}
-  - component: {fileID: 1988723989}
   - component: {fileID: 1988723988}
+  - component: {fileID: 1988723991}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (34)"
   m_TagString: Untagged
@@ -32663,26 +32574,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1988723989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1988723986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &1988723990
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -32703,7 +32594,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32735,6 +32626,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1988723991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988723986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.64779866, g: 0.64779866, b: 0.64779866, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &2027537689
 GameObject:
   m_ObjectHideFlags: 0
@@ -32824,8 +32731,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2091022703}
   - component: {fileID: 2091022706}
-  - component: {fileID: 2091022705}
   - component: {fileID: 2091022704}
+  - component: {fileID: 2091022707}
   m_Layer: 6
   m_Name: "\u5899\u4F53 (27)"
   m_TagString: Untagged
@@ -32893,26 +32800,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2091022705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2091022702}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.08
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &2091022706
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -32933,7 +32820,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32965,6 +32852,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2091022707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091022702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &2103188607
 GameObject:
   m_ObjectHideFlags: 0
@@ -32975,8 +32878,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2103188608}
   - component: {fileID: 2103188611}
-  - component: {fileID: 2103188610}
   - component: {fileID: 2103188609}
+  - component: {fileID: 2103188612}
   m_Layer: 6
   m_Name: "\u5427\u53F0 (2)"
   m_TagString: Untagged
@@ -33044,26 +32947,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2103188610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2103188607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.1
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &2103188611
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -33084,7 +32967,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -33116,6 +32999,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2103188612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103188607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &2133733013
 GameObject:
   m_ObjectHideFlags: 0
@@ -33126,8 +33025,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2133733014}
   - component: {fileID: 2133733017}
-  - component: {fileID: 2133733016}
   - component: {fileID: 2133733015}
+  - component: {fileID: 2133733018}
   m_Layer: 6
   m_Name: "\u706F\u67610 (8)"
   m_TagString: Untagged
@@ -33195,26 +33094,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2133733016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2133733013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 2.1185474, g: 0.32166427, b: 0.32166427, a: 1}
-  isWall: 1
-  occlusion: 0.5
-  giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!212 &2133733017
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -33235,7 +33114,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -33267,6 +33146,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2133733018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133733013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BasicColor: {r: 0.7484276, g: 0.7484276, b: 0.7484276, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
+  giCoefficient: 1
 --- !u!1 &2140998382
 GameObject:
   m_ObjectHideFlags: 0
@@ -33434,3 +33329,4 @@ SceneRoots:
   - {fileID: 2027537692}
   - {fileID: 507412348}
   - {fileID: 878744393}
+  - {fileID: 1435269371}

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6430903933879414027
+--- !u!114 &-2367614137857597677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,38 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95728bbda8b433c4bbed5c633ec1dd39, type: 3}
-  m_Name: RadianceCascadesFeature
+  m_Script: {fileID: 11500000, guid: ee415872df4202a45b31d398e0248924, type: 3}
+  m_Name: RadianceCascadesWBFeature
   m_EditorClassIdentifier: 
   m_Active: 1
+  rcShader: {fileID: 7200000, guid: cdc61e057e943ef489e0982686b62e09, type: 3}
   settings:
-    renderScale: 1
-    rayRange: 1
-    cascadeCount: 1
-    targetLayerMask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    useVolumetricLighting: 0
-    trickLightIntensity: 1.12
-    trickLightDistance: 35
-    screenUVShader: {fileID: 4800000, guid: 8fd8194afcf142e8b5a15e8de51e6683, type: 3}
-    jfaShader: {fileID: 4800000, guid: 29d3970b774b26c4f97f1b533c170fcb, type: 3}
-    sdfShader: {fileID: 4800000, guid: c41fc1881f4363b45a46c64db6efc69a, type: 3}
-    rcShader: {fileID: 4800000, guid: 19cb12bb286844d897a4337c0b7d06e0, type: 3}
---- !u!114 &-5978014930223338805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7fabee6da982054ea5f488229b55d75, type: 3}
-  m_Name: PipelineFeature
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  finalShader: {fileID: 4800000, guid: 7e398b1c9b42485cb12f618a84f21913, type: 3}
+    renderScale: 0.25
+    cascadeCount: 5
+    rayRange: 55
+    bounceIntensity: 0
+    skyColor: {r: 0, g: 0, b: 0, a: 0}
+    skyIntensity: 0
+    sunColor: {r: 0, g: 0, b: 0, a: 0}
+    sunAngle: 0
+    sunIntensity: 0
+    sunHardness: 0
+    blurIterations: 2
+    blurRadius: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,15 +37,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11145981673336645838492a2d98e247, type: 3}
-  m_Name: Renderer2D
+  m_Name: Renderer2D_RCWB
   m_EditorClassIdentifier: 
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
-  - {fileID: -6430903933879414027}
-  - {fileID: -5978014930223338805}
-  m_RendererFeatureMap: f59274ccf1d6c0a6cb6a0e0618d309ad
+  - {fileID: -2367614137857597677}
+  m_RendererFeatureMap: 131fce5b7c8b24df
   m_UseNativeRenderPass: 0
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 1, z: 0}
