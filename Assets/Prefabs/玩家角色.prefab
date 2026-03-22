@@ -10,14 +10,14 @@ GameObject:
   m_Component:
   - component: {fileID: 4881794047942453386}
   - component: {fileID: 7104000582631892346}
-  - component: {fileID: 7744299166967330625}
+  - component: {fileID: 3701993543937596238}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4881794047942453386
 Transform:
   m_ObjectHideFlags: 0
@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7744299166967330625
+--- !u!114 &3701993543937596238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,17 +94,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 866400471055857073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.75
+  BasicColor: {r: 1, g: 1, b: 1, a: 1}
+  Density: 50000
+  Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!1 &2952711670260733646
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +349,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6387837106418409003}
   - component: {fileID: 5491323867784310678}
-  - component: {fileID: 5505576923381363499}
+  - component: {fileID: 192214897324304980}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -396,7 +392,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ee5f934945b7e9c4b97d0c558b96f56d, type: 2}
+  - {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -428,7 +424,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5505576923381363499
+--- !u!114 &192214897324304980
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,17 +433,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8950759866896298813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c955286103a07824d9413c34d366017d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overrideAlbedo: {fileID: 0}
-  normalMap: {fileID: 0}
-  emissionColor: {r: 0, g: 0, b: 0, a: 1}
-  isWall: 1
-  occlusion: 0.75
+  BasicColor: {r: 1, g: 1, b: 1, a: 1}
+  Density: 15
+  Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
-  manualRotation: 0
-  overrideAngle: 0
 --- !u!1001 &2979241772965702594
 PrefabInstance:
   m_ObjectHideFlags: 0
