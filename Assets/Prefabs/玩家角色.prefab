@@ -178,13 +178,14 @@ GameObject:
   m_Component:
   - component: {fileID: 6387295312526705188}
   - component: {fileID: 7827334336311963547}
+  - component: {fileID: 7675407722426416672}
   m_Layer: 0
   m_Name: RC Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6387295312526705188
 Transform:
   m_ObjectHideFlags: 0
@@ -207,7 +208,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5196825799893713076}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccc6ecfdbea55214c8b3d12fafe5e9d2, type: 3}
   m_Name: 
@@ -218,6 +219,25 @@ MonoBehaviour:
   innerAngle: 360
   outerAngle: 360
   isValidLight: 0
+--- !u!114 &7675407722426416672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5196825799893713076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1006314585f0642a0a96ebcda8fbf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+  innerRadius: 1
+  outerRadius: 6
+  innerAngle: 5
+  outerAngle: 44
+  falloffExponent: 3.1
+  height: 1.2
 --- !u!1 &5216806646433931930
 GameObject:
   m_ObjectHideFlags: 0
