@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsWall: 1
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
   Density: 50000
   Emission: {r: 0, g: 0, b: 0, a: 0}
@@ -177,7 +178,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6387295312526705188}
-  - component: {fileID: 7827334336311963547}
   - component: {fileID: 7675407722426416672}
   m_Layer: 0
   m_Name: RC Point Light
@@ -185,7 +185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6387295312526705188
 Transform:
   m_ObjectHideFlags: 0
@@ -201,24 +201,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4636170913461280093}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7827334336311963547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5196825799893713076}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccc6ecfdbea55214c8b3d12fafe5e9d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightColor: {r: 1.4980394, g: 1.4980394, b: 1.4980394, a: 1}
-  radius: 5
-  decayFactor: 0.5
-  innerAngle: 360
-  outerAngle: 360
-  isValidLight: 0
 --- !u!114 &7675407722426416672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +208,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5196825799893713076}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc1006314585f0642a0a96ebcda8fbf9, type: 3}
   m_Name: 
@@ -456,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsWall: 1
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
   Density: 15
   Emission: {r: 0, g: 0, b: 0, a: 0}
@@ -471,6 +454,10 @@ PrefabInstance:
     - target: {fileID: 3818285015437906656, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
       propertyPath: m_Name
       value: Revolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 3818285015437906656, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4919028296673662241, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
       propertyPath: m_LocalPosition.x
