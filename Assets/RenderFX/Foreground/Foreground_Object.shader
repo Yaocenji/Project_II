@@ -5,6 +5,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
         [Header(Textures)]
         [PerRendererData] _MainTex ("Albedo (RGB) Alpha (A)", 2D) = "white" {}
         [PerRendererData] _BumpMap ("Normal Map", 2D) = "bump" {}
+        [PerRendererData] _SDFTex  ("SDF (R: signed distance, 0.5=boundary)", 2D) = "gray" {}
 
         [Header(Emission Data)]
         [HDR] _Emission ("Emission Color", Color) = (0,0,0,0)
@@ -54,6 +55,11 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 float4 _MainTex_ST;
                 float4 _BumpMap_ST;
                 half4 _Emission;
+
+                // 全局变量：玩家属性
+                float4 _Player_PosWS_Direction_Angle;
+                float4 _Player_Radius_Eye_Inner_Outter_Blank;
+
                 float2 _RotationSinCos; // x=cos, y=sin
                 float _GICoefficient;
 
@@ -65,8 +71,13 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 float4x4 MatrixInvVP_Prev;
             
                 float4 _ForegroundTransformData;
-            
+
                 float _VirtualHeight;
+                float _MaxHeight;
+
+                // xy=UV offset，zw=UV scale
+                // 将 IN.uv（可能是 atlas UV 或含 padding 的 blurSprite UV）映射到精灵本地 UV (0,0)-(1,1)
+                float4 _SDFLocalUVTransform;
             CBUFFER_END
 
             float _RCWB_GI_Height;
@@ -76,6 +87,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
             // ---------------------------------------------------------
             TEXTURE2D(_MainTex);        SAMPLER(sampler_MainTex);
             TEXTURE2D(_BumpMap);        SAMPLER(sampler_BumpMap);
+            TEXTURE2D(_SDFTex);         SAMPLER(sampler_SDFTex);
             TEXTURE2D(_RCWB_HistoryColor);SAMPLER(sampler_RCWB_HistoryColor);
 
             // ---------------------------------------------------------
@@ -149,10 +161,16 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 half3 normalWS = mul(half3x3(IN.tangentWS, IN.bitangentWS, IN.normalWS), unpackednorm);
 
                 // RCWB GI
-                bool isInsideSprite = false;
+                float2 sdfUV   = (IN.uv - _SDFLocalUVTransform.xy) / _SDFLocalUVTransform.zw;
+                float sdfValue = SAMPLE_TEXTURE2D(_SDFTex, sampler_SDFTex, sdfUV).r;
+                // SDF低于这个的，才会被照亮；
+                float lumMaxSDF = _RCWB_GI_Height * pow(_VirtualHeight, -1);
+                // 通过SDF计算照亮系数
+                float lumParam = sdfValue <= lumMaxSDF ? 1 - max(0,sdfValue) / lumMaxSDF : 0;
+                
                 RcwbLightData lightRCWBGI = GetBlurRcwbLightData(screenUV,  _ScreenParams.xy, MatrixInvVP);
 
-                if (isInsideSprite && length(_Emission.rgb) > 0.0001f)
+                if (length(_Emission.rgb) > 0.0001f)
                 {
                     lightRCWBGI.color = _Emission.rgb;
                 }
@@ -161,23 +179,29 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 float directionLength = length(lightRCWBGI.direction.xy);
 
                 // 使用统一的兰伯特函数计算 RCWB GI 光照
-                half3 realDirectionRCWBGI = normalize(half3(normalize(lightRCWBGI.direction.xy), _RCWB_GI_Height - _VirtualHeight));
+                half3 realDirectionRCWBGI = normalize(half3(normalize(lightRCWBGI.direction.xy), _RCWB_GI_Height - _RCWB_GI_Height * _VirtualHeight / _MaxHeight));
                 half lambertRCWBGI = CalculateLighting(normalWS, realDirectionRCWBGI);
 
                 // 物体内部的光，为了过渡平滑，需要乘上这个
-                lambertRCWBGI *= isInsideSprite ? clamp(directionLength, 0, 1) : 1;
-
+                lambertRCWBGI *= clamp(directionLength, 0, 1);
 
                 // SpotLight2D（带阴影和兰伯特）
                 // fragmentZ = 0 表示片元在 Z=0 平面上
-                //float3 lightSpot = isInsideSprite ? CalculateAllSpotLights2D_Interior(posWS, normalWS) : CalculateAllSpotLights2D(posWS, normalWS, 0.0, true);
 
                 // 全局光
                 float3 globalLight = .0;
                 
-                half3 ansColor = IN.color.xyz * albedo.xyz * (_GICoefficient * lightRCWBGI.color * lambertRCWBGI + globalLight);
+                half3 ansColor = IN.color.xyz * albedo.xyz * (_GICoefficient * lumParam * lightRCWBGI.color * lambertRCWBGI + globalLight);
+
+                half alpha = albedo.a * IN.color.a;
+
+                // 特效
+                // 1 离人物越近越透明
+                float distance = length(posWS - _Player_PosWS_Direction_Angle.xy);
+                alpha *= smoothstep(.5, 2, distance);
+
                 
-                return half4(ansColor, albedo.a * IN.color.a);
+                return half4(ansColor, alpha);
             }
             ENDHLSL
         }

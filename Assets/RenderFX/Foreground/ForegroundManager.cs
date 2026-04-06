@@ -80,7 +80,7 @@ namespace ProjectII.Render
                 Vector2 offset = ComputePositionOffset(h, obj.BaseWorldPosition, camPos);
                 float blurRadius = ComputeBlurRadius(h);
 
-                obj.UpdateScaleAndOffset(scale, offset);
+                obj.UpdateScaleAndOffset(scale, offset, maxHeight);
                 obj.UpdateBlur(blurRadius, fullResScale);
             }
         }

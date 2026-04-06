@@ -28,7 +28,7 @@ MonoBehaviour:
     blurIterations: 2
     blurRadius: 4
     giHeight: 2
-    enableTranslucentObjects: 0
+    enableTranslucentObjects: 1
   historyScale: 1
 --- !u!114 &11400000
 MonoBehaviour:
