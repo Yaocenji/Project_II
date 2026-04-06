@@ -20,10 +20,10 @@ MonoBehaviour:
     rayRange: 35
     bounceIntensity: 1.1
     skyColor: {r: 1, g: 1, b: 1, a: 1}
-    skyIntensity: 1
-    sunColor: {r: 1, g: 0.8811814, b: 0.6627451, a: 1}
+    skyIntensity: 0
+    sunColor: {r: 1, g: 0.9064465, b: 0.7327044, a: 1}
     sunAngle: 1
-    sunIntensity: 1
+    sunIntensity: 0
     sunHardness: 5
     blurIterations: 2
     blurRadius: 4
