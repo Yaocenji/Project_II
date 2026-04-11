@@ -24,6 +24,10 @@ namespace ProjectII.Render
         [Tooltip("SDF 纹理的分辨率相对于精灵原始像素尺寸的比例，降低可节省性能")]
         [Range(0.1f, 2f)]
         [SerializeField] private float sdfResolutionScale = 0.5f;
+        
+        [Header("是否随着人物接近而透明")]
+        [Tooltip("是否随着人物接近而透明")]
+        [SerializeField] private bool ifCloseTransparent = true;
 
         // 组件引用
         private SpriteRenderer spriteRenderer;
@@ -43,6 +47,7 @@ namespace ProjectII.Render
         private static readonly int SDFTexID                = Shader.PropertyToID("_SDFTex");
         // xy=UV offset，zw=UV scale，用于将当前 sprite 的 UV 重映射到精灵本地 UV 空间（供 SDF 采样）
         private static readonly int SDFLocalUVTransformID   = Shader.PropertyToID("_SDFLocalUVTransform");
+        private static readonly int CloseTransparent   = Shader.PropertyToID("_CloseTransparent");
 
         // 原始状态缓存（OnEnable 时记录）
         private Sprite    originalSprite;
@@ -120,6 +125,7 @@ namespace ProjectII.Render
                 spriteRenderer.GetPropertyBlock(mpb);
                 mpb.SetVector(ForegroundTransformDataID, new Vector4(0f, 0f, 1f, 0f));
                 mpb.SetVector(SDFLocalUVTransformID, new Vector4(0f, 0f, 1f, 1f));
+                mpb.SetInt(CloseTransparent, ifCloseTransparent ? 1 : 0);
                 if (originalBumpMap != null)
                     mpb.SetTexture(BumpMapID, originalBumpMap);
                 spriteRenderer.SetPropertyBlock(mpb);
@@ -198,6 +204,8 @@ namespace ProjectII.Render
                 mpb.SetTexture(SDFTexID, sdfTexture);
                 mpb.SetVector(SDFLocalUVTransformID, sdfLocalUVTransform);
             }
+            
+            mpb.SetInt(CloseTransparent, ifCloseTransparent ? 1 : 0);
 
             spriteRenderer.SetPropertyBlock(mpb);
         }

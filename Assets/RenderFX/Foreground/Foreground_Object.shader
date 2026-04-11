@@ -78,6 +78,9 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // xy=UV offset，zw=UV scale
                 // 将 IN.uv（可能是 atlas UV 或含 padding 的 blurSprite UV）映射到精灵本地 UV (0,0)-(1,1)
                 float4 _SDFLocalUVTransform;
+
+                // =1，则人物靠近变得透明；=0，则不这样
+                int _CloseTransparent;
             CBUFFER_END
 
             float _RCWB_GI_Height;
@@ -198,7 +201,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // 特效
                 // 1 离人物越近越透明
                 float distance = length(posWS - _Player_PosWS_Direction_Angle.xy);
-                alpha *= smoothstep(.5, 2, distance);
+                alpha *= _CloseTransparent == 1 ? smoothstep(.5, 2, distance) : 1;
 
                 
                 return half4(ansColor, alpha);
