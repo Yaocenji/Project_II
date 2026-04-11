@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5527a853e6979c46be383710cf5555d, type: 3}
-  m_Name: "\u5899\u4F53 (27)_ContourProfile"
+  m_Name: "\u573A\u666F__\u7A7A\u95F41\uFF1A\u5496\u5561\u5385__\u5899\u58C11 (2)__\u5B9E\u666F\u5899\u58C11_ContourProfile"
   m_EditorClassIdentifier: 
   loops:
   - closed: 1
     pointsLocal:
-    - {x: 0.49521032, y: -0.5000001}
-    - {x: 0.4952103, y: 0.5000005}
-    - {x: -0.50000006, y: 0.5000002}
-    - {x: -0.5, y: -0.5000004}
+    - {x: -0.4853564, y: 0.5000003}
+    - {x: -0.4853565, y: -0.5}
+    - {x: 0.48793823, y: -0.5}
+    - {x: 0.48793828, y: 0.5}

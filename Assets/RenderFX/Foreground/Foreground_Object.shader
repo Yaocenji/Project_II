@@ -81,6 +81,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
 
                 // =1，则人物靠近变得透明；=0，则不这样
                 int _CloseTransparent;
+                float _SDFWorldScale;
             CBUFFER_END
 
             float _RCWB_GI_Height;
@@ -165,7 +166,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
 
                 // RCWB GI
                 float2 sdfUV   = (IN.uv - _SDFLocalUVTransform.xy) / _SDFLocalUVTransform.zw;
-                float sdfValue = SAMPLE_TEXTURE2D(_SDFTex, sampler_SDFTex, sdfUV).r;
+                float sdfValue = SAMPLE_TEXTURE2D(_SDFTex, sampler_SDFTex, sdfUV).r * _SDFWorldScale;
                 // SDF低于这个的，才会被照亮；
                 float lumMaxSDF = _RCWB_GI_Height * pow(_VirtualHeight, -1);
                 // 通过SDF计算照亮系数
@@ -203,6 +204,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 float distance = length(posWS - _Player_PosWS_Direction_Angle.xy);
                 alpha *= _CloseTransparent == 1 ? smoothstep(.5, 2, distance) : 1;
 
+                //return lumParam;
                 
                 return half4(ansColor, alpha);
             }

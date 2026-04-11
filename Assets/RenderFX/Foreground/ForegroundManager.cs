@@ -89,6 +89,9 @@ namespace ProjectII.Render
         {
             if (instance == this)
                 instance = null;
+
+            // 场景卸载时强制清空共享纹理缓存，防止跨场景泄漏
+            ForegroundTextureCache.Clear();
         }
 
         // ────────── 注册/反注册 ──────────
