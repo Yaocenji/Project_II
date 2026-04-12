@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e043e4a972da0714ab91392a542cbf5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  virtualHeight: 1.5
+  virtualHeight: 1
   emission: {r: 0, g: 0, b: 0, a: 1}
   giCoefficient: 1
   sdfResolutionScale: 0.5

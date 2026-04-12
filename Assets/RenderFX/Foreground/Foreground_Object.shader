@@ -19,7 +19,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
     SubShader
     {
         // 渲染队列根据需要调整，通常墙壁是不透明的 (Geometry)
-        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "Queue"="Transparent" }
+        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "Queue"="Overlay" }
 
         // =================================================================================
         // Pass 1: Universal2D
@@ -28,7 +28,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
         Pass
         {
             Name "Universal2D"
-            Tags { "Queue" = "Transparent" "LightMode"="Universal2D" }
+            Tags { "Queue" = "Overlay" "LightMode"="Universal2D" }
 
             // 混合模式根据需求，墙壁通常是不透明 (One Zero)
             Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
