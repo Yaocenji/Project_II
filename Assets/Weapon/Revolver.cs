@@ -53,10 +53,8 @@ namespace ProjectII.Weapon
         // 散布值组成部分
         private float currentShootSpread = 0f; // 当前射击散布值
         
-        protected override void Awake()
+        protected void Awake()
         {
-            base.Awake();
-
             bulletPool = new ObjectPool<GameObject>(
                 createFunc: () =>
                 {
@@ -98,10 +96,8 @@ namespace ProjectII.Weapon
             StartCoroutine(LowUpdateSFXParameters());
         }
 
-        protected override void Update()
+        protected void Update()
         {
-            base.Update();
-            
             // 1. 更新能否开火标志位（根据玩家是否奔跑）
             UpdateCanFire();
             
@@ -159,7 +155,7 @@ namespace ProjectII.Weapon
             float rotationSpread = Mathf.Lerp(0f, maxRotationSpread, Mathf.Clamp01(currentRotationSpeed / maxRotationSpeed));
 
             // 4. 射击散布值（在射击时增加，非射击时恢复）
-            // 这部分在MainAttackPress中增加，这里只负责恢复
+            // 这部分在MainInteractPress中增加，这里只负责恢复
             if (currentShootSpread > 0f)
             {
                 currentShootSpread -= spreadRecoverySpeed * Time.deltaTime;
@@ -234,7 +230,7 @@ namespace ProjectII.Weapon
         }
 
         
-        protected override void MainAttackPress()
+        public override void MainInteractPress()
         {
             // 检查能否开火标志位
             if (!canFire) return;
@@ -261,7 +257,7 @@ namespace ProjectII.Weapon
             currentShootSpread += spreadPerShot;
             currentShootSpread = Mathf.Min(currentShootSpread, maxShootSpread);
 
-            // Debug.Log("Revolver MainAttackPress");
+            // Debug.Log("Revolver MainInteractPress");
             // 从池子里激活一枚子弹
             GameObject bullet = bulletPool.Get();
             
@@ -282,32 +278,32 @@ namespace ProjectII.Weapon
             tracerVFX.StartTracer();
         }
         
-        protected override void MainAttackHold()
+        public override void MainInteractHold()
         {
-            // Debug.Log("Revolver MainAttackHold");
+            // Debug.Log("Revolver MainInteractHold");
         }
 
-        protected override void MainAttackRelease()
+        public override void MainInteractRelease()
         {
-            // Debug.Log("Revolver MainAttackRelease");
+            // Debug.Log("Revolver MainInteractRelease");
         }
 
-        protected override void SecondaryAttackPress()
+        public override void SecondaryInteractPress()
         {
-            // Debug.Log("Revolver SecondaryAttackPress");
+            // Debug.Log("Revolver SecondaryInteractPress");
         }
 
-        protected override void SecondaryAttackHold()
+        public override void SecondaryInteractHold()
         {
-            // Debug.Log("Revolver SecondaryAttackHold");
+            // Debug.Log("Revolver SecondaryInteractHold");
         }
 
-        protected override void SecondaryAttackRelease()
+        public override void SecondaryInteractRelease()
         {
-            // Debug.Log("Revolver SecondaryAttackRelease");
+            // Debug.Log("Revolver SecondaryInteractRelease");
         }
 
-        protected override void ReloadPress()
+        public override void ReloadPress()
         {
             // 如果正在换弹或弹药已满，不进行换弹
             if (isReloading || currentAmmo >= maxAmmo) return;
