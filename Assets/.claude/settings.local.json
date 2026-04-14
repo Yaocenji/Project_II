@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//e/Unity/MyProjects/Radiance_Cascade_1/Radiance_Cascade_1/Assets/RadianceCascadesWorldBVH/Scripts/**)"
+    ]
+  }
+}

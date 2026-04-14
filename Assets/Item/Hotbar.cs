@@ -18,7 +18,7 @@ namespace ProjectII.Item
         /// 物品列表，存储快捷栏中的物品
         /// 如果该位置为空值，那么相当于这个格子没东西
         /// </summary>
-        private Base[] items;
+        public Base[] items;
 
         /// <summary>
         /// 当前装备的物品序号（0 ~ slotCount-1）
@@ -32,9 +32,7 @@ namespace ProjectII.Item
         private InputAction_0 inputActions;
 
         // 输入状态缓存
-        private bool mainAttackWasPressed;
         private bool mainAttackIsHolding;
-        private bool secondaryAttackWasPressed;
         private bool secondaryAttackIsHolding;
 
         /// <summary>
@@ -52,15 +50,19 @@ namespace ProjectII.Item
 
         private void Awake()
         {
-            // 初始化物品列表
-            items = new Base[slotCount];
+            // 仅在 Inspector 未赋值时才初始化，避免覆盖 Inspector 中的赋值
+            if (items == null || items.Length == 0)
+                items = new Base[slotCount];
 
             // 从 InputManager 获取 InputAction 引用
             GetInputActionFromInputManager();
+        }
 
-            // 注册输入回调
+        private void OnEnable()
+        {
             if (inputActions != null)
             {
+                inputActions.Enable();
                 inputActions.Character.mainAttack.started += OnMainAttackStarted;
                 inputActions.Character.mainAttack.canceled += OnMainAttackCanceled;
                 inputActions.Character.secondaryAttack.started += OnSecondaryAttackStarted;
@@ -69,18 +71,15 @@ namespace ProjectII.Item
             }
         }
 
-        private void OnEnable()
-        {
-            if (inputActions != null)
-            {
-                inputActions.Enable();
-            }
-        }
-
         private void OnDisable()
         {
             if (inputActions != null)
             {
+                inputActions.Character.mainAttack.started -= OnMainAttackStarted;
+                inputActions.Character.mainAttack.canceled -= OnMainAttackCanceled;
+                inputActions.Character.secondaryAttack.started -= OnSecondaryAttackStarted;
+                inputActions.Character.secondaryAttack.canceled -= OnSecondaryAttackCanceled;
+                inputActions.Character.reload.started -= OnReloadStarted;
                 inputActions.Disable();
             }
         }
@@ -109,19 +108,19 @@ namespace ProjectII.Item
 
         private void OnMainAttackStarted(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
-            if (!mainAttackWasPressed)
+            if (!mainAttackIsHolding)
             {
-                mainAttackWasPressed = true;
                 mainAttackIsHolding = true;
                 CurrentItem?.MainInteractPress();
+
+                Debug.Log("按下11");
             }
         }
 
         private void OnMainAttackCanceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
-            if (mainAttackWasPressed)
+            if (mainAttackIsHolding)
             {
-                mainAttackWasPressed = false;
                 mainAttackIsHolding = false;
                 CurrentItem?.MainInteractRelease();
             }
@@ -129,9 +128,8 @@ namespace ProjectII.Item
 
         private void OnSecondaryAttackStarted(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
-            if (!secondaryAttackWasPressed)
+            if (!secondaryAttackIsHolding)
             {
-                secondaryAttackWasPressed = true;
                 secondaryAttackIsHolding = true;
                 CurrentItem?.SecondaryInteractPress();
             }
@@ -139,9 +137,8 @@ namespace ProjectII.Item
 
         private void OnSecondaryAttackCanceled(UnityEngine.InputSystem.InputAction.CallbackContext context)
         {
-            if (secondaryAttackWasPressed)
+            if (secondaryAttackIsHolding)
             {
-                secondaryAttackWasPressed = false;
                 secondaryAttackIsHolding = false;
                 CurrentItem?.SecondaryInteractRelease();
             }
@@ -195,7 +192,11 @@ namespace ProjectII.Item
         public void SwitchSlot(int slotIndex)
         {
             if (slotIndex < 0 || slotIndex >= items.Length) return;
+            if (slotIndex == currentSlotIndex) return;
+
+            CurrentItem?.OnUnequip();
             currentSlotIndex = slotIndex;
+            CurrentItem?.OnEquip();
         }
 
         #endregion
@@ -216,19 +217,6 @@ namespace ProjectII.Item
                 {
                     Debug.LogError("Hotbar: 无法从InputManager获取InputAction引用！请确保场景中存在InputManager。");
                 }
-            }
-        }
-
-        private void OnDestroy()
-        {
-            // 取消注册输入回调，防止内存泄漏
-            if (inputActions != null)
-            {
-                inputActions.Character.mainAttack.started -= OnMainAttackStarted;
-                inputActions.Character.mainAttack.canceled -= OnMainAttackCanceled;
-                inputActions.Character.secondaryAttack.started -= OnSecondaryAttackStarted;
-                inputActions.Character.secondaryAttack.canceled -= OnSecondaryAttackCanceled;
-                inputActions.Character.reload.started -= OnReloadStarted;
             }
         }
     }
