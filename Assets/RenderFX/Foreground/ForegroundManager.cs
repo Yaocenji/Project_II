@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ProjectII.Character;
 using UnityEngine;
 
 namespace ProjectII.Render
@@ -13,6 +14,9 @@ namespace ProjectII.Render
     {
         [Header("场景引用")]
         [SerializeField] private Camera mainCamera;
+        
+        [Header("世界空间的鼠标替身引用")]
+        [SerializeField] private MouseWorldFollow mouseWorldFollow;
 
         [Header("像素设置")]
         [SerializeField] private float pixelsPerUnit = 32f;
@@ -70,6 +74,11 @@ namespace ProjectII.Render
 
             Vector2 camPos = mainCamera.transform.position;
             float fullResScale = ComputeFullResScale();
+
+            if (mouseWorldFollow != null)
+            {
+                Shader.SetGlobalVector("_FG_MousePosition", mouseWorldFollow.transform.position);
+            }
 
             foreach (ForegroundObject obj in foregroundObjects)
             {

@@ -79,6 +79,12 @@ namespace ProjectII.Item
                 inputActions.Character.secondaryAttack.started += OnSecondaryAttackStarted;
                 inputActions.Character.secondaryAttack.canceled += OnSecondaryAttackCanceled;
                 inputActions.Character.reload.started += OnReloadStarted;
+                inputActions.Character.switch_0.started += OnSwitchSlot0;
+                inputActions.Character.switch_1.started += OnSwitchSlot1;
+                inputActions.Character.switch_2.started += OnSwitchSlot2;
+                inputActions.Character.switch_3.started += OnSwitchSlot3;
+                inputActions.Character.switch_4.started += OnSwitchSlot4;
+                inputActions.Character.switch_5.started += OnSwitchSlot5;
             }
         }
 
@@ -91,6 +97,12 @@ namespace ProjectII.Item
                 inputActions.Character.secondaryAttack.started -= OnSecondaryAttackStarted;
                 inputActions.Character.secondaryAttack.canceled -= OnSecondaryAttackCanceled;
                 inputActions.Character.reload.started -= OnReloadStarted;
+                inputActions.Character.switch_0.started -= OnSwitchSlot0;
+                inputActions.Character.switch_1.started -= OnSwitchSlot1;
+                inputActions.Character.switch_2.started -= OnSwitchSlot2;
+                inputActions.Character.switch_3.started -= OnSwitchSlot3;
+                inputActions.Character.switch_4.started -= OnSwitchSlot4;
+                inputActions.Character.switch_5.started -= OnSwitchSlot5;
                 inputActions.Disable();
             }
         }
@@ -123,8 +135,6 @@ namespace ProjectII.Item
             {
                 mainAttackIsHolding = true;
                 CurrentItem?.MainInteractPress();
-
-                Debug.Log("按下11");
             }
         }
 
@@ -160,6 +170,31 @@ namespace ProjectII.Item
             CurrentItem?.ReloadPress();
         }
 
+        private void OnSwitchSlot0(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            SwitchSlot(0);
+        }
+        private void OnSwitchSlot1(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            SwitchSlot(1);
+        }
+        private void OnSwitchSlot2(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            SwitchSlot(2);
+        }
+        private void OnSwitchSlot3(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            SwitchSlot(3);
+        }
+        private void OnSwitchSlot4(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            SwitchSlot(4);
+        }
+        private void OnSwitchSlot5(UnityEngine.InputSystem.InputAction.CallbackContext context)
+        {
+            SwitchSlot(5);
+        }
+        
         #endregion
 
         #region 快捷栏操作

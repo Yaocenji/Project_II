@@ -113,8 +113,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8276071843920816067}
   - component: {fileID: 9058698509637759018}
+  - component: {fileID: 247661806632629165}
   m_Layer: 7
-  m_Name: FootStepEmmiter
+  m_Name: FootStepAudio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,6 +171,20 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 20
+--- !u!114 &247661806632629165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2952711670260733646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7990c6aef36e1324ab9f20e6b32eaf4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepEmitter: {fileID: 9058698509637759018}
+  footstepDistanceInterval: 1.1
 --- !u!1 &5196825799893713076
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,8 +323,6 @@ MonoBehaviour:
   runSpeed: 2.5
   rotationSmoothTime: 0.15
   velocitySmoothTime: 0.15
-  footstepSFX_Emitter: {fileID: 9058698509637759018}
-  footStepDistanceInterval: 0.5
 --- !u!60 &3559949570007710012
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -377,7 +390,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotCount: 5
   items:
+  - {fileID: 0}
   - {fileID: 2287894199773409742}
+  - {fileID: 7885276131488160825}
+  - {fileID: 0}
+  - {fileID: 0}
   currentSlotIndex: 0
 --- !u!114 &3337212382346575785
 MonoBehaviour:
@@ -582,7 +599,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3818285015437906656, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4919028296673662241, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -634,3 +651,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4919028296673662241, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
   m_PrefabInstance: {fileID: 2979241772965702594}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7885276131488160825 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4915191113118644219, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
+  m_PrefabInstance: {fileID: 2979241772965702594}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0264dc0e4481b314c83a3d8980c923dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

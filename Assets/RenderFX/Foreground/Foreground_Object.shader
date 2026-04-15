@@ -60,6 +60,9 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 float4 _Player_PosWS_Direction_Angle;
                 float4 _Player_Radius_Eye_Inner_Outter_Blank;
 
+                // 鼠标位置
+                float4 _FG_MousePosition;
+
                 float2 _RotationSinCos; // x=cos, y=sin
                 float _GICoefficient;
 
@@ -201,8 +204,11 @@ Shader "RadianceCascadesWB/Foreground_Object"
 
                 // 特效
                 // 1 离人物越近越透明
-                float distance = length(posWS - _Player_PosWS_Direction_Angle.xy);
-                alpha *= _CloseTransparent == 1 ? smoothstep(.5, 2, distance) : 1;
+                float distancePlayer = length(posWS - _Player_PosWS_Direction_Angle.xy);
+                alpha *= _CloseTransparent == 1 ? smoothstep(.3, 1, distancePlayer) : 1;
+                // 2 离鼠标越近越透明
+                float distanceMouse = length(posWS - _FG_MousePosition.xy);
+                alpha *= _CloseTransparent == 1 ? smoothstep(.3, 1, distanceMouse) : 1;
 
                 //return lumParam;
                 
