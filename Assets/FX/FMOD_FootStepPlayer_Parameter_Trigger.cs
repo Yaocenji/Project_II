@@ -32,45 +32,16 @@ namespace ProjectII.FX
         {
             if (!other.CompareTag("Player")) return;
 
-            // 获取玩家 GameObject 下的脚步声 Emitter
-            // 假设脚步声 Emitter 挂载在玩家的一个子物体上，名称为 "FootstepEmitter" 或有特定组件
-            FMODUnity.StudioEventEmitter footstepEmitter = FindFootstepEmitter(other.gameObject);
-            
-            if (footstepEmitter != null)
+            // 通过 GameSceneManager 拿到玩家角色，再获取 FootstepAudio 组件
+            var playerCharacter = Manager.GameSceneManager.Instance?.CurrentPlayerCharacter;
+            if (playerCharacter == null) return;
+
+            Character.FootstepAudio footstepAudio = playerCharacter.GetComponentInChildren<Character.FootstepAudio>();
+            if (footstepAudio != null)
             {
                 // 设置地面材质参数
-                footstepEmitter.SetParameter("GroundMaterial", (float)groundMaterial);
-                Debug.Log("设置地面材质参数: " + (int)groundMaterial);
+                footstepAudio.SetParameter("GroundMaterial", (float)groundMaterial);
             }
-        }
-
-        /// <summary>
-        /// 查找玩家的脚步声 Emitter
-        /// </summary>
-        private FMODUnity.StudioEventEmitter FindFootstepEmitter(GameObject player)
-        {
-            return Manager.GameSceneManager.Instance.CurrentPlayerCharacter.footstepSFX_Emitter;
-            // 先尝试在子物体中查找带有 "Footstep" 名称的物体
-            /*Transform footstepTransform = player.transform.Find("FootstepEmitter");
-            if (footstepTransform != null)
-            {
-                FMODUnity.StudioEventEmitter emitter = footstepTransform.GetComponent<FMODUnity.StudioEventEmitter>();
-                if (emitter != null) return emitter;
-            }
-
-            // 如果没找到，尝试在所有子物体中查找 StudioEventEmitter
-            FMODUnity.StudioEventEmitter[] emitters = player.GetComponentsInChildren<FMODUnity.StudioEventEmitter>();
-            foreach (var emitter in emitters)
-            {
-                // 检查是否是脚步声相关的 Emitter（通过名称或事件路径判断）
-                if (emitter.EventReference.Path.ToLower().Contains("footstep") ||
-                    emitter.gameObject.name.ToLower().Contains("footstep"))
-                {
-                    return emitter;
-                }
-            }*/
-
-            return null;
         }
 
         /// <summary>

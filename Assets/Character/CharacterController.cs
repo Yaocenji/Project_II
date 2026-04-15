@@ -60,12 +60,6 @@ namespace ProjectII.Character
         private float currentRotationVelocity;
         private Vector2 currentVelocity;
 
-        
-        //debug 
-        public FMODUnity.StudioEventEmitter footstepSFX_Emitter;
-        private float footStepDistance = 0;
-        public float footStepDistanceInterval = 0.75f;
-
         private void Awake()
         {
             RegisterToGameSceneManager();
@@ -150,14 +144,6 @@ namespace ProjectII.Character
 
             // 在FixedUpdate中调用Rotate方法，平滑旋转角色朝向
             Rotate();
-            
-            // 累加路程
-            footStepDistance += Time.fixedDeltaTime * rb.velocity.magnitude;
-            if (footStepDistance > footStepDistanceInterval)
-            {
-                footStepDistance = 0;
-                footstepSFX_Emitter.Play();
-            }
         }
 
         /// <summary>
