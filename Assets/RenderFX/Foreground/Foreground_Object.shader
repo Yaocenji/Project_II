@@ -170,8 +170,8 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // RCWB GI
                 float2 sdfUV   = (IN.uv - _SDFLocalUVTransform.xy) / _SDFLocalUVTransform.zw;
                 float sdfValue = SAMPLE_TEXTURE2D(_SDFTex, sampler_SDFTex, sdfUV).r * _SDFWorldScale;
-                // SDF低于这个的，才会被照亮；
-                float lumMaxSDF = _RCWB_GI_Height * pow(_VirtualHeight, -1);
+                // SDF低于这个的，才会被照亮；virtualHeight=0 时视为无穷大（地面物体全部被照亮）
+                float lumMaxSDF = _VirtualHeight > 0.001 ? _RCWB_GI_Height / _VirtualHeight : 99999.0;
                 // 通过SDF计算照亮系数
                 float lumParam = sdfValue <= lumMaxSDF ? 1 - max(0,sdfValue) / lumMaxSDF : 0;
                 

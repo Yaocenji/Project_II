@@ -465,7 +465,9 @@ namespace ProjectII.Render
         private static Texture2D GetSecondaryBumpMap(Sprite sprite)
         {
             if (sprite == null) return null;
-            var secondaries = new SecondarySpriteTexture[2];
+            int count = sprite.GetSecondaryTextureCount();
+            if (count <= 0) return null;
+            var secondaries = new SecondarySpriteTexture[count];
             sprite.GetSecondaryTextures(secondaries);
             foreach (var st in secondaries)
                 if (st.name == "_BumpMap") return st.texture as Texture2D;
