@@ -48,4 +48,5 @@ MonoBehaviour:
   hitLayerMask:
     serializedVersion: 2
     m_Bits: 4033
+  damage: 15
   raycastDistance: 25
