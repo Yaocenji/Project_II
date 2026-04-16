@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ProjectII.Character;
 using UnityEngine;
 
 namespace ProjectII.Render
@@ -13,6 +14,9 @@ namespace ProjectII.Render
     {
         [Header("场景引用")]
         [SerializeField] private Camera mainCamera;
+        
+        [Header("世界空间的鼠标替身引用")]
+        [SerializeField] private MouseWorldFollow mouseWorldFollow;
 
         [Header("像素设置")]
         [SerializeField] private float pixelsPerUnit = 32f;
@@ -23,8 +27,9 @@ namespace ProjectII.Render
         [SerializeField] private float maxBlurRadius = 15f;
         [SerializeField] private float maxPositionOffset = 1f;
 
-        // 已注册的前景物体列表
+        // 已注册的前景物体列表（List 用于稳定顺序遍历，HashSet 用于 O(1) 查重）
         private readonly List<ForegroundObject> foregroundObjects = new List<ForegroundObject>();
+        private readonly HashSet<ForegroundObject> foregroundObjectSet = new HashSet<ForegroundObject>();
 
         private static ForegroundManager instance;
 
@@ -71,6 +76,11 @@ namespace ProjectII.Render
             Vector2 camPos = mainCamera.transform.position;
             float fullResScale = ComputeFullResScale();
 
+            if (mouseWorldFollow != null)
+            {
+                Shader.SetGlobalVector("_FG_MousePosition", mouseWorldFollow.transform.position);
+            }
+
             foreach (ForegroundObject obj in foregroundObjects)
             {
                 if (obj == null) continue;
@@ -107,7 +117,7 @@ namespace ProjectII.Render
                 Debug.LogWarning("[ForegroundManager] Register: 传入的 ForegroundObject 为空，跳过。");
                 return;
             }
-            if (!foregroundObjects.Contains(obj))
+            if (foregroundObjectSet.Add(obj))
                 foregroundObjects.Add(obj);
         }
 
@@ -118,7 +128,8 @@ namespace ProjectII.Render
         public void Unregister(ForegroundObject obj)
         {
             if (obj == null) return;
-            foregroundObjects.Remove(obj);
+            if (foregroundObjectSet.Remove(obj))
+                foregroundObjects.Remove(obj);
         }
 
         /// <summary>

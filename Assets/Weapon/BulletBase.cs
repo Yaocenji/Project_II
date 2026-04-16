@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
+using ProjectII.Combat;
 
 namespace ProjectII.Weapon
 {
@@ -29,6 +30,9 @@ namespace ProjectII.Weapon
         [Header("Bullet Settings")]
         [SerializeField] private BulletType bulletType = BulletType.InstantHit;
         [SerializeField] private LayerMask hitLayerMask = -1; // 可碰撞的层
+
+        [Header("Damage")]
+        [SerializeField] protected int damage = 1; // 子弹伤害值
 
         [Header("Raycast Settings (仅即时命中类型)")]
         [SerializeField] protected float raycastDistance = 100f; // 射线检测距离
@@ -201,10 +205,11 @@ namespace ProjectII.Weapon
             // 执行2D射线检测
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDirection, raycastDistance, hitLayerMask);
 
-            // 如果击中目标，调用Hit方法
+            // 如果击中目标，调用Hit方法并尝试造成伤害
             if (hit.collider != null)
             {
                 Hit(hit.collider.gameObject, hit.point, hit.normal);
+                ApplyDamage(hit.collider.gameObject);
             }
         }
 
@@ -225,10 +230,11 @@ namespace ProjectII.Weapon
                 return;
             }
 
-            // 调用Hit方法
+            // 调用Hit方法并尝试造成伤害
             Vector2 hitPoint = other.ClosestPoint(transform.position);
             Vector2 hitNormal = (transform.position - (Vector3)hitPoint).normalized;
             Hit(other.gameObject, hitPoint, hitNormal);
+            ApplyDamage(other.gameObject);
         }
         
         IEnumerator DelayedDeleteInstantHit()
@@ -243,6 +249,25 @@ namespace ProjectII.Weapon
                 bulletPool.Release(this.gameObject);
             }
         }
+
+        #region 伤害处理
+
+        /// <summary>
+        /// 尝试对目标造成伤害
+        /// 获取目标的 Damageable 组件，如果存在则调用 TakeDamage
+        /// 子类可重写此方法以实现特殊伤害逻辑（如暴击、穿透等）
+        /// </summary>
+        /// <param name="target">被击中的目标 GameObject</param>
+        protected virtual void ApplyDamage(GameObject target)
+        {
+            Damageable damageable = target.GetComponent<Damageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(damage, Shooter);
+            }
+        }
+
+        #endregion
 
         #region 纯虚方法 - 子类必须实现
 

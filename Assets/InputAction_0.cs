@@ -100,6 +100,60 @@ namespace Project_II.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""switch_0"",
+                    ""type"": ""Button"",
+                    ""id"": ""45558cc5-9d5f-4217-8a0e-d536867b91d8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""switch_1"",
+                    ""type"": ""Button"",
+                    ""id"": ""0cac5533-ee74-4b9d-a654-38a00346814e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""switch_2"",
+                    ""type"": ""Button"",
+                    ""id"": ""29d01b54-26f4-4ef6-8b78-eb00a64804e6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""switch_3"",
+                    ""type"": ""Button"",
+                    ""id"": ""b460337d-2939-4f5f-98b9-283ea04d0c1a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""switch_4"",
+                    ""type"": ""Button"",
+                    ""id"": ""5d394f00-f46a-4978-8a3f-79ad47a9bf0d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""switch_5"",
+                    ""type"": ""Button"",
+                    ""id"": ""865351cc-0a7f-4829-bd40-5199ddbe9afb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -289,6 +343,72 @@ namespace Project_II.InputSystem
                     ""action"": ""interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc2c1ccb-9654-4213-84db-dd69e5d32665"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""switch_0"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e806c70a-46d5-4304-beec-eb68c93f6a74"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""switch_1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7f456e50-7e49-4dd2-8ee1-1029824fabe7"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""switch_2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b799146c-08ea-4a5d-a4eb-2cba31dd1ad7"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""switch_3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bdee5da1-0090-4276-8f86-232b5fe7c50c"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""switch_4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21894ff3-5acb-4fe8-83af-b9f044ba9ec7"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""switch_5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -305,6 +425,12 @@ namespace Project_II.InputSystem
             m_Character_secondaryAttack = m_Character.FindAction("secondaryAttack", throwIfNotFound: true);
             m_Character_reload = m_Character.FindAction("reload", throwIfNotFound: true);
             m_Character_interaction = m_Character.FindAction("interaction", throwIfNotFound: true);
+            m_Character_switch_0 = m_Character.FindAction("switch_0", throwIfNotFound: true);
+            m_Character_switch_1 = m_Character.FindAction("switch_1", throwIfNotFound: true);
+            m_Character_switch_2 = m_Character.FindAction("switch_2", throwIfNotFound: true);
+            m_Character_switch_3 = m_Character.FindAction("switch_3", throwIfNotFound: true);
+            m_Character_switch_4 = m_Character.FindAction("switch_4", throwIfNotFound: true);
+            m_Character_switch_5 = m_Character.FindAction("switch_5", throwIfNotFound: true);
         }
 
         ~@InputAction_0()
@@ -379,6 +505,12 @@ namespace Project_II.InputSystem
         private readonly InputAction m_Character_secondaryAttack;
         private readonly InputAction m_Character_reload;
         private readonly InputAction m_Character_interaction;
+        private readonly InputAction m_Character_switch_0;
+        private readonly InputAction m_Character_switch_1;
+        private readonly InputAction m_Character_switch_2;
+        private readonly InputAction m_Character_switch_3;
+        private readonly InputAction m_Character_switch_4;
+        private readonly InputAction m_Character_switch_5;
         public struct CharacterActions
         {
             private @InputAction_0 m_Wrapper;
@@ -391,6 +523,12 @@ namespace Project_II.InputSystem
             public InputAction @secondaryAttack => m_Wrapper.m_Character_secondaryAttack;
             public InputAction @reload => m_Wrapper.m_Character_reload;
             public InputAction @interaction => m_Wrapper.m_Character_interaction;
+            public InputAction @switch_0 => m_Wrapper.m_Character_switch_0;
+            public InputAction @switch_1 => m_Wrapper.m_Character_switch_1;
+            public InputAction @switch_2 => m_Wrapper.m_Character_switch_2;
+            public InputAction @switch_3 => m_Wrapper.m_Character_switch_3;
+            public InputAction @switch_4 => m_Wrapper.m_Character_switch_4;
+            public InputAction @switch_5 => m_Wrapper.m_Character_switch_5;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -424,6 +562,24 @@ namespace Project_II.InputSystem
                 @interaction.started += instance.OnInteraction;
                 @interaction.performed += instance.OnInteraction;
                 @interaction.canceled += instance.OnInteraction;
+                @switch_0.started += instance.OnSwitch_0;
+                @switch_0.performed += instance.OnSwitch_0;
+                @switch_0.canceled += instance.OnSwitch_0;
+                @switch_1.started += instance.OnSwitch_1;
+                @switch_1.performed += instance.OnSwitch_1;
+                @switch_1.canceled += instance.OnSwitch_1;
+                @switch_2.started += instance.OnSwitch_2;
+                @switch_2.performed += instance.OnSwitch_2;
+                @switch_2.canceled += instance.OnSwitch_2;
+                @switch_3.started += instance.OnSwitch_3;
+                @switch_3.performed += instance.OnSwitch_3;
+                @switch_3.canceled += instance.OnSwitch_3;
+                @switch_4.started += instance.OnSwitch_4;
+                @switch_4.performed += instance.OnSwitch_4;
+                @switch_4.canceled += instance.OnSwitch_4;
+                @switch_5.started += instance.OnSwitch_5;
+                @switch_5.performed += instance.OnSwitch_5;
+                @switch_5.canceled += instance.OnSwitch_5;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -452,6 +608,24 @@ namespace Project_II.InputSystem
                 @interaction.started -= instance.OnInteraction;
                 @interaction.performed -= instance.OnInteraction;
                 @interaction.canceled -= instance.OnInteraction;
+                @switch_0.started -= instance.OnSwitch_0;
+                @switch_0.performed -= instance.OnSwitch_0;
+                @switch_0.canceled -= instance.OnSwitch_0;
+                @switch_1.started -= instance.OnSwitch_1;
+                @switch_1.performed -= instance.OnSwitch_1;
+                @switch_1.canceled -= instance.OnSwitch_1;
+                @switch_2.started -= instance.OnSwitch_2;
+                @switch_2.performed -= instance.OnSwitch_2;
+                @switch_2.canceled -= instance.OnSwitch_2;
+                @switch_3.started -= instance.OnSwitch_3;
+                @switch_3.performed -= instance.OnSwitch_3;
+                @switch_3.canceled -= instance.OnSwitch_3;
+                @switch_4.started -= instance.OnSwitch_4;
+                @switch_4.performed -= instance.OnSwitch_4;
+                @switch_4.canceled -= instance.OnSwitch_4;
+                @switch_5.started -= instance.OnSwitch_5;
+                @switch_5.performed -= instance.OnSwitch_5;
+                @switch_5.canceled -= instance.OnSwitch_5;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -479,6 +653,12 @@ namespace Project_II.InputSystem
             void OnSecondaryAttack(InputAction.CallbackContext context);
             void OnReload(InputAction.CallbackContext context);
             void OnInteraction(InputAction.CallbackContext context);
+            void OnSwitch_0(InputAction.CallbackContext context);
+            void OnSwitch_1(InputAction.CallbackContext context);
+            void OnSwitch_2(InputAction.CallbackContext context);
+            void OnSwitch_3(InputAction.CallbackContext context);
+            void OnSwitch_4(InputAction.CallbackContext context);
+            void OnSwitch_5(InputAction.CallbackContext context);
         }
     }
 }
