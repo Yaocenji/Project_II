@@ -19,8 +19,8 @@ MonoBehaviour:
     cascadeCount: 6
     rayRange: 35
     bounceIntensity: 1
-    skyColor: {r: 1, g: 1, b: 1, a: 1}
-    skyIntensity: 0
+    skyColor: {r: 0.95283014, g: 0.98070323, b: 1, a: 1}
+    skyIntensity: 3
     sunColor: {r: 1, g: 0.9064465, b: 0.7327044, a: 1}
     sunAngle: 0.21
     sunIntensity: 0
@@ -48,7 +48,8 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: -2367614137857597677}
-  m_RendererFeatureMap: 131fce5b7c8b24df
+  - {fileID: 4484443381395038069}
+  m_RendererFeatureMap: 131fce5b7c8b24df751f67eb7ef13b3e
   m_UseNativeRenderPass: 0
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 1, z: 0}
@@ -93,3 +94,25 @@ MonoBehaviour:
   m_DefaultLitMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_DefaultUnlitMaterial: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_DefaultMaskMaterial: {fileID: 2100000, guid: 15d0c3709176029428a0da2f8cecf0b5, type: 2}
+--- !u!114 &4484443381395038069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3d78721000f87a41b47217bc2393a10, type: 3}
+  m_Name: PlayerVisionFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    shader: {fileID: 4800000, guid: 686a8f4d0f0874d498bcba6edcf8d1cf, type: 3}
+    saturation: 0.05
+    brightness: 0.25
+    noiseTex: {fileID: 2800000, guid: bc2d7f1ab0d82ef45bc572e1428de1dc, type: 3}
+    noiseWorldScale: 2
+    noiseStrength: 0.05
+    shadowEdge: 0.1
+    lightEdge: 0.9

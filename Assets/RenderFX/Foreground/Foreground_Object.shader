@@ -189,6 +189,9 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 half3 realDirectionRCWBGI = normalize(half3(normalize(lightRCWBGI.direction.xy), _RCWB_GI_Height - _RCWB_GI_Height * _VirtualHeight / _MaxHeight));
                 half lambertRCWBGI = CalculateLighting(normalWS, realDirectionRCWBGI);
 
+                // 高度衰减
+                float attenHeight = exp(-.5f * abs(_VirtualHeight - _RCWB_GI_Height));
+
                 // 物体内部的光，为了过渡平滑，需要乘上这个
                 lambertRCWBGI *= clamp(directionLength, 0, 1);
 
@@ -198,7 +201,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // 全局光
                 float3 globalLight = .0;
                 
-                half3 ansColor = IN.color.xyz * albedo.xyz * (_GICoefficient * lumParam * lightRCWBGI.color * lambertRCWBGI + globalLight);
+                half3 ansColor = IN.color.xyz * albedo.xyz * (_GICoefficient * lumParam * lightRCWBGI.color * lambertRCWBGI * attenHeight + globalLight);
 
                 half alpha = albedo.a * IN.color.a;
 

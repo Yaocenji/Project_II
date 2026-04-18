@@ -101,6 +101,11 @@ MonoBehaviour:
   emission: {r: 0, g: 0, b: 0, a: 1}
   giCoefficient: 1
   sdfResolutionScale: 0.5
+  ifCloseTransparent: 1
+  pseudoPerspectiveStrength: 1
+  blurStrength: 1
+  offsetStrength: 1
+  scaleStrength: 1
 --- !u!1 &5605936402902164043
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,6 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 0}
   Density: 50000
   Emission: {r: 0, g: 0, b: 0, a: 0}
