@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Project_II.InputSystem;
 using ProjectII.Manager;
@@ -11,6 +12,11 @@ namespace ProjectII.Item
     /// </summary>
     public class Hotbar : MonoBehaviour
     {
+        /// <summary>某格物品发生变化（格子序号，新物品，若为空则为 null）</summary>
+        public event Action<int, Base> OnSlotChanged;
+
+        /// <summary>当前选中格切换（旧格序号，新格序号）</summary>
+        public event Action<int, int> OnActiveSlotChanged;
         [Header("快捷栏设置")]
         [SerializeField] private int slotCount = 5;
 
@@ -40,6 +46,11 @@ namespace ProjectII.Item
         // 输入状态缓存
         private bool mainAttackIsHolding;
         private bool secondaryAttackIsHolding;
+
+        /// <summary>
+        /// 当前选中格序号（只读）
+        /// </summary>
+        public int CurrentSlotIndex => currentSlotIndex;
 
         /// <summary>
         /// 当前装备的物品（只读）
@@ -226,6 +237,7 @@ namespace ProjectII.Item
             items[slotIndex] = item;
             // 当前装备格显示，其余隐藏
             item.gameObject.SetActive(slotIndex == currentSlotIndex);
+            OnSlotChanged?.Invoke(slotIndex, item);
             return true;
         }
 
@@ -244,6 +256,7 @@ namespace ProjectII.Item
             Base item = items[slotIndex];
             items[slotIndex] = null;
             item.gameObject.SetActive(true);
+            OnSlotChanged?.Invoke(slotIndex, null);
             return item;
         }
 
@@ -264,6 +277,7 @@ namespace ProjectII.Item
                 CurrentItem.gameObject.SetActive(false);
             }
 
+            int oldSlot = currentSlotIndex;
             currentSlotIndex = slotIndex;
 
             // 切入新物品
@@ -272,6 +286,8 @@ namespace ProjectII.Item
                 CurrentItem.gameObject.SetActive(true);
                 CurrentItem.OnEquip();
             }
+
+            OnActiveSlotChanged?.Invoke(oldSlot, currentSlotIndex);
         }
 
         #endregion

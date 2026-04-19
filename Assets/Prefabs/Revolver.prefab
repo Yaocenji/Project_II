@@ -172,6 +172,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0264dc0e4481b314c83a3d8980c923dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: "\u672A\u547D\u540D\u7269\u54C1"
+  icon: {fileID: 21300000, guid: faa3d182a79d9b54794c133a37a90068, type: 3}
+  maxStackSize: 1
+  worldItemPrefab: {fileID: 0}
   spreadAngle: 5
   range: 10
   bulletPrefab: {fileID: 1693799101713458533, guid: 12af478fb4882ef4c8ec495d7ea29ff0, type: 3}

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: "\u624B\u7535"
-  icon: {fileID: 21300000, guid: c511655b30cc24f4688a701cc9f21b0f, type: 3}
+  icon: {fileID: 21300000, guid: 0737a04d68aad2440b2e158f6bb51455, type: 3}
   maxStackSize: 1
   worldItemPrefab: {fileID: 0}
   rcwbObject: {fileID: 6406641867487091934}

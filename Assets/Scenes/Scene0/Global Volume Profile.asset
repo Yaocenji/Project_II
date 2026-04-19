@@ -196,13 +196,13 @@ MonoBehaviour:
     m_Value: 0
   brightness:
     m_OverrideState: 0
-    m_Value: 0.1
+    m_Value: 0.2
   saturation_Far:
     m_OverrideState: 0
     m_Value: 0
   brightness_Far:
     m_OverrideState: 0
-    m_Value: 0.05
+    m_Value: 0.053
   noiseTex:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -246,11 +246,11 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {x: -0.03, y: 0.04}
   blurStartRadius:
-    m_OverrideState: 0
-    m_Value: 3
+    m_OverrideState: 1
+    m_Value: 1
   blurEndRadius:
-    m_OverrideState: 0
-    m_Value: 10
+    m_OverrideState: 1
+    m_Value: 6
   blurIterations:
     m_OverrideState: 0
     m_Value: 2
