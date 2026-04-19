@@ -67,6 +67,17 @@ namespace ProjectII.Item
             backpack = GetComponentInParent<Backpack>();
             if (backpack == null)
                 backpack = GetComponent<Backpack>();
+
+            // 对已有物品初始化 active 状态，并对当前格触发 OnEquip
+            for (int i = 0; i < items.Length; i++)
+            {
+                if (items[i] != null)
+                {
+                    items[i].gameObject.SetActive(i == currentSlotIndex);
+                    if (i == currentSlotIndex)
+                        items[i].OnEquip();
+                }
+            }
         }
 
         private void OnEnable()

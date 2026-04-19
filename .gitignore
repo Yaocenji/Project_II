@@ -89,3 +89,6 @@ crashlytics-build.properties
 
 // 打包文件
 *.zip
+
+// claude缓存
+/Assets/.claude/

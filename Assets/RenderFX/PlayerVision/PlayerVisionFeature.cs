@@ -14,12 +14,16 @@ namespace ProjectII.Render
             public Shader shader;
 
             [Header("暗区调色")]
-            [Range(0f, 1f), Tooltip("暗区饱和度（0=全灰，1=保持原色）")]
+            [Range(0f, 1f), Tooltip("暗区饱和度（0=全灰，1=保持原色）近层")]
             public float saturation = 0f;
-            [Range(0f, 1f), Tooltip("暗区明度系数（0=全黑，1=原亮度）")]
+            [Range(0f, 1f), Tooltip("暗区明度系数（0=全黑，1=原亮度）近层")]
             public float brightness = 0.1f;
+            [Range(0f, 1f), Tooltip("暗区饱和度 远层（深度最大时）")]
+            public float saturation_Far = 0f;
+            [Range(0f, 1f), Tooltip("暗区明度系数 远层（深度最大时）")]
+            public float brightness_Far = 0.05f;
 
-            [Header("噪声扰动")]
+            [Header("噪声扰动（边界）")]
             [Tooltip("噪声纹理（256x256 黑白 Perlin）")]
             public Texture2D noiseTex;
             [Tooltip("噪声世界空间缩放（值越大花纹越粗）")]
@@ -27,11 +31,36 @@ namespace ProjectII.Render
             [Tooltip("噪声偏移强度（噪声=1 时的世界空间偏移距离）")]
             public float noiseStrength = 0.3f;
 
-            [Header("S 曲线重映射")]
-            [Range(0f, 0.5f), Tooltip("暗区截断点（低于此值的 visible 映射为 0）")]
-            public float shadowEdge = 0.1f;
-            [Range(0.5f, 1f), Tooltip("亮区截断点（高于此值的 visible 映射为 1）")]
-            public float lightEdge = 0.9f;
+            [Header("S 曲线 — 视野范围（inSight）")]
+            [Range(0f, 0.5f)] public float shadowEdge_Sight = 0.1f;
+            [Range(0.5f, 1f)] public float lightEdge_Sight  = 0.9f;
+
+            [Header("S 曲线 — 遮挡（notOccluded）")]
+            [Range(0f, 0.5f)] public float shadowEdge_Occlude = 0.1f;
+            [Range(0.5f, 1f)] public float lightEdge_Occlude  = 0.9f;
+
+            [Header("迷雾（视野内遮挡区）")]
+            [ColorUsage(false, true), Tooltip("迷雾颜色")]
+            public Color fogColor = new Color(0.05f, 0.05f, 0.2f);
+            [Range(0f, 1f)] public float fogIntensity = 0.6f;
+            [Tooltip("遮挡深度映射范围（世界空间单位），超过此深度视为最深层")]
+            public float fogDepthRange = 3f;
+            [Range(0f, 1f), Tooltip("混合模式权重：0=纯乘法（保留结构/压暗），1=纯屏幕（暗区透光）")]
+            public float fogBlendMode = 0.4f;
+            [Tooltip("x=层1世界空间缩放, y=层2世界空间缩放")]
+            public Vector2 fogNoiseScale = new Vector2(3f, 7f);
+            [Tooltip("层1流动速度（世界空间方向）")]
+            public Vector2 fogNoiseSpeed1 = new Vector2(0.05f, 0.02f);
+            [Tooltip("层2流动速度（世界空间方向）")]
+            public Vector2 fogNoiseSpeed2 = new Vector2(-0.03f, 0.04f);
+
+            [Header("距离模糊（Dual Kawase）")]
+            [Tooltip("模糊开始生效的世界空间半径")]
+            public float blurStartRadius = 3f;
+            [Tooltip("模糊达到最强的世界空间半径")]
+            public float blurEndRadius = 10f;
+            [Range(1, 6), Tooltip("Dual Kawase 迭代次数（越大越模糊，每次+2个Pass开销）")]
+            public int blurIterations = 2;
         }
 
         public Settings settings = new Settings();
@@ -73,6 +102,15 @@ namespace ProjectII.Render
             private readonly Settings m_Settings;
             private RTHandle m_TempRT;
 
+            // Dual Kawase 迭代 RT 链：最多 6 次迭代需 7 个 RT（索引 0 = 全分辨率，1..N = 逐级降采样）
+            private const int k_MaxIterations = 6;
+            private RTHandle[] m_BlurChain = new RTHandle[k_MaxIterations + 1];
+
+            // Pass 索引（对应 Shader 中的 Pass 顺序）
+            private const int k_PassDown  = 0;
+            private const int k_PassUp    = 1;
+            private const int k_PassCompo = 2;
+
             public PlayerVisionPass(Material material, Settings settings)
             {
                 m_Material = material;
@@ -85,6 +123,20 @@ namespace ProjectII.Render
                 desc.depthBufferBits = 0;
                 RenderingUtils.ReAllocateIfNeeded(ref m_TempRT, desc, FilterMode.Bilinear,
                     TextureWrapMode.Clamp, name: "_PlayerVision_Temp");
+
+                int iter = Mathf.Clamp(m_Settings.blurIterations, 1, k_MaxIterations);
+                int w = desc.width;
+                int h = desc.height;
+                for (int i = 0; i <= iter; i++)
+                {
+                    var d = desc;
+                    d.width  = Mathf.Max(1, w);
+                    d.height = Mathf.Max(1, h);
+                    RenderingUtils.ReAllocateIfNeeded(ref m_BlurChain[i], d, FilterMode.Bilinear,
+                        TextureWrapMode.Clamp, name: $"_PlayerVision_Blur{i}");
+                    w = Mathf.Max(1, w / 2);
+                    h = Mathf.Max(1, h / 2);
+                }
             }
 
             public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
@@ -93,25 +145,92 @@ namespace ProjectII.Render
 
                 CommandBuffer cmd = CommandBufferPool.Get("Player Vision");
 
+                // 读取 Volume 参数，有 override 时覆盖 Settings 默认值
+                var vol = VolumeManager.instance.stack.GetComponent<PlayerVisionVolume>();
+
+                float saturation       = vol.saturation.overrideState      ? vol.saturation.value      : m_Settings.saturation;
+                float brightness       = vol.brightness.overrideState      ? vol.brightness.value      : m_Settings.brightness;
+                float saturation_Far   = vol.saturation_Far.overrideState  ? vol.saturation_Far.value  : m_Settings.saturation_Far;
+                float brightness_Far   = vol.brightness_Far.overrideState  ? vol.brightness_Far.value  : m_Settings.brightness_Far;
+
+                Texture noiseTex       = (vol.noiseTex.overrideState && vol.noiseTex.value != null)
+                                         ? vol.noiseTex.value : m_Settings.noiseTex;
+                float noiseWorldScale  = vol.noiseWorldScale.overrideState ? vol.noiseWorldScale.value : m_Settings.noiseWorldScale;
+                float noiseStrength    = vol.noiseStrength.overrideState   ? vol.noiseStrength.value   : m_Settings.noiseStrength;
+
+                float shadowEdge_Sight   = vol.shadowEdge_Sight.overrideState   ? vol.shadowEdge_Sight.value   : m_Settings.shadowEdge_Sight;
+                float lightEdge_Sight    = vol.lightEdge_Sight.overrideState    ? vol.lightEdge_Sight.value    : m_Settings.lightEdge_Sight;
+                float shadowEdge_Occlude = vol.shadowEdge_Occlude.overrideState ? vol.shadowEdge_Occlude.value : m_Settings.shadowEdge_Occlude;
+                float lightEdge_Occlude  = vol.lightEdge_Occlude.overrideState  ? vol.lightEdge_Occlude.value  : m_Settings.lightEdge_Occlude;
+
+                Color   fogColor      = vol.fogColor.overrideState      ? vol.fogColor.value      : m_Settings.fogColor;
+                float   fogIntensity  = vol.fogIntensity.overrideState  ? vol.fogIntensity.value  : m_Settings.fogIntensity;
+                float   fogDepthRange = vol.fogDepthRange.overrideState ? vol.fogDepthRange.value : m_Settings.fogDepthRange;
+                float   fogBlendMode  = vol.fogBlendMode.overrideState  ? vol.fogBlendMode.value  : m_Settings.fogBlendMode;
+                Vector2 fogNoiseScale  = vol.fogNoiseScale.overrideState  ? vol.fogNoiseScale.value  : m_Settings.fogNoiseScale;
+                Vector2 fogNoiseSpeed1 = vol.fogNoiseSpeed1.overrideState ? vol.fogNoiseSpeed1.value : m_Settings.fogNoiseSpeed1;
+                Vector2 fogNoiseSpeed2 = vol.fogNoiseSpeed2.overrideState ? vol.fogNoiseSpeed2.value : m_Settings.fogNoiseSpeed2;
+
+                float blurStartRadius = vol.blurStartRadius.overrideState ? vol.blurStartRadius.value : m_Settings.blurStartRadius;
+                float blurEndRadius   = vol.blurEndRadius.overrideState   ? vol.blurEndRadius.value   : m_Settings.blurEndRadius;
+                int   blurIterations  = vol.blurIterations.overrideState  ? vol.blurIterations.value  : m_Settings.blurIterations;
+
                 // 写入调色参数
-                cmd.SetGlobalFloat("_PlayerVision_Saturation", m_Settings.saturation);
-                cmd.SetGlobalFloat("_PlayerVision_Brightness", m_Settings.brightness);
+                cmd.SetGlobalFloat("_PlayerVision_Saturation",     saturation);
+                cmd.SetGlobalFloat("_PlayerVision_Brightness",     brightness);
+                cmd.SetGlobalFloat("_PlayerVision_Saturation_Far", saturation_Far);
+                cmd.SetGlobalFloat("_PlayerVision_Brightness_Far", brightness_Far);
 
                 // 写入噪声参数
-                if (m_Settings.noiseTex != null)
-                    cmd.SetGlobalTexture("_PlayerVision_NoiseTex", m_Settings.noiseTex);
-                cmd.SetGlobalFloat("_PlayerVision_NoiseWorldScale", m_Settings.noiseWorldScale);
-                cmd.SetGlobalFloat("_PlayerVision_NoiseStrength",   m_Settings.noiseStrength);
+                if (noiseTex != null)
+                    cmd.SetGlobalTexture("_PlayerVision_NoiseTex", noiseTex);
+                cmd.SetGlobalFloat("_PlayerVision_NoiseWorldScale", noiseWorldScale);
+                cmd.SetGlobalFloat("_PlayerVision_NoiseStrength",   noiseStrength);
 
                 // 写入 S 曲线参数
-                cmd.SetGlobalFloat("_PlayerVision_ShadowEdge", m_Settings.shadowEdge);
-                cmd.SetGlobalFloat("_PlayerVision_LightEdge",  m_Settings.lightEdge);
+                cmd.SetGlobalFloat("_PlayerVision_ShadowEdge_Sight",   shadowEdge_Sight);
+                cmd.SetGlobalFloat("_PlayerVision_LightEdge_Sight",    lightEdge_Sight);
+                cmd.SetGlobalFloat("_PlayerVision_ShadowEdge_Occlude", shadowEdge_Occlude);
+                cmd.SetGlobalFloat("_PlayerVision_LightEdge_Occlude",  lightEdge_Occlude);
+
+                // 写入迷雾参数
+                cmd.SetGlobalColor("_PlayerVision_FogColor",      fogColor);
+                cmd.SetGlobalFloat("_PlayerVision_FogIntensity",  fogIntensity);
+                cmd.SetGlobalFloat("_PlayerVision_FogDepthRange", fogDepthRange);
+                cmd.SetGlobalFloat("_PlayerVision_FogBlendMode",  fogBlendMode);
+                cmd.SetGlobalVector("_PlayerVision_FogNoiseScale",  new Vector4(fogNoiseScale.x,  fogNoiseScale.y,  0, 0));
+                cmd.SetGlobalVector("_PlayerVision_FogNoiseSpeed1", new Vector4(fogNoiseSpeed1.x, fogNoiseSpeed1.y, 0, 0));
+                cmd.SetGlobalVector("_PlayerVision_FogNoiseSpeed2", new Vector4(fogNoiseSpeed2.x, fogNoiseSpeed2.y, 0, 0));
+
+                // 写入模糊参数
+                cmd.SetGlobalFloat("_PlayerVision_BlurStartRadius", blurStartRadius);
+                cmd.SetGlobalFloat("_PlayerVision_BlurEndRadius",   blurEndRadius);
 
                 RTHandle cameraColor = renderingData.cameraData.renderer.cameraColorTargetHandle;
+                int iter = Mathf.Clamp(blurIterations, 1, k_MaxIterations);
 
-                // 将当前画面 blit 到临时 RT，再用 shader 合成写回
+                // Step 1：保留原始帧到 m_TempRT
                 Blitter.BlitCameraTexture(cmd, cameraColor, m_TempRT);
-                Blitter.BlitCameraTexture(cmd, m_TempRT, cameraColor, m_Material, 0);
+
+                // Step 2：Dual Kawase 下采样链
+                // chain[0] = 全分辨率原始色副本，chain[1..iter] = 逐级降采样
+                Blitter.BlitCameraTexture(cmd, m_TempRT, m_BlurChain[0]);
+                for (int i = 0; i < iter; i++)
+                {
+                    cmd.SetGlobalFloat("_KawaseOffset", i);
+                    Blitter.BlitCameraTexture(cmd, m_BlurChain[i], m_BlurChain[i + 1], m_Material, k_PassDown);
+                }
+
+                // Step 3：Dual Kawase 上采样链（从最深层恢复回 chain[0]）
+                for (int i = iter; i > 0; i--)
+                {
+                    cmd.SetGlobalFloat("_KawaseOffset", i - 1);
+                    Blitter.BlitCameraTexture(cmd, m_BlurChain[i], m_BlurChain[i - 1], m_Material, k_PassUp);
+                }
+                cmd.SetGlobalTexture("_PlayerVision_BlurTex", m_BlurChain[0]);
+
+                // Step 4：视野合成写回画面
+                Blitter.BlitCameraTexture(cmd, m_TempRT, cameraColor, m_Material, k_PassCompo);
 
                 context.ExecuteCommandBuffer(cmd);
                 CommandBufferPool.Release(cmd);
@@ -123,6 +242,11 @@ namespace ProjectII.Render
             {
                 m_TempRT?.Release();
                 m_TempRT = null;
+                for (int i = 0; i < m_BlurChain.Length; i++)
+                {
+                    m_BlurChain[i]?.Release();
+                    m_BlurChain[i] = null;
+                }
             }
         }
     }

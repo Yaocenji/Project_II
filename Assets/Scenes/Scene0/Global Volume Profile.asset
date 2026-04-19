@@ -28,7 +28,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
   m_Name: ColorAdjustments
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   postExposure:
     m_OverrideState: 0
     m_Value: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
     m_Value: -57
   saturation:
     m_OverrideState: 1
-    m_Value: -33
+    m_Value: -30
 --- !u!114 &-8107496828851967
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -102,6 +102,7 @@ MonoBehaviour:
   - {fileID: 2406758517539577976}
   - {fileID: -4696639662158161166}
   - {fileID: -4368126332757065583}
+  - {fileID: 4183929196389345606}
 --- !u!114 &2406758517539577976
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -177,3 +178,79 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &4183929196389345606
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b6d95e381a2b64aa740d1e5e6d4023, type: 3}
+  m_Name: PlayerVisionVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  saturation:
+    m_OverrideState: 0
+    m_Value: 0
+  brightness:
+    m_OverrideState: 0
+    m_Value: 0.1
+  saturation_Far:
+    m_OverrideState: 0
+    m_Value: 0
+  brightness_Far:
+    m_OverrideState: 0
+    m_Value: 0.05
+  noiseTex:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  noiseWorldScale:
+    m_OverrideState: 0
+    m_Value: 2
+  noiseStrength:
+    m_OverrideState: 0
+    m_Value: 0.3
+  shadowEdge_Sight:
+    m_OverrideState: 0
+    m_Value: 0.1
+  lightEdge_Sight:
+    m_OverrideState: 0
+    m_Value: 0.9
+  shadowEdge_Occlude:
+    m_OverrideState: 0
+    m_Value: 0.1
+  lightEdge_Occlude:
+    m_OverrideState: 0
+    m_Value: 0.9
+  fogColor:
+    m_OverrideState: 0
+    m_Value: {r: 0.05, g: 0.05, b: 0.2, a: 1}
+  fogIntensity:
+    m_OverrideState: 0
+    m_Value: 0.6
+  fogDepthRange:
+    m_OverrideState: 0
+    m_Value: 3
+  fogBlendMode:
+    m_OverrideState: 0
+    m_Value: 0.4
+  fogNoiseScale:
+    m_OverrideState: 0
+    m_Value: {x: 3, y: 7}
+  fogNoiseSpeed1:
+    m_OverrideState: 0
+    m_Value: {x: 0.05, y: 0.02}
+  fogNoiseSpeed2:
+    m_OverrideState: 0
+    m_Value: {x: -0.03, y: 0.04}
+  blurStartRadius:
+    m_OverrideState: 0
+    m_Value: 3
+  blurEndRadius:
+    m_OverrideState: 0
+    m_Value: 10
+  blurIterations:
+    m_OverrideState: 0
+    m_Value: 2

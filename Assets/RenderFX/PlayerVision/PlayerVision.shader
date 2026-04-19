@@ -11,6 +11,77 @@ Shader "ProjectII/PlayerVision"
         Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
         ZTest Always ZWrite Off Cull Off
 
+        // Pass 0: Dual Kawase Downsample
+        Pass
+        {
+            Name "DualKawaseDown"
+
+            HLSLPROGRAM
+            #pragma vertex   Vert
+            #pragma fragment FragKawaseDown
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+            
+            CBUFFER_START(UnityPerMaterial)
+                float _KawaseOffset;
+                float4 _BlitTexture_TexelSize;
+            CBUFFER_END
+
+            half4 FragKawaseDown(Varyings input) : SV_Target
+            {
+                float2 uv = input.texcoord;
+                float2 texelSize = _BlitTexture_TexelSize.xy;
+                float2 o = texelSize * (_KawaseOffset + 0.5);
+
+                half4 sum = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv) * 4.0;
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2(-o.x,  o.y));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2( o.x,  o.y));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2(-o.x, -o.y));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2( o.x, -o.y));
+                return sum / 8.0;
+            }
+            ENDHLSL
+        }
+
+        // Pass 1: Dual Kawase Upsample
+        Pass
+        {
+            Name "DualKawaseUp"
+
+            HLSLPROGRAM
+            #pragma vertex   Vert
+            #pragma fragment FragKawaseUp
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+            
+            CBUFFER_START(UnityPerMaterial)
+                float _KawaseOffset;
+                float4 _BlitTexture_TexelSize;
+            CBUFFER_END
+
+            half4 FragKawaseUp(Varyings input) : SV_Target
+            {
+                float2 uv = input.texcoord;
+                float2 texelSize = _BlitTexture_TexelSize.xy;
+                float2 o = texelSize * _KawaseOffset;
+
+                half4 sum = half4(0, 0, 0, 0);
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2(-o.x * 2.0, 0));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2(-o.x,  o.y));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2(0,      o.y * 2.0));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2( o.x,   o.y));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2( o.x * 2.0, 0));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2( o.x,  -o.y));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2(0,      -o.y * 2.0));
+                sum += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv + float2(-o.x,  -o.y));
+                return sum / 8.0;
+            }
+            ENDHLSL
+        }
+
+        // Pass 2: PlayerVision 合成
         Pass
         {
             Name "PlayerVision"
@@ -60,17 +131,34 @@ Shader "ProjectII/PlayerVision"
                 // 调色参数（由 PlayerVisionFeature 写入）
                 float _PlayerVision_Saturation;
                 float _PlayerVision_Brightness;
+                float _PlayerVision_Saturation_Far;
+                float _PlayerVision_Brightness_Far;
 
-                // 噪声参数
+                // 噪声参数（边界扰动）
                 float _PlayerVision_NoiseWorldScale;
                 float _PlayerVision_NoiseStrength;
 
-                // S 曲线参数
-                float _PlayerVision_ShadowEdge;
-                float _PlayerVision_LightEdge;
+                // S 曲线参数（分两套：inSight 和 notOccluded 各自独立）
+                float _PlayerVision_ShadowEdge_Sight;
+                float _PlayerVision_LightEdge_Sight;
+                float _PlayerVision_ShadowEdge_Occlude;
+                float _PlayerVision_LightEdge_Occlude;
+
+                // 迷雾参数
+                float4 _PlayerVision_FogColor;
+                float  _PlayerVision_FogIntensity;
+                float  _PlayerVision_FogDepthRange;
+                float  _PlayerVision_FogBlendMode;
+                float2 _PlayerVision_FogNoiseScale;   // x=层1缩放, y=层2缩放
+                float2 _PlayerVision_FogNoiseSpeed1;  // 层1流动方向速度
+                float2 _PlayerVision_FogNoiseSpeed2;  // 层2流动方向速度
+
+                float _PlayerVision_BlurStartRadius;
+                float _PlayerVision_BlurEndRadius;
             CBUFFER_END
 
             TEXTURE2D(_PlayerVision_NoiseTex); SAMPLER(sampler_PlayerVision_NoiseTex);
+            TEXTURE2D(_PlayerVision_BlurTex);  SAMPLER(sampler_PlayerVision_BlurTex);
             
             // ── BVH 数据（由 RC Feature 上传） ──
             // 压缩节点：内部节点存 AABB，叶子节点存边
@@ -209,6 +297,19 @@ Shader "ProjectII/PlayerVision"
             half4 Frag(Varyings input) : SV_Target
             {
                 float2 uv = input.texcoord;
+                // ── 采样原始画面 ──
+                half4 sceneColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv);
+
+                // 玩家世界坐标
+                float2 playerPos = _Player_PosWS_Direction_Angle.xy;
+                
+                // ── 距离模糊：玩家到片元世界空间距离，混合降采样模糊纹理 ──
+                float2 rawFragWorldPos = UVToWorldPos(uv);
+                float distToPlayer = length(rawFragWorldPos - playerPos);
+                float blurWeight = smoothstep(_PlayerVision_BlurStartRadius, _PlayerVision_BlurEndRadius, distToPlayer);
+                half4 blurColor = SAMPLE_TEXTURE2D(_PlayerVision_BlurTex, sampler_PlayerVision_BlurTex, uv);
+                half3 finalColorBlurred = lerp(sceneColor.xyz, blurColor.rgb, blurWeight);
+
 
                 // 1. 将当前片元重建为世界空间坐标
                 float2 fragWorldPos = UVToWorldPos(uv);
@@ -220,9 +321,6 @@ Shader "ProjectII/PlayerVision"
                 float noiseY = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTex, sampler_PlayerVision_NoiseTex, noiseUV_Y).r * 2.0 - 1.0;
                 fragWorldPos += float2(noiseX, noiseY) * _PlayerVision_NoiseStrength;
 
-                // 2. 玩家世界坐标
-                float2 playerPos = _Player_PosWS_Direction_Angle.xy;
-
                 // 3. 从玩家出发射向片元的射线
                 float2 toFrag = fragWorldPos - playerPos;
                 float distToFrag = length(toFrag);
@@ -231,6 +329,7 @@ Shader "ProjectII/PlayerVision"
                 float featherDist = _Player_Radius_Eye_Inner_Outter_Blank.y;
 
                 // ── 判据1：BVH 遮挡，带空间羽化 ──
+                float hitDist;
                 float criterion1 = 1.0;
                 float2 fragDir = float2(0, 0);
                 if (distToFrag > 1e-4)
@@ -240,7 +339,6 @@ Shader "ProjectII/PlayerVision"
                     ray.Origin    = playerPos;
                     ray.Direction = fragDir;
 
-                    float hitDist;
                     bool hasHit = IntersectRayBVH_Shadow(ray, distToFrag, hitDist);
                     if (hasHit && hitDist < distToFrag - 0.02)
                     {
@@ -295,25 +393,48 @@ Shader "ProjectII/PlayerVision"
                 float nearRadius = _Player_Radius_Eye_Inner_Outter_Blank.x;
                 float criterion3 = 1.0 - smoothstep(nearRadius, nearRadius + featherDist, distToFrag);
 
-                // ── 最终可见性 ──
-                float visible = criterion1 * saturate(criterion2 + criterion3);
+                // ── 拆分两个独立通道 ──
+                float inSight     = saturate(criterion2 + criterion3); // 视野范围内
+                float notOccluded = criterion1;                         // 未被遮挡
 
-                // ── 方案1：S 曲线重映射，压暗中间过渡带 ──
-                visible = smoothstep(_PlayerVision_ShadowEdge, _PlayerVision_LightEdge, visible);
+                // S 曲线各自独立重映射
+                inSight     = smoothstep(_PlayerVision_ShadowEdge_Sight,   _PlayerVision_LightEdge_Sight,   inSight);
+                notOccluded = smoothstep(_PlayerVision_ShadowEdge_Occlude, _PlayerVision_LightEdge_Occlude, notOccluded);
+                
+                // ── 深度感：交点到片元的距离决定迷雾深浅，以及决定调暗的深潜 ──
+                float2 hitWorldPos = playerPos + fragDir * hitDist;
+                float occludeDepth = distance(hitWorldPos, fragWorldPos);
+                float depthFactor  = saturate(occludeDepth / max(_PlayerVision_FogDepthRange, 0.001));
 
-                // ── 采样原始画面 ──
-                half4 sceneColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv);
+                // ── 第一步：inSight 调色（视野外压暗，系数随遮挡深度lerp） ──
+                float sat = lerp(_PlayerVision_Saturation, _PlayerVision_Saturation_Far, depthFactor);
+                float bri = lerp(_PlayerVision_Brightness, _PlayerVision_Brightness_Far, depthFactor);
+                float lum = dot(finalColorBlurred.rgb, half3(0.2126, 0.7152, 0.0722));
+                half3 desaturated = lerp((half3)lum, finalColorBlurred.rgb, sat);
+                half3 colorOutOfSight = desaturated * bri;
+                half3 afterSight = lerp(colorOutOfSight, finalColorBlurred.rgb, inSight * notOccluded);
 
-                // ── 暗区调色（visible=0 时应用） ──
-                // 1. 饱和度：向亮度灰度插值
-                float lum = dot(sceneColor.rgb, half3(0.2126, 0.7152, 0.0722));
-                half3 desaturated = lerp((half3)lum, sceneColor.rgb, _PlayerVision_Saturation);
-                // 2. 明度：乘以亮度系数
-                half3 adjusted = desaturated * _PlayerVision_Brightness;
+                // ── 第二步：迷雾 ──
+                float2 rawWorldPos = UVToWorldPos(uv);
+                float2 fogUV1 = rawWorldPos / _PlayerVision_FogNoiseScale.x + _Time.y * _PlayerVision_FogNoiseSpeed1;
+                float2 fogUV2 = rawWorldPos / _PlayerVision_FogNoiseScale.y + _Time.y * _PlayerVision_FogNoiseSpeed2;
+                float fogNoise = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTex, sampler_PlayerVision_NoiseTex, fogUV1).r * 0.6
+                               + SAMPLE_TEXTURE2D(_PlayerVision_NoiseTex, sampler_PlayerVision_NoiseTex, fogUV2).r * 0.4;
 
-                // ── 插值输出 ──
-                half3 finalColor = lerp(adjusted, sceneColor.rgb, visible);
-                return half4(finalColor, sceneColor.a);
+                // 迷雾颜色固定，浓度随遮挡深度增加
+                half3 fogColorFinal = _PlayerVision_FogColor.rgb;
+                float fogAlpha = saturate(fogNoise * _PlayerVision_FogIntensity * depthFactor);
+
+                // ── 混合模式：乘法(保留结构) 与 屏幕(暗区透光) 按权重混合 ──
+                half3 fogMultiply = afterSight * lerp((half3)1.0, fogColorFinal, fogAlpha);
+                half3 fogScreen   = 1.0 - (1.0 - afterSight) * (1.0 - fogColorFinal * fogAlpha);
+                half3 colorOccluded = lerp(fogMultiply, fogScreen, _PlayerVision_FogBlendMode);
+                half3 finalColor = lerp(colorOccluded, afterSight, notOccluded);
+
+                //return depthFactor;
+
+                //return blurWeight;
+                return half4(finalColor.rgb, 1);
             }
             ENDHLSL
         }

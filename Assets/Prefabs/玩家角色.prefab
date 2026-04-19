@@ -429,7 +429,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.26436183, y: 0.26436183, z: 0.26436183}
+  m_LocalScale: {x: 0.17, y: 0.17, z: 0.17}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4636170913461280093}
@@ -514,31 +514,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1717355545167953908, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6579125
+      value: 0.031
       objectReference: {fileID: 0}
     - target: {fileID: 1717355545167953908, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.82517266
+      value: 0.006
       objectReference: {fileID: 0}
     - target: {fileID: 1717355545167953908, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0030210915
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1717355545167953908, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9914591
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1717355545167953908, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1717355545167953908, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1717355545167953908, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.13041846
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1717355545167953908, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -552,9 +552,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2677038022848057552, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677038022848057552, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677038022848057552, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3336841226647506617, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
       propertyPath: m_Name
       value: "\u624B\u7535"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200862275496804111, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200862275496804111, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8200862275496804111, guid: 23abb03825114814a9f13ad7783c1301, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -648,11 +672,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4919028296673662241, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.153
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 4919028296673662241, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.055
+      value: -0.059
       objectReference: {fileID: 0}
     - target: {fileID: 4919028296673662241, guid: bdf91573d31378f4687d9e3932057a2a, type: 3}
       propertyPath: m_LocalPosition.z
