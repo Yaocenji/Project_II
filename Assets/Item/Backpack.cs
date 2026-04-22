@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace ProjectII.Item
     /// </summary>
     public class Backpack : MonoBehaviour
     {
+        /// <summary>某格内容变化（格子序号，零号物品或null，新堆叠数量）</summary>
+        public event Action<int, Base, int> OnSlotChanged;
         [Header("背包设置")]
         [SerializeField] private int slotCount = 20;
 
@@ -46,16 +49,19 @@ namespace ProjectII.Item
             {
                 slot.Add(item);
                 item.gameObject.SetActive(false);
+                OnSlotChanged?.Invoke(slotIndex, item, slot.Count);
                 return true;
             }
 
             // 格子有物品：检查类型是否相同，且未达堆叠上限
             Base first = slot[0];
+            if (!first.IsStackable) return false;
             if (first.GetType() != item.GetType()) return false;
             if (slot.Count >= first.maxStackSize) return false;
 
             slot.Add(item);
             item.gameObject.SetActive(false);
+            OnSlotChanged?.Invoke(slotIndex, slot[0], slot.Count);
             return true;
         }
 
@@ -101,6 +107,7 @@ namespace ProjectII.Item
             Base item = slot[slot.Count - 1];
             slot.RemoveAt(slot.Count - 1);
             item.gameObject.SetActive(true);
+            OnSlotChanged?.Invoke(slotIndex, slot.Count > 0 ? slot[0] : null, slot.Count);
             return item;
         }
 
@@ -122,6 +129,23 @@ namespace ProjectII.Item
             List<Base> slot = slots[slotIndex];
             if (slot.Count == 0) return null;
             return slot[0];
+        }
+        /// <summary>
+        /// 背包内两个格子互换整个栈。
+        /// </summary>
+        public bool SwapBackpackSlots(int slotA, int slotB)
+        {
+            if (slotA < 0 || slotA >= slots.Length) return false;
+            if (slotB < 0 || slotB >= slots.Length) return false;
+            if (slotA == slotB) return false;
+
+            List<Base> temp = slots[slotA];
+            slots[slotA] = slots[slotB];
+            slots[slotB] = temp;
+
+            OnSlotChanged?.Invoke(slotA, slots[slotA].Count > 0 ? slots[slotA][0] : null, slots[slotA].Count);
+            OnSlotChanged?.Invoke(slotB, slots[slotB].Count > 0 ? slots[slotB][0] : null, slots[slotB].Count);
+            return true;
         }
     }
 }

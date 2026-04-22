@@ -1,7 +1,16 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace ProjectII.Item
 {
+    [Serializable]
+    public struct AttachmentSlot
+    {
+        public string slotName;
+        public Base currentItem;
+    }
+
     /// <summary>
     /// 所有背包物品的基类
     /// 物品本身不直接监听输入，所有交互均由快捷栏（Hotbar）统一监听后转发调用
@@ -33,7 +42,63 @@ namespace ProjectII.Item
         /// </summary>
         public GameObject worldItemPrefab;
 
+        /// <summary>
+        /// 附加槽列表，在 Inspector 里配置槽名和初始物品
+        /// </summary>
+        [Header("附加槽")]
+        public List<AttachmentSlot> attachmentSlots = new List<AttachmentSlot>();
+
+        /// <summary>
+        /// 有附件槽的物品不可堆叠
+        /// </summary>
+        public bool IsStackable => maxStackSize > 1 && attachmentSlots.Count == 0;
+
         #endregion
+
+        /// <summary>
+        /// 尝试将物品放入指定附加槽。槽为空且 CanAttach 通过时放入。
+        /// </summary>
+        public bool Attach(int slotIndex, Base item)
+        {
+            if (slotIndex < 0 || slotIndex >= attachmentSlots.Count) return false;
+            if (attachmentSlots[slotIndex].currentItem != null) return false;
+            if (!CanAttach(slotIndex, item)) return false;
+
+            AttachmentSlot slot = attachmentSlots[slotIndex];
+            slot.currentItem = item;
+            attachmentSlots[slotIndex] = slot;
+            item.gameObject.SetActive(false);
+            OnAttached(slotIndex, item);
+            return true;
+        }
+
+        /// <summary>
+        /// 从指定附加槽取出物品。
+        /// </summary>
+        public Base Detach(int slotIndex)
+        {
+            if (slotIndex < 0 || slotIndex >= attachmentSlots.Count) return null;
+            if (attachmentSlots[slotIndex].currentItem == null) return null;
+
+            AttachmentSlot slot = attachmentSlots[slotIndex];
+            Base item = slot.currentItem;
+            slot.currentItem = null;
+            attachmentSlots[slotIndex] = slot;
+            item.gameObject.SetActive(true);
+            OnDetached(slotIndex, item);
+            return item;
+        }
+
+        /// <summary>
+        /// 子类重写以限制某个槽能接受的物品类型。默认全部允许。
+        /// </summary>
+        public virtual bool CanAttach(int slotIndex, Base item) => true;
+
+        /// <summary>物品被放入附加槽后调用</summary>
+        protected virtual void OnAttached(int slotIndex, Base item) { }
+
+        /// <summary>物品被从附加槽取出后调用</summary>
+        protected virtual void OnDetached(int slotIndex, Base item) { }
 
         #region 交互虚方法 - 由快捷栏转发调用，子类按需重写
 

@@ -154,6 +154,15 @@ namespace Project_II.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""switchBackPack"",
+                    ""type"": ""Button"",
+                    ""id"": ""494183f2-4701-41ac-9928-2ecd08365368"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -409,6 +418,17 @@ namespace Project_II.InputSystem
                     ""action"": ""switch_5"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0dbddbba-40d6-4752-bb40-d35d354ba022"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""switchBackPack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -431,6 +451,7 @@ namespace Project_II.InputSystem
             m_Character_switch_3 = m_Character.FindAction("switch_3", throwIfNotFound: true);
             m_Character_switch_4 = m_Character.FindAction("switch_4", throwIfNotFound: true);
             m_Character_switch_5 = m_Character.FindAction("switch_5", throwIfNotFound: true);
+            m_Character_switchBackPack = m_Character.FindAction("switchBackPack", throwIfNotFound: true);
         }
 
         ~@InputAction_0()
@@ -511,6 +532,7 @@ namespace Project_II.InputSystem
         private readonly InputAction m_Character_switch_3;
         private readonly InputAction m_Character_switch_4;
         private readonly InputAction m_Character_switch_5;
+        private readonly InputAction m_Character_switchBackPack;
         public struct CharacterActions
         {
             private @InputAction_0 m_Wrapper;
@@ -529,6 +551,7 @@ namespace Project_II.InputSystem
             public InputAction @switch_3 => m_Wrapper.m_Character_switch_3;
             public InputAction @switch_4 => m_Wrapper.m_Character_switch_4;
             public InputAction @switch_5 => m_Wrapper.m_Character_switch_5;
+            public InputAction @switchBackPack => m_Wrapper.m_Character_switchBackPack;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -580,6 +603,9 @@ namespace Project_II.InputSystem
                 @switch_5.started += instance.OnSwitch_5;
                 @switch_5.performed += instance.OnSwitch_5;
                 @switch_5.canceled += instance.OnSwitch_5;
+                @switchBackPack.started += instance.OnSwitchBackPack;
+                @switchBackPack.performed += instance.OnSwitchBackPack;
+                @switchBackPack.canceled += instance.OnSwitchBackPack;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -626,6 +652,9 @@ namespace Project_II.InputSystem
                 @switch_5.started -= instance.OnSwitch_5;
                 @switch_5.performed -= instance.OnSwitch_5;
                 @switch_5.canceled -= instance.OnSwitch_5;
+                @switchBackPack.started -= instance.OnSwitchBackPack;
+                @switchBackPack.performed -= instance.OnSwitchBackPack;
+                @switchBackPack.canceled -= instance.OnSwitchBackPack;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -659,6 +688,7 @@ namespace Project_II.InputSystem
             void OnSwitch_3(InputAction.CallbackContext context);
             void OnSwitch_4(InputAction.CallbackContext context);
             void OnSwitch_5(InputAction.CallbackContext context);
+            void OnSwitchBackPack(InputAction.CallbackContext context);
         }
     }
 }

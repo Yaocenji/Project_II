@@ -155,6 +155,7 @@ Shader "ProjectII/PlayerVision"
 
                 float _PlayerVision_BlurStartRadius;
                 float _PlayerVision_BlurEndRadius;
+                float _PlayerVision_GlobalStrength;
             CBUFFER_END
 
             TEXTURE2D(_PlayerVision_NoiseTex); SAMPLER(sampler_PlayerVision_NoiseTex);
@@ -332,6 +333,7 @@ Shader "ProjectII/PlayerVision"
                 float hitDist;
                 float criterion1 = 1.0;
                 float2 fragDir = float2(0, 0);
+                float distHitToFrag = distToFrag; // 未命中时退化为玩家到片元距离
                 if (distToFrag > 1e-4)
                 {
                     fragDir = toFrag / distToFrag;
@@ -345,7 +347,7 @@ Shader "ProjectII/PlayerVision"
                         // 交点世界坐标
                         float2 hitWorldPos = playerPos + fragDir * hitDist;
                         // 交点到片元的距离
-                        float distHitToFrag = distance(hitWorldPos, fragWorldPos);
+                        distHitToFrag = distance(hitWorldPos, fragWorldPos);
                         criterion1 = 1.0 - smoothstep(0.0, featherDist, distHitToFrag);
                     }
                 }
@@ -402,8 +404,7 @@ Shader "ProjectII/PlayerVision"
                 notOccluded = smoothstep(_PlayerVision_ShadowEdge_Occlude, _PlayerVision_LightEdge_Occlude, notOccluded);
                 
                 // ── 深度感：交点到片元的距离决定迷雾深浅，以及决定调暗的深潜 ──
-                float2 hitWorldPos = playerPos + fragDir * hitDist;
-                float occludeDepth = distance(hitWorldPos, fragWorldPos);
+                float occludeDepth = min(distToFrag, distHitToFrag);
                 float depthFactor  = saturate(occludeDepth / max(_PlayerVision_FogDepthRange, 0.001));
 
                 // ── 第一步：inSight 调色（视野外压暗，系数随遮挡深度lerp） ──
@@ -434,7 +435,7 @@ Shader "ProjectII/PlayerVision"
                 //return depthFactor;
 
                 //return blurWeight;
-                return half4(finalColor.rgb, 1);
+                return half4(lerp(sceneColor.rgb, finalColor.rgb, _PlayerVision_GlobalStrength), 1);
             }
             ENDHLSL
         }

@@ -54,6 +54,10 @@ namespace ProjectII.Render
             [Tooltip("层2流动速度（世界空间方向）")]
             public Vector2 fogNoiseSpeed2 = new Vector2(-0.03f, 0.04f);
 
+            [Header("全局强度")]
+            [Range(0f, 1f), Tooltip("所有视野效果的整体强度（0=完全关闭，1=完整效果）")]
+            public float globalStrength = 1f;
+
             [Header("距离模糊（Dual Kawase）")]
             [Tooltip("模糊开始生效的世界空间半径")]
             public float blurStartRadius = 3f;
@@ -174,6 +178,7 @@ namespace ProjectII.Render
                 float blurStartRadius = vol.blurStartRadius.overrideState ? vol.blurStartRadius.value : m_Settings.blurStartRadius;
                 float blurEndRadius   = vol.blurEndRadius.overrideState   ? vol.blurEndRadius.value   : m_Settings.blurEndRadius;
                 int   blurIterations  = vol.blurIterations.overrideState  ? vol.blurIterations.value  : m_Settings.blurIterations;
+                float globalStrength  = vol.globalStrength.overrideState  ? vol.globalStrength.value  : m_Settings.globalStrength;
 
                 // 写入调色参数
                 cmd.SetGlobalFloat("_PlayerVision_Saturation",     saturation);
@@ -205,6 +210,7 @@ namespace ProjectII.Render
                 // 写入模糊参数
                 cmd.SetGlobalFloat("_PlayerVision_BlurStartRadius", blurStartRadius);
                 cmd.SetGlobalFloat("_PlayerVision_BlurEndRadius",   blurEndRadius);
+                cmd.SetGlobalFloat("_PlayerVision_GlobalStrength",  globalStrength);
 
                 RTHandle cameraColor = renderingData.cameraData.renderer.cameraColorTargetHandle;
                 int iter = Mathf.Clamp(blurIterations, 1, k_MaxIterations);

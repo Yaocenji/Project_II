@@ -191,18 +191,21 @@ MonoBehaviour:
   m_Name: PlayerVisionVolume
   m_EditorClassIdentifier: 
   active: 1
+  globalStrength:
+    m_OverrideState: 1
+    m_Value: 1
   saturation:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.75
   brightness:
-    m_OverrideState: 0
-    m_Value: 0.2
+    m_OverrideState: 1
+    m_Value: 0.75
   saturation_Far:
     m_OverrideState: 0
     m_Value: 0
   brightness_Far:
     m_OverrideState: 0
-    m_Value: 0.053
+    m_Value: 0.062
   noiseTex:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -225,17 +228,17 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0.9
   fogColor:
-    m_OverrideState: 0
-    m_Value: {r: 0.05, g: 0.05, b: 0.2, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0.106918216, g: 0.106918216, b: 0.106918216, a: 1}
   fogIntensity:
-    m_OverrideState: 0
-    m_Value: 0.6
+    m_OverrideState: 1
+    m_Value: 0.613
   fogDepthRange:
-    m_OverrideState: 0
-    m_Value: 3
+    m_OverrideState: 1
+    m_Value: 0.5
   fogBlendMode:
-    m_OverrideState: 0
-    m_Value: 0.4
+    m_OverrideState: 1
+    m_Value: 1
   fogNoiseScale:
     m_OverrideState: 0
     m_Value: {x: 3, y: 7}

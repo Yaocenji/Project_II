@@ -103,7 +103,7 @@ MonoBehaviour:
   sdfResolutionScale: 0.5
   ifCloseTransparent: 1
   pseudoPerspectiveStrength: 1
-  blurStrength: 1
+  blurStrength: 0.498
   offsetStrength: 1
   scaleStrength: 1
 --- !u!1 &5605936402902164043

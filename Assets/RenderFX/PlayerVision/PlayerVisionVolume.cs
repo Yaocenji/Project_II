@@ -7,6 +7,9 @@ namespace ProjectII.Render
     [VolumeComponentMenu("Project II/Player Vision")]
     public class PlayerVisionVolume : VolumeComponent, IPostProcessComponent
     {
+        [Header("全局强度")]
+        public ClampedFloatParameter globalStrength = new ClampedFloatParameter(1f, 0f, 1f);
+
         [Header("暗区调色")]
         public ClampedFloatParameter saturation     = new ClampedFloatParameter(0f,    0f, 1f);
         public ClampedFloatParameter brightness     = new ClampedFloatParameter(0.1f,  0f, 1f);

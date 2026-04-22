@@ -52,6 +52,14 @@ Shader "RadianceCascadesWB/Foreground_Object"
             // 1. CBUFFER 定义 (严格匹配 SRP Batcher)
             // ---------------------------------------------------------
             CBUFFER_START(UnityPerMaterial)
+                // RCWB 天光信息
+                float3 _RCWB_SkyColor;
+                float _RCWB_SkyIntensity;
+                float3 _RCWB_SunColor;
+                float _RCWB_SunAngle;
+                float _RCWB_SunIntensity;
+                float _RCWB_SunHardness;
+            
                 float4 _MainTex_ST;
                 float4 _BumpMap_ST;
                 half4 _Emission;
@@ -164,8 +172,11 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // 法线
                 half4 packednorm = SAMPLE_TEXTURE2D(_BumpMap, sampler_BumpMap, IN.uv);
                 half3 unpackednorm = UnpackNormal(packednorm);
+                unpackednorm.xy *= 1;
                 unpackednorm = normalize(unpackednorm);
-                half3 normalWS = mul(half3x3(IN.tangentWS, IN.bitangentWS, IN.normalWS), unpackednorm);
+                half3 normalWS = unpackednorm.x * IN.tangentWS
+                               + unpackednorm.y * IN.bitangentWS
+                               + unpackednorm.z * IN.normalWS;
 
                 // RCWB GI
                 float2 sdfUV   = (IN.uv - _SDFLocalUVTransform.xy) / _SDFLocalUVTransform.zw;
@@ -200,8 +211,13 @@ Shader "RadianceCascadesWB/Foreground_Object"
 
                 // 全局光
                 float3 globalLight = .0;
+
+                // RCWB天光
+                float skyLightLambert = ConfigurableLambert(normalWS, float3(0, 0, 1), 0);
+                float3 skyLight = _RCWB_SkyColor * _RCWB_SkyIntensity * skyLightLambert;
+                float skyLightParam = (1 - attenHeight) * .01f;
                 
-                half3 ansColor = IN.color.xyz * albedo.xyz * (_GICoefficient * lumParam * lightRCWBGI.color * lambertRCWBGI * attenHeight + globalLight);
+                half3 ansColor = IN.color.xyz * albedo.xyz * (_GICoefficient * lumParam * lightRCWBGI.color * lambertRCWBGI * attenHeight + globalLight + skyLight * skyLightParam);
 
                 half alpha = albedo.a * IN.color.a;
 
@@ -214,6 +230,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 alpha *= _CloseTransparent == 1 ? smoothstep(.3, 1, distanceMouse) : 1;
 
                 //return lumParam;
+                //return half4(skyLightParam, skyLightParam, skyLightParam, 1);
                 
                 return half4(ansColor, alpha);
             }

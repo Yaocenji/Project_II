@@ -190,6 +190,8 @@ namespace ProjectII.Render
             transform.position = pos;
             lastPositionOffset = effectiveOffset;
 
+            spriteRenderer.sortingOrder = Mathf.RoundToInt(virtualHeight * 100f);
+
             UpdateMaterialPropertyBlock(effectiveOffset, effectiveScale, maxHeight);
         }
 
@@ -222,8 +224,8 @@ namespace ProjectII.Render
                 new Vector4(positionOffset.x, positionOffset.y, scaleMultiplier, 0f));
             mpb.SetColor(EmissionID, emission);
 
-            float rotZ = -transform.eulerAngles.z * Mathf.Deg2Rad;
-            mpb.SetVector(RotationSinCosID, new Vector4(Mathf.Cos(rotZ), Mathf.Sin(rotZ), 0f, 0f));
+            Vector3 right = transform.right;
+            mpb.SetVector(RotationSinCosID, new Vector4(right.x, right.y, 0f, 0f));
 
             mpb.SetFloat(GICoefficientID, giCoefficient);
             mpb.SetFloat(VirtualHeightID, virtualHeight);
@@ -368,7 +370,7 @@ namespace ProjectII.Render
                     Debug.LogWarning($"[ForegroundObject] {name}: 法线纹理不可读，跳过法线模糊。");
                 else
                     entry.blurNormalTexture = CreateBlurredTexture(
-                        originalBumpMap, texRect, fullW, fullH, r, kernel, TextureFormat.RGBA32);
+                        originalBumpMap, texRect, fullW, fullH, r, kernel, TextureFormat.RGBA32, linear: true);
             }
 
             Vector2 origPivot = originalSprite.pivot;
@@ -435,7 +437,7 @@ namespace ProjectII.Render
 
         private static Texture2D CreateBlurredTexture(
             Texture2D sourceTex, Rect srcRect,
-            int fullW, int fullH, int r, float[] kernel, TextureFormat format)
+            int fullW, int fullH, int r, float[] kernel, TextureFormat format, bool linear = false)
         {
             int srcX = Mathf.RoundToInt(srcRect.x), srcY = Mathf.RoundToInt(srcRect.y);
             int srcW = Mathf.RoundToInt(srcRect.width), srcH = Mathf.RoundToInt(srcRect.height);
@@ -452,7 +454,7 @@ namespace ProjectII.Render
             Color[] temp = GaussianBlurHorizontal(buffer, finalW, finalH, kernel, r);
             buffer = GaussianBlurVertical(temp, finalW, finalH, kernel, r);
 
-            var tex = new Texture2D(finalW, finalH, format, false);
+            var tex = new Texture2D(finalW, finalH, format, mipChain: false, linear: linear);
             tex.filterMode = FilterMode.Bilinear;
             tex.wrapMode   = TextureWrapMode.Clamp;
             tex.SetPixels(buffer);

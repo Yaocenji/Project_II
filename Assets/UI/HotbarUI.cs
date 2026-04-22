@@ -18,6 +18,9 @@ namespace ProjectII.Item
         [Header("依赖")]
         [SerializeField] private Hotbar hotbar;
 
+        public IReadOnlyList<Image> IconImages => iconImages;
+        public Hotbar Hotbar => hotbar;
+
         private void Start()
         {
             UpdateAllIcons();
