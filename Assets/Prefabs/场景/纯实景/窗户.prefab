@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: b588b85f753ee38469256995afcad5a0, type: 3}
-  m_Color: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+  m_Color: {r: 0.4, g: 0.4, b: 0.4, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsWall: 0
   ContourProfile: {fileID: 0}
-  BasicColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+  BasicColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
   Density: 1
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
@@ -258,7 +258,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 7482667652216324306, guid: b588b85f753ee38469256995afcad5a0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.4}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsWall: 1
   ContourProfile: {fileID: 0}
-  BasicColor: {r: 1, g: 1, b: 1, a: 1}
+  BasicColor: {r: 1, g: 1, b: 1, a: 0.4}
   Density: 1
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
