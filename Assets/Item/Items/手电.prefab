@@ -54,7 +54,7 @@ MonoBehaviour:
   - slotName: "\u7535\u6C60"
     currentItem: {fileID: 0}
   rcwbObject: {fileID: 6406641867487091934}
-  onEmission: {r: 8, g: 8, b: 8, a: 1}
+  onEmission: {r: 5.9921575, g: 5.9921575, b: 5.9921575, a: 1}
   drainRate: 0.1
 --- !u!1 &6782872113602933534
 GameObject:

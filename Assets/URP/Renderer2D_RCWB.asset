@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5244800016809737013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17c4e1edd3f30b45b12790b83903c2c, type: 3}
+  m_Name: WorldSpaceFX0Feature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    shader: {fileID: 4800000, guid: 62dd42c16e41bad46b5d8445fa7f7ffc, type: 3}
+    rainWaveTex: {fileID: 2800000, guid: 0213e07f6ac63a84e9905c5ff372ef0c, type: 3}
+    rainWaveScale: 1
+    puddleTex: {fileID: 2800000, guid: 4fc39dca59224dd4fba99e3a39ccb374, type: 3}
+    puddleScale: 50
+    fogColor: {r: 0.5, g: 0.55, b: 0.65, a: 1}
+    fogIntensity: 0.25
+    fogNoiseTex: {fileID: 2800000, guid: 4fc39dca59224dd4fba99e3a39ccb374, type: 3}
+    fogNoiseScale: {x: 3, y: 7}
+    fogSpeed1: {x: 0.05, y: 0.02}
+    fogSpeed2: {x: -0.03, y: 0.04}
+    fogOctaves: 4
+    fogDistFadeStart: 3
+    fogDistFadeEnd: 15
+    rainSpeed: 1
+    rainPeriod: 3
 --- !u!114 &-2367614137857597677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,20 +45,21 @@ MonoBehaviour:
   m_Active: 1
   rcShader: {fileID: 7200000, guid: cdc61e057e943ef489e0982686b62e09, type: 3}
   settings:
-    renderScale: 0.25
-    cascadeCount: 6
-    rayRange: 35
+    renderScale: 0.125
+    cascadeCount: 5
+    rayRange: 20
     bounceIntensity: 1
     skyColor: {r: 0.95283014, g: 0.98070323, b: 1, a: 1}
-    skyIntensity: 5
+    skyIntensity: 1
     sunColor: {r: 1, g: 0.9064465, b: 0.7327044, a: 1}
-    sunAngle: 0.21
-    sunIntensity: 0
-    sunHardness: 15
-    blurIterations: 3
-    blurRadius: 3
+    sunAngle: 0.5
+    sunIntensity: 200
+    sunHardness: 1024
+    blurIterations: 2
+    blurRadius: 2
     giHeight: 1
-    enableTranslucentObjects: 1
+    enableTranslucentObjects: 0
+  ioFieldTexture: {fileID: 2800000, guid: 4bbde54f171d6374baa6efeb7edecd55, type: 2}
   historyScale: 1
   historyWeight: 0.85
 --- !u!114 &11400000
@@ -48,8 +79,9 @@ MonoBehaviour:
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
   - {fileID: -2367614137857597677}
+  - {fileID: -5244800016809737013}
   - {fileID: 4484443381395038069}
-  m_RendererFeatureMap: 131fce5b7c8b24df751f67eb7ef13b3e
+  m_RendererFeatureMap: 131fce5b7c8b24dfcbc417402cba36b7751f67eb7ef13b3e
   m_UseNativeRenderPass: 0
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 1, z: 0}
@@ -109,24 +141,29 @@ MonoBehaviour:
   m_Active: 1
   settings:
     shader: {fileID: 4800000, guid: 686a8f4d0f0874d498bcba6edcf8d1cf, type: 3}
-    saturation: 0.2
-    brightness: 0.227
+    saturation_Near: 0.19
+    brightness_Near: 0.39
     saturation_Far: 0
     brightness_Far: 0.03
-    noiseTex: {fileID: 2800000, guid: bc2d7f1ab0d82ef45bc572e1428de1dc, type: 3}
-    noiseWorldScale: 2
+    distFadeStart: 3
+    distFadeEnd: 10
+    noiseTexX: {fileID: 2800000, guid: 887f0141afb087645bf60873d89b4cbd, type: 3}
+    noiseTexY: {fileID: 2800000, guid: cf5bcd638f0bdc848abf8e966add7359, type: 3}
+    noiseWorldScale: 5
     noiseStrength: 0.1
     shadowEdge_Sight: 0.1
     lightEdge_Sight: 0.9
     shadowEdge_Occlude: 0.1
     lightEdge_Occlude: 0.9
     fogColor: {r: 0.086432435, g: 0.086432435, b: 0.123, a: 1}
-    fogIntensity: 1
+    fogIntensity: 0
     fogDepthRange: 4
     fogBlendMode: 1
+    fogNoiseTex: {fileID: 2800000, guid: bc2d7f1ab0d82ef45bc572e1428de1dc, type: 3}
     fogNoiseScale: {x: 25, y: 25}
     fogNoiseSpeed1: {x: 0.01, y: 0.01}
     fogNoiseSpeed2: {x: -0.01, y: 0.01}
+    globalStrength: 1
     blurStartRadius: 1
     blurEndRadius: 7
     blurIterations: 2

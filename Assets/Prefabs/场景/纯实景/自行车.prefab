@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7897597610926618436
 Transform:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
-  Density: 50000
+  Density: 3
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &987083393246690628
@@ -120,7 +120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4500495089903757028
 Transform:
   m_ObjectHideFlags: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
-  Density: 50000
+  Density: 3
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &1115218944677011545
@@ -223,7 +223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7673924596375922515
 Transform:
   m_ObjectHideFlags: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
-  Density: 50000
+  Density: 3
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &2115599040818672738
@@ -326,7 +326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7018504850745103448
 Transform:
   m_ObjectHideFlags: 0
@@ -409,7 +409,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
-  Density: 50000
+  Density: 3
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &3712002664342045118
@@ -462,7 +462,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1676211229612415044
 Transform:
   m_ObjectHideFlags: 0
@@ -545,7 +545,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
-  Density: 50000
+  Density: 3
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &4430515616683825138
@@ -563,7 +563,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5591225331512204510
 Transform:
   m_ObjectHideFlags: 0
@@ -682,10 +682,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa3f3f07dc84c79b84f0930ecdf87e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsWall: 0
+  IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
-  Density: 50000
+  Density: 1
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!61 &5365695730113961260

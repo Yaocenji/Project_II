@@ -284,15 +284,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "yaocenji.radiance-cascades": {
-      "version": "file:yaocenji.radiance-cascades",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.render-pipelines.universal": "14.0.11",
-        "com.unity.render-pipelines.core": "14.0.11"
-      }
-    },
     "yaocenji.radiance-cascades-world-bvh": {
       "version": "file:E:/Unity/MyProjects/Radiance_Cascade_1/Radiance_Cascade_1/Assets/RadianceCascadesWorldBVH",
       "depth": 0,

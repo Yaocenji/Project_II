@@ -14,18 +14,24 @@ namespace ProjectII.Render
             public Shader shader;
 
             [Header("暗区调色")]
-            [Range(0f, 1f), Tooltip("暗区饱和度（0=全灰，1=保持原色）近层")]
-            public float saturation = 0f;
-            [Range(0f, 1f), Tooltip("暗区明度系数（0=全黑，1=原亮度）近层")]
-            public float brightness = 0.1f;
-            [Range(0f, 1f), Tooltip("暗区饱和度 远层（深度最大时）")]
+            [Range(0f, 1f), Tooltip("近处/完全可见时的饱和度（0=全灰，1=保持原色）")]
+            public float saturation_Near = 1f;
+            [Range(0f, 1f), Tooltip("近处/完全可见时的亮度系数")]
+            public float brightness_Near = 1f;
+            [Range(0f, 1f), Tooltip("远处/完全遮挡时的饱和度")]
             public float saturation_Far = 0f;
-            [Range(0f, 1f), Tooltip("暗区明度系数 远层（深度最大时）")]
+            [Range(0f, 1f), Tooltip("远处/完全遮挡时的亮度系数")]
             public float brightness_Far = 0.05f;
+            [Tooltip("调色渐变开始的世界空间距离（近端，此距离内保持 Near 调色）")]
+            public float distFadeStart = 3f;
+            [Tooltip("调色渐变结束的世界空间距离（远端，此距离外取 Far 调色）")]
+            public float distFadeEnd = 10f;
 
             [Header("噪声扰动（边界）")]
-            [Tooltip("噪声纹理（256x256 黑白 Perlin）")]
-            public Texture2D noiseTex;
+            [Tooltip("X 方向蓝噪声纹理")]
+            public Texture2D noiseTexX;
+            [Tooltip("Y 方向蓝噪声纹理")]
+            public Texture2D noiseTexY;
             [Tooltip("噪声世界空间缩放（值越大花纹越粗）")]
             public float noiseWorldScale = 2f;
             [Tooltip("噪声偏移强度（噪声=1 时的世界空间偏移距离）")]
@@ -47,6 +53,8 @@ namespace ProjectII.Render
             public float fogDepthRange = 3f;
             [Range(0f, 1f), Tooltip("混合模式权重：0=纯乘法（保留结构/压暗），1=纯屏幕（暗区透光）")]
             public float fogBlendMode = 0.4f;
+            [Tooltip("迷雾噪声纹理")]
+            public Texture2D fogNoiseTex;
             [Tooltip("x=层1世界空间缩放, y=层2世界空间缩放")]
             public Vector2 fogNoiseScale = new Vector2(3f, 7f);
             [Tooltip("层1流动速度（世界空间方向）")]
@@ -152,13 +160,17 @@ namespace ProjectII.Render
                 // 读取 Volume 参数，有 override 时覆盖 Settings 默认值
                 var vol = VolumeManager.instance.stack.GetComponent<PlayerVisionVolume>();
 
-                float saturation       = vol.saturation.overrideState      ? vol.saturation.value      : m_Settings.saturation;
-                float brightness       = vol.brightness.overrideState      ? vol.brightness.value      : m_Settings.brightness;
-                float saturation_Far   = vol.saturation_Far.overrideState  ? vol.saturation_Far.value  : m_Settings.saturation_Far;
-                float brightness_Far   = vol.brightness_Far.overrideState  ? vol.brightness_Far.value  : m_Settings.brightness_Far;
+                float saturation_Near   = vol.saturation_Near.overrideState  ? vol.saturation_Near.value  : m_Settings.saturation_Near;
+                float brightness_Near   = vol.brightness_Near.overrideState  ? vol.brightness_Near.value  : m_Settings.brightness_Near;
+                float saturation_Far    = vol.saturation_Far.overrideState   ? vol.saturation_Far.value   : m_Settings.saturation_Far;
+                float brightness_Far    = vol.brightness_Far.overrideState   ? vol.brightness_Far.value   : m_Settings.brightness_Far;
+                float distFadeStart     = vol.distFadeStart.overrideState    ? vol.distFadeStart.value    : m_Settings.distFadeStart;
+                float distFadeEnd       = vol.distFadeEnd.overrideState      ? vol.distFadeEnd.value      : m_Settings.distFadeEnd;
 
-                Texture noiseTex       = (vol.noiseTex.overrideState && vol.noiseTex.value != null)
-                                         ? vol.noiseTex.value : m_Settings.noiseTex;
+                Texture noiseTexX      = (vol.noiseTexX.overrideState && vol.noiseTexX.value != null)
+                                         ? vol.noiseTexX.value : m_Settings.noiseTexX;
+                Texture noiseTexY      = (vol.noiseTexY.overrideState && vol.noiseTexY.value != null)
+                                         ? vol.noiseTexY.value : m_Settings.noiseTexY;
                 float noiseWorldScale  = vol.noiseWorldScale.overrideState ? vol.noiseWorldScale.value : m_Settings.noiseWorldScale;
                 float noiseStrength    = vol.noiseStrength.overrideState   ? vol.noiseStrength.value   : m_Settings.noiseStrength;
 
@@ -171,6 +183,8 @@ namespace ProjectII.Render
                 float   fogIntensity  = vol.fogIntensity.overrideState  ? vol.fogIntensity.value  : m_Settings.fogIntensity;
                 float   fogDepthRange = vol.fogDepthRange.overrideState ? vol.fogDepthRange.value : m_Settings.fogDepthRange;
                 float   fogBlendMode  = vol.fogBlendMode.overrideState  ? vol.fogBlendMode.value  : m_Settings.fogBlendMode;
+                Texture fogNoiseTex   = (vol.fogNoiseTex.overrideState && vol.fogNoiseTex.value != null)
+                                         ? vol.fogNoiseTex.value : m_Settings.fogNoiseTex;
                 Vector2 fogNoiseScale  = vol.fogNoiseScale.overrideState  ? vol.fogNoiseScale.value  : m_Settings.fogNoiseScale;
                 Vector2 fogNoiseSpeed1 = vol.fogNoiseSpeed1.overrideState ? vol.fogNoiseSpeed1.value : m_Settings.fogNoiseSpeed1;
                 Vector2 fogNoiseSpeed2 = vol.fogNoiseSpeed2.overrideState ? vol.fogNoiseSpeed2.value : m_Settings.fogNoiseSpeed2;
@@ -181,14 +195,18 @@ namespace ProjectII.Render
                 float globalStrength  = vol.globalStrength.overrideState  ? vol.globalStrength.value  : m_Settings.globalStrength;
 
                 // 写入调色参数
-                cmd.SetGlobalFloat("_PlayerVision_Saturation",     saturation);
-                cmd.SetGlobalFloat("_PlayerVision_Brightness",     brightness);
-                cmd.SetGlobalFloat("_PlayerVision_Saturation_Far", saturation_Far);
-                cmd.SetGlobalFloat("_PlayerVision_Brightness_Far", brightness_Far);
+                cmd.SetGlobalFloat("_PlayerVision_Saturation_Near", saturation_Near);
+                cmd.SetGlobalFloat("_PlayerVision_Brightness_Near", brightness_Near);
+                cmd.SetGlobalFloat("_PlayerVision_Saturation_Far",  saturation_Far);
+                cmd.SetGlobalFloat("_PlayerVision_Brightness_Far",  brightness_Far);
+                cmd.SetGlobalFloat("_PlayerVision_DistFadeStart",   distFadeStart);
+                cmd.SetGlobalFloat("_PlayerVision_DistFadeEnd",     distFadeEnd);
 
                 // 写入噪声参数
-                if (noiseTex != null)
-                    cmd.SetGlobalTexture("_PlayerVision_NoiseTex", noiseTex);
+                if (noiseTexX != null)
+                    cmd.SetGlobalTexture("_PlayerVision_NoiseTexX", noiseTexX);
+                if (noiseTexY != null)
+                    cmd.SetGlobalTexture("_PlayerVision_NoiseTexY", noiseTexY);
                 cmd.SetGlobalFloat("_PlayerVision_NoiseWorldScale", noiseWorldScale);
                 cmd.SetGlobalFloat("_PlayerVision_NoiseStrength",   noiseStrength);
 
@@ -203,6 +221,8 @@ namespace ProjectII.Render
                 cmd.SetGlobalFloat("_PlayerVision_FogIntensity",  fogIntensity);
                 cmd.SetGlobalFloat("_PlayerVision_FogDepthRange", fogDepthRange);
                 cmd.SetGlobalFloat("_PlayerVision_FogBlendMode",  fogBlendMode);
+                if (fogNoiseTex != null)
+                    cmd.SetGlobalTexture("_PlayerVision_FogNoiseTex", fogNoiseTex);
                 cmd.SetGlobalVector("_PlayerVision_FogNoiseScale",  new Vector4(fogNoiseScale.x,  fogNoiseScale.y,  0, 0));
                 cmd.SetGlobalVector("_PlayerVision_FogNoiseSpeed1", new Vector4(fogNoiseSpeed1.x, fogNoiseSpeed1.y, 0, 0));
                 cmd.SetGlobalVector("_PlayerVision_FogNoiseSpeed2", new Vector4(fogNoiseSpeed2.x, fogNoiseSpeed2.y, 0, 0));

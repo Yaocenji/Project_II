@@ -18,7 +18,6 @@ MonoBehaviour:
     rayRange: 1
     cascadeCount: 1
     targetLayerMask:
-      serializedVersion: 2
       m_Bits: 4294967295
     useVolumetricLighting: 0
     trickLightIntensity: 1.12
@@ -27,6 +26,10 @@ MonoBehaviour:
     jfaShader: {fileID: 4800000, guid: 29d3970b774b26c4f97f1b533c170fcb, type: 3}
     sdfShader: {fileID: 4800000, guid: c41fc1881f4363b45a46c64db6efc69a, type: 3}
     rcShader: {fileID: 4800000, guid: 19cb12bb286844d897a4337c0b7d06e0, type: 3}
+  screenUVMat: {fileID: 0}
+  jfaMat: {fileID: 0}
+  sdfMat: {fileID: 0}
+  rcMat: {fileID: 0}
 --- !u!114 &-5978014930223338805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,6 +43,7 @@ MonoBehaviour:
   m_Name: PipelineFeature
   m_EditorClassIdentifier: 
   m_Active: 1
+  renderMaterial: {fileID: 0}
   finalShader: {fileID: 4800000, guid: 7e398b1c9b42485cb12f618a84f21913, type: 3}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -56,10 +60,8 @@ MonoBehaviour:
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
-  m_RendererFeatures:
-  - {fileID: -6430903933879414027}
-  - {fileID: -5978014930223338805}
-  m_RendererFeatureMap: f59274ccf1d6c0a6cb6a0e0618d309ad
+  m_RendererFeatures: []
+  m_RendererFeatureMap: 
   m_UseNativeRenderPass: 0
   m_TransparencySortMode: 0
   m_TransparencySortAxis: {x: 0, y: 1, z: 0}

@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6478738522530979961
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2854fb1f32262954eb95a33cf885552e, type: 3}
+  m_Name: WorldSpaceFX_0Volume
+  m_EditorClassIdentifier: 
+  active: 1
+  rainWaveTex:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  rainWaveScale:
+    m_OverrideState: 1
+    m_Value: 4
+  puddleTex:
+    m_OverrideState: 1
+    m_Value: {fileID: 2800000, guid: 4fc39dca59224dd4fba99e3a39ccb374, type: 3}
+  puddleScale:
+    m_OverrideState: 1
+    m_Value: 50
+  fogColor:
+    m_OverrideState: 1
+    m_Value: {r: 0.40382093, g: 0.4411217, b: 0.51572317, a: 1}
+  fogIntensity:
+    m_OverrideState: 1
+    m_Value: 0.01
+  fogNoiseTex:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
+  fogNoiseScale:
+    m_OverrideState: 1
+    m_Value: {x: 5, y: 5}
+  fogSpeed1:
+    m_OverrideState: 1
+    m_Value: {x: 0.002, y: 0.01}
+  fogSpeed2:
+    m_OverrideState: 1
+    m_Value: {x: -0.01, y: 0.001}
+  fogOctaves:
+    m_OverrideState: 1
+    m_Value: 2
+  fogDistFadeStart:
+    m_OverrideState: 1
+    m_Value: 0
+  fogDistFadeEnd:
+    m_OverrideState: 1
+    m_Value: 5
 --- !u!114 &-4696639662158161166
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -102,6 +154,7 @@ MonoBehaviour:
   - {fileID: 2406758517539577976}
   - {fileID: -4696639662158161166}
   - {fileID: -4368126332757065583}
+  - {fileID: -6478738522530979961}
   - {fileID: 4183929196389345606}
 --- !u!114 &2406758517539577976
 MonoBehaviour:
@@ -149,7 +202,7 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 0.3
   intensity:
     m_OverrideState: 1
     m_Value: 1
@@ -194,24 +247,33 @@ MonoBehaviour:
   globalStrength:
     m_OverrideState: 1
     m_Value: 1
-  saturation:
+  saturation_Near:
     m_OverrideState: 1
-    m_Value: 0.75
-  brightness:
+    m_Value: 0.18
+  brightness_Near:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0.28
   saturation_Far:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 0.1
   brightness_Far:
+    m_OverrideState: 1
+    m_Value: 0.2
+  distFadeStart:
+    m_OverrideState: 1
+    m_Value: 0
+  distFadeEnd:
+    m_OverrideState: 1
+    m_Value: 1
+  noiseTexX:
     m_OverrideState: 0
-    m_Value: 0.062
-  noiseTex:
+    m_Value: {fileID: 0}
+  noiseTexY:
     m_OverrideState: 0
     m_Value: {fileID: 0}
   noiseWorldScale:
     m_OverrideState: 0
-    m_Value: 2
+    m_Value: 5
   noiseStrength:
     m_OverrideState: 0
     m_Value: 0.3
@@ -229,16 +291,19 @@ MonoBehaviour:
     m_Value: 0.9
   fogColor:
     m_OverrideState: 1
-    m_Value: {r: 0.02, g: 0.02, b: 0.02, a: 1}
+    m_Value: {r: 0.050314426, g: 0.050314426, b: 0.050314426, a: 1}
   fogIntensity:
     m_OverrideState: 1
     m_Value: 0
   fogDepthRange:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 3
   fogBlendMode:
     m_OverrideState: 1
     m_Value: 0.882
+  fogNoiseTex:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
   fogNoiseScale:
     m_OverrideState: 0
     m_Value: {x: 3, y: 7}
@@ -250,10 +315,10 @@ MonoBehaviour:
     m_Value: {x: -0.03, y: 0.04}
   blurStartRadius:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   blurEndRadius:
     m_OverrideState: 1
-    m_Value: 6
+    m_Value: 5
   blurIterations:
     m_OverrideState: 0
     m_Value: 2

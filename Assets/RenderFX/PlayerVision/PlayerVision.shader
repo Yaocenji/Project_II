@@ -92,47 +92,26 @@ Shader "ProjectII/PlayerVision"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/RCW_BVH_Inc.hlsl"
+            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/IOField.hlsl"
 
-                        CBUFFER_START(UnityPerMaterial)
-                float4 _MainTex_ST;
-                float4 _BumpMap_ST;
-                half4 _Emission;
-
+            CBUFFER_START(UnityPerMaterial)
                 // 全局变量：玩家属性
                 float4 _Player_PosWS_Direction_Angle;
                 float4 _Player_Radius_Eye_Inner_Outter_Blank;
 
-                // 鼠标位置
-                float4 _FG_MousePosition;
-
-                float2 _RotationSinCos; // x=cos, y=sin
-                float _GICoefficient;
-
                 // 摄像机矩阵
                 float4x4 MatrixInvVP;
-                float4x4 MatrixVP;
-                // 上一帧的摄像机矩阵
-                float4x4 MatrixVP_Prev;
-                float4x4 MatrixInvVP_Prev;
-            
-                float4 _ForegroundTransformData;
-
-                float _VirtualHeight;
-                float _MaxHeight;
-
-                // xy=UV offset，zw=UV scale
-                // 将 IN.uv（可能是 atlas UV 或含 padding 的 blurSprite UV）映射到精灵本地 UV (0,0)-(1,1)
-                float4 _SDFLocalUVTransform;
-
-                // =1，则人物靠近变得透明；=0，则不这样
-                int _CloseTransparent;
-                float _SDFWorldScale;
 
                 // 调色参数（由 PlayerVisionFeature 写入）
-                float _PlayerVision_Saturation;
-                float _PlayerVision_Brightness;
+                // Near = 玩家近处/完全可见；Far = 距离远或完全遮挡（两者复用同一套）
+                float _PlayerVision_Saturation_Near;
+                float _PlayerVision_Brightness_Near;
                 float _PlayerVision_Saturation_Far;
                 float _PlayerVision_Brightness_Far;
+                // 调色距离渐变范围（世界空间）
+                float _PlayerVision_DistFadeStart;
+                float _PlayerVision_DistFadeEnd;
 
                 // 噪声参数（边界扰动）
                 float _PlayerVision_NoiseWorldScale;
@@ -158,21 +137,10 @@ Shader "ProjectII/PlayerVision"
                 float _PlayerVision_GlobalStrength;
             CBUFFER_END
 
-            TEXTURE2D(_PlayerVision_NoiseTex); SAMPLER(sampler_PlayerVision_NoiseTex);
-            TEXTURE2D(_PlayerVision_BlurTex);  SAMPLER(sampler_PlayerVision_BlurTex);
-            
-            // ── BVH 数据（由 RC Feature 上传） ──
-            // 压缩节点：内部节点存 AABB，叶子节点存边
-            struct LBVHNodeGpu
-            {
-                float2 PosA;      // 内部节点: AABB Min；叶子节点: Edge Start
-                float2 PosB;      // 内部节点: AABB Max；叶子节点: Edge End
-                int    IndexData; // 内部节点: LeftChild；叶子节点: ~matIdx（< 0）
-                int    RightChild;
-            };
-
-            StructuredBuffer<LBVHNodeGpu> _BVH_NodeEdge_Buffer;
-            int _BVH_Root_Index;
+            TEXTURE2D(_PlayerVision_NoiseTexX);   SAMPLER(sampler_PlayerVision_NoiseTexX);
+            TEXTURE2D(_PlayerVision_NoiseTexY);   SAMPLER(sampler_PlayerVision_NoiseTexY);
+            TEXTURE2D(_PlayerVision_FogNoiseTex); SAMPLER(sampler_PlayerVision_FogNoiseTex);
+            TEXTURE2D(_PlayerVision_BlurTex);     SAMPLER(sampler_PlayerVision_BlurTex);
 
             // ── 遮挡 flag 表（由 PlayerVisionOccludeSystem 每帧写入，索引即 matIdx） ──
             StructuredBuffer<int> _PlayerVision_OccludeFlags;
@@ -184,65 +152,29 @@ Shader "ProjectII/PlayerVision"
                 return _PlayerVision_OccludeFlags[matIdx] == 0;
             }
 
-            // ── 射线结构 ──
-            struct RayWS
+            // ── BVH 多交点收集（带排除逻辑），最多收集 MAX_INTERSECTS 个 ──
+            // 若收集满后仍有未排除的交点（即遮挡物超出容量），直接返回 false 表示完全遮挡
+            bool IntersectRayBVHArray_Vision(RayWS ray, float maxDistance, out IntersectsRaySegmentResultArray result)
             {
-                float2 Origin;
-                float2 Direction;
-            };
+                result.intersectsCount = 0;
+                [unroll]
+                for (int i = 0; i < MAX_INTERSECTS; i++)
+                {
+                    result.results[i].hitPoint  = float2(0, 0);
+                    result.results[i].hitNormal = float2(0, 0);
+                    result.results[i].nodeIndex = -1;
+                    result.results[i].matIdx    = -1;
+                }
 
-            struct HitResult
-            {
-                float2 hitPoint;
-                float2 hitNormal;
-            };
+                float hitDistances[MAX_INTERSECTS];
+                [unroll]
+                for (int j = 0; j < MAX_INTERSECTS; j++) hitDistances[j] = 1e30;
 
-            // ── AABB 与射线求交 ──
-            bool IntersectsRayAABB(RayWS ray, float2 invDir, LBVHNodeGpu node)
-            {
-                float2 t0 = (node.PosA - ray.Origin) * invDir;
-                float2 t1 = (node.PosB - ray.Origin) * invDir;
-                float2 tMinV = min(t0, t1);
-                float2 tMaxV = max(t0, t1);
-                float tEnter = max(tMinV.x, tMinV.y);
-                float tExit  = min(tMaxV.x, tMaxV.y);
-                return (tExit >= tEnter) && (tExit >= 0.0f);
-            }
+                if (_BVH_Root_Index == -1) return true; // 无 BVH，完全透明
 
-            // ── 射线与线段求交，返回射线参数 t（< 0 表示未命中） ──
-            float IntersectsRaySegmentT(RayWS ray, LBVHNodeGpu leafNode)
-            {
-                float2 p = ray.Origin;
-                float2 r = ray.Direction;
-                float2 q = leafNode.PosA;
-                float2 s = leafNode.PosB - leafNode.PosA;
-
-                float rCrossS = r.x * s.y - r.y * s.x;
-                if (abs(rCrossS) < 1e-7) return -1.0;
-
-                float2 qp = q - p;
-                float t = (qp.x * s.y - qp.y * s.x) / rCrossS;
-                float u = (qp.x * r.y - qp.y * r.x) / rCrossS;
-
-                if (t > 0.0f && u >= 0.0f && u <= 1.0f)
-                    return t;
-                return -1.0;
-            }
-
-            // ── BVH 遍历：在 [0, maxDist] 内是否有交点 ──
-            //    有则返回 true（最近命中距离写入 hitDist）
-            #define MAX_RECUR_DEEP 32
-            bool IntersectRayBVH_Shadow(RayWS ray, float maxDist, out float hitDist)
-            {
-                hitDist = maxDist;
-                bool found = false;
-
-                if (_BVH_Root_Index == -1) return false;
-
-                // 防零除
                 float2 dir = ray.Direction;
-                if (abs(dir.x) < 1e-9) dir.x = sign(dir.x + 1e-10) * 1e-9;
-                if (abs(dir.y) < 1e-9) dir.y = sign(dir.y + 1e-10) * 1e-9;
+                if (abs(dir.x) < 1e-9) dir.x = 1e-9 * (dir.x >= 0 ? 1.0 : -1.0);
+                if (abs(dir.y) < 1e-9) dir.y = 1e-9 * (dir.y >= 0 ? 1.0 : -1.0);
                 float2 invDir = 1.0 / dir;
 
                 int nodeStack[MAX_RECUR_DEEP];
@@ -252,23 +184,59 @@ Shader "ProjectII/PlayerVision"
                 [loop]
                 while (stackTop >= 0)
                 {
-                    int idx = nodeStack[stackTop--];
-                    if (idx == -1) continue;
+                    int nodeIdx = nodeStack[stackTop--];
+                    if (nodeIdx == -1) continue;
 
-                    LBVHNodeGpu node = _BVH_NodeEdge_Buffer[idx];
+                    LBVHNodeGpu node = _BVH_NodeEdge_Buffer[nodeIdx];
                     bool isLeaf = (node.IndexData < 0);
 
                     if (isLeaf)
                     {
-                        // 排除指定的 matIdx（如玩家自身 Polygon）
                         int matIdx = ~node.IndexData;
                         if (IsExcludedMatIdx(matIdx)) continue;
 
-                        float t = IntersectsRaySegmentT(ray, node);
-                        if (t > 0.01 && t < hitDist)
+                        IntersectsRaySegmentResult tempResult;
+                        if (!IntersectsRaySegment(ray, node, matIdx, tempResult)) continue;
+
+                        float dist = distance(ray.Origin, tempResult.hitPoint);
+                        if (dist <= 0.01 || dist > maxDistance) continue;
+
+                        // 容量已满：存在更多有效遮挡，直接完全遮挡
+                        if (result.intersectsCount == MAX_INTERSECTS)
+                            return false;
+
+                        // 插入排序
+                        int insertPos = result.intersectsCount;
+                        [unroll]
+                        for (int k = 0; k < MAX_INTERSECTS; k++)
                         {
-                            hitDist = t;
-                            found = true;
+                            if (dist < hitDistances[k])
+                                insertPos = min(insertPos, k);
+                        }
+
+                        if (insertPos < MAX_INTERSECTS)
+                        {
+                            [unroll]
+                            for (int m = MAX_INTERSECTS - 1; m > 0; m--)
+                            {
+                                if (m > insertPos)
+                                {
+                                    result.results[m]  = result.results[m - 1];
+                                    hitDistances[m]    = hitDistances[m - 1];
+                                }
+                            }
+                            [unroll]
+                            for (int n = 0; n < MAX_INTERSECTS; n++)
+                            {
+                                if (n == insertPos)
+                                {
+                                    result.results[n]            = tempResult;
+                                    result.results[n].nodeIndex  = nodeIdx;
+                                    hitDistances[n]              = dist;
+                                }
+                            }
+                            if (result.intersectsCount < MAX_INTERSECTS)
+                                result.intersectsCount++;
                         }
                     }
                     else
@@ -281,7 +249,7 @@ Shader "ProjectII/PlayerVision"
                         }
                     }
                 }
-                return found;
+                return true;
             }
 
             // ── UV → 世界空间（与 RC Feature 中 posPixel2World 完全一致） ──
@@ -316,10 +284,10 @@ Shader "ProjectII/PlayerVision"
                 float2 fragWorldPos = UVToWorldPos(uv);
 
                 // ── 噪声扰动：用世界坐标采样，偏移 fragWorldPos ──
-                float2 noiseUV_X = fragWorldPos / _PlayerVision_NoiseWorldScale;
-                float2 noiseUV_Y = noiseUV_X + float2(0.37, 0.63);
-                float noiseX = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTex, sampler_PlayerVision_NoiseTex, noiseUV_X).r * 2.0 - 1.0;
-                float noiseY = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTex, sampler_PlayerVision_NoiseTex, noiseUV_Y).r * 2.0 - 1.0;
+                float2 noiseUV = fragWorldPos / _PlayerVision_NoiseWorldScale;
+                noiseUV = frac(noiseUV);
+                float noiseX = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTexX, sampler_PlayerVision_NoiseTexX, noiseUV).r * 2.0f - 1.0;
+                float noiseY = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTexY, sampler_PlayerVision_NoiseTexY, noiseUV).r * 2.0f - 1.0;
                 fragWorldPos += float2(noiseX, noiseY) * _PlayerVision_NoiseStrength;
 
                 // 3. 从玩家出发射向片元的射线
@@ -329,8 +297,7 @@ Shader "ProjectII/PlayerVision"
                 // 公共参数
                 float featherDist = _Player_Radius_Eye_Inner_Outter_Blank.y;
 
-                // ── 判据1：BVH 遮挡，带空间羽化 ──
-                float hitDist;
+                // ── 判据1：BVH 遮挡，Beer-Lambert 指数衰减（density 决定半透明程度） ──
                 float criterion1 = 1.0;
                 float2 fragDir = float2(0, 0);
                 float distHitToFrag = distToFrag; // 未命中时退化为玩家到片元距离
@@ -341,14 +308,33 @@ Shader "ProjectII/PlayerVision"
                     ray.Origin    = playerPos;
                     ray.Direction = fragDir;
 
-                    bool hasHit = IntersectRayBVH_Shadow(ray, distToFrag, hitDist);
-                    if (hasHit && hitDist < distToFrag - 0.02)
+                    IntersectsRaySegmentResultArray hitArray;
+                    // 返回 false 表示超出容量仍有遮挡，直接完全遮挡
+                    bool withinCapacity = IntersectRayBVHArray_Vision(ray, distToFrag, hitArray);
+                    if (!withinCapacity)
                     {
-                        // 交点世界坐标
-                        float2 hitWorldPos = playerPos + fragDir * hitDist;
-                        // 交点到片元的距离
-                        distHitToFrag = distance(hitWorldPos, fragWorldPos);
-                        criterion1 = 1.0 - smoothstep(0.0, featherDist, distHitToFrag);
+                        criterion1 = 0.0;
+                        distHitToFrag = 0.0;
+                    }
+                    else if (hitArray.intersectsCount > 0)
+                    {
+                        RayMarchingInterval intervals[MAX_RAYMARCHING_INTERVALS];
+                        int intervalCount = 0;
+                        GetIntervals(ray, hitArray, distToFrag, intervals, intervalCount);
+
+                        float transmittance = 1.0;
+                        for (int ii = 0; ii < intervalCount; ii++)
+                        {
+                            MaterialData mat = _BVH_Material_Buffer[intervals[ii].matIdx];
+                            float segDist = length(intervals[ii].end - intervals[ii].start);
+                            transmittance *= exp(-segDist * mat.Density);
+                            if (transmittance < 0.001) { transmittance = 0.0; break; }
+                        }
+                        criterion1 = transmittance;
+
+                        // 用最近交点估算 distHitToFrag（供 depthFactor 使用）
+                        if (intervalCount > 0)
+                            distHitToFrag = distance(intervals[0].start, fragWorldPos);
                     }
                 }
 
@@ -402,39 +388,41 @@ Shader "ProjectII/PlayerVision"
                 // S 曲线各自独立重映射
                 inSight     = smoothstep(_PlayerVision_ShadowEdge_Sight,   _PlayerVision_LightEdge_Sight,   inSight);
                 notOccluded = smoothstep(_PlayerVision_ShadowEdge_Occlude, _PlayerVision_LightEdge_Occlude, notOccluded);
-                
-                // ── 深度感：交点到片元的距离决定迷雾深浅，以及决定调暗的深潜 ──
-                float occludeDepth = min(distToFrag, distHitToFrag);
-                float depthFactor  = saturate(occludeDepth / max(_PlayerVision_FogDepthRange, 0.001));
 
-                // ── 第一步：inSight 调色（视野外压暗，系数随遮挡深度lerp） ──
-                float sat = lerp(_PlayerVision_Saturation, _PlayerVision_Saturation_Far, depthFactor);
-                float bri = lerp(_PlayerVision_Brightness, _PlayerVision_Brightness_Far, depthFactor);
+                // ── 调色：distFactor 基于玩家距离，notOccluded 作为加速器将 t 压向 Far 端 ──
+                // notOccluded=1：t = distFactor（正常距离驱动）
+                // notOccluded=0：t = 0（直接取最暗/最灰的 Far 值）
+                float distFactor = 1.0 - smoothstep(_PlayerVision_DistFadeStart, _PlayerVision_DistFadeEnd, distToPlayer);
+                float colorT = lerp(0.0, distFactor, notOccluded); // notOccluded 加速 distFactor 向 0 压
+                float sat = lerp(_PlayerVision_Saturation_Far, _PlayerVision_Saturation_Near, colorT);
+                float bri = lerp(_PlayerVision_Brightness_Far, _PlayerVision_Brightness_Near, colorT);
                 float lum = dot(finalColorBlurred.rgb, half3(0.2126, 0.7152, 0.0722));
                 half3 desaturated = lerp((half3)lum, finalColorBlurred.rgb, sat);
-                half3 colorOutOfSight = desaturated * bri;
-                half3 afterSight = lerp(colorOutOfSight, finalColorBlurred.rgb, inSight * notOccluded);
+                half3 colorToned = desaturated * bri;
+                // inSight=1 且 notOccluded=1（完全可见）时还原原色；其余情况显示调色结果
+                half3 afterSight = lerp(colorToned, finalColorBlurred.rgb, inSight * notOccluded);
 
-                // ── 第二步：迷雾 ──
+                // ── 深度感：遮挡交点到片元的距离驱动迷雾（与调色距离独立） ──
+                float depthFactor = saturate(distHitToFrag / max(_PlayerVision_FogDepthRange, 0.001));
+
+                // ── 迷雾：双层噪声流动，浓度随遮挡深度增加 ──
                 float2 rawWorldPos = UVToWorldPos(uv);
                 float2 fogUV1 = rawWorldPos / _PlayerVision_FogNoiseScale.x + _Time.y * _PlayerVision_FogNoiseSpeed1;
                 float2 fogUV2 = rawWorldPos / _PlayerVision_FogNoiseScale.y + _Time.y * _PlayerVision_FogNoiseSpeed2;
-                float fogNoise = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTex, sampler_PlayerVision_NoiseTex, fogUV1).r * 0.6
-                               + SAMPLE_TEXTURE2D(_PlayerVision_NoiseTex, sampler_PlayerVision_NoiseTex, fogUV2).r * 0.4;
-
-                // 迷雾颜色固定，浓度随遮挡深度增加
+                float fogNoise = SAMPLE_TEXTURE2D(_PlayerVision_FogNoiseTex, sampler_PlayerVision_FogNoiseTex, fogUV1).r * 0.6
+                               + SAMPLE_TEXTURE2D(_PlayerVision_FogNoiseTex, sampler_PlayerVision_FogNoiseTex, fogUV2).r * 0.4;
                 half3 fogColorFinal = _PlayerVision_FogColor.rgb;
                 float fogAlpha = saturate(fogNoise * _PlayerVision_FogIntensity * depthFactor);
 
-                // ── 混合模式：乘法(保留结构) 与 屏幕(暗区透光) 按权重混合 ──
+                // 混合模式：乘法（保留结构）与屏幕（暗区透光）按权重混合
                 half3 fogMultiply = afterSight * lerp((half3)1.0, fogColorFinal, fogAlpha);
                 half3 fogScreen   = 1.0 - (1.0 - afterSight) * (1.0 - fogColorFinal * fogAlpha);
                 half3 colorOccluded = lerp(fogMultiply, fogScreen, _PlayerVision_FogBlendMode);
+                // notOccluded=1 时绕过迷雾直接用 afterSight，遮挡区才叠迷雾
                 half3 finalColor = lerp(colorOccluded, afterSight, notOccluded);
 
-                //return depthFactor;
-
-                //return blurWeight;
+                //return half4(noiseX, noiseY, 0, 1) * 5;
+                
                 return half4(lerp(sceneColor.rgb, finalColor.rgb, _PlayerVision_GlobalStrength), 1);
             }
             ENDHLSL

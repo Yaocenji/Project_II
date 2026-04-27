@@ -11,13 +11,16 @@ namespace ProjectII.Render
         public ClampedFloatParameter globalStrength = new ClampedFloatParameter(1f, 0f, 1f);
 
         [Header("暗区调色")]
-        public ClampedFloatParameter saturation     = new ClampedFloatParameter(0f,    0f, 1f);
-        public ClampedFloatParameter brightness     = new ClampedFloatParameter(0.1f,  0f, 1f);
-        public ClampedFloatParameter saturation_Far = new ClampedFloatParameter(0f,    0f, 1f);
-        public ClampedFloatParameter brightness_Far = new ClampedFloatParameter(0.05f, 0f, 1f);
+        public ClampedFloatParameter saturation_Near = new ClampedFloatParameter(1f,    0f, 1f);
+        public ClampedFloatParameter brightness_Near = new ClampedFloatParameter(1f,    0f, 1f);
+        public ClampedFloatParameter saturation_Far  = new ClampedFloatParameter(0f,    0f, 1f);
+        public ClampedFloatParameter brightness_Far  = new ClampedFloatParameter(0.05f, 0f, 1f);
+        public FloatParameter        distFadeStart   = new FloatParameter(3f);
+        public FloatParameter        distFadeEnd     = new FloatParameter(10f);
 
         [Header("噪声扰动（边界）")]
-        public Texture2DParameter   noiseTex        = new Texture2DParameter(null);
+        public Texture2DParameter   noiseTexX       = new Texture2DParameter(null);
+        public Texture2DParameter   noiseTexY       = new Texture2DParameter(null);
         public FloatParameter       noiseWorldScale = new FloatParameter(2f);
         public FloatParameter       noiseStrength   = new FloatParameter(0.3f);
 
@@ -34,6 +37,7 @@ namespace ProjectII.Render
         public ClampedFloatParameter fogIntensity  = new ClampedFloatParameter(0.6f, 0f, 1f);
         public FloatParameter        fogDepthRange = new FloatParameter(3f);
         public ClampedFloatParameter fogBlendMode  = new ClampedFloatParameter(0.4f, 0f, 1f);
+        public Texture2DParameter    fogNoiseTex   = new Texture2DParameter(null);
         public Vector2Parameter      fogNoiseScale = new Vector2Parameter(new Vector2(3f, 7f));
         public Vector2Parameter      fogNoiseSpeed1 = new Vector2Parameter(new Vector2(0.05f, 0.02f));
         public Vector2Parameter      fogNoiseSpeed2 = new Vector2Parameter(new Vector2(-0.03f, 0.04f));

@@ -287,7 +287,7 @@ MonoBehaviour:
   ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
   Density: 50000
-  Emission: {r: 23.96863, g: 20.613024, b: 13.901807, a: 0}
+  Emission: {r: 5.992157, g: 5.1532555, b: 3.4754517, a: 0}
   giCoefficient: 1
 --- !u!114 &3649359151297915152
 MonoBehaviour:

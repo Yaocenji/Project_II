@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: b588b85f753ee38469256995afcad5a0, type: 3}
   m_Color: {r: 0.22012573, g: 0.22012573, b: 0.22012573, a: 1}
   m_FlipX: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 50000
+  Density: 5
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &2292887652292077675
@@ -176,7 +176,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: b588b85f753ee38469256995afcad5a0, type: 3}
   m_Color: {r: 0.22012573, g: 0.22012573, b: 0.22012573, a: 1}
   m_FlipX: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 50000
+  Density: 5
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &2689309878692784770
@@ -279,7 +279,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: b588b85f753ee38469256995afcad5a0, type: 3}
   m_Color: {r: 0.22012573, g: 0.22012573, b: 0.22012573, a: 1}
   m_FlipX: 0
@@ -306,7 +306,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 50000
+  Density: 5
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &3049648368465700081
@@ -488,7 +488,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: b588b85f753ee38469256995afcad5a0, type: 3}
   m_Color: {r: 0.22012573, g: 0.22012573, b: 0.22012573, a: 1}
   m_FlipX: 0
@@ -515,7 +515,7 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 50000
+  Density: 5
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &5605936402902164043
@@ -674,7 +674,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: b588b85f753ee38469256995afcad5a0, type: 3}
   m_Color: {r: 0.22012573, g: 0.22012573, b: 0.22012573, a: 1}
   m_FlipX: 0
@@ -701,6 +701,6 @@ MonoBehaviour:
   IsWall: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 50000
+  Density: 5
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
