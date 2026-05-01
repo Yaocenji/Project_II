@@ -13,6 +13,12 @@ namespace ProjectII.Render
             [Tooltip("用于渲染玩家视野效果的 Shader")]
             public Shader shader;
 
+            [Header("玩家")]
+            public float halfAngle = 45f;
+            public float nearRadius = 0.45f;
+            public float featherDist = 0.25f;
+            public float outerRadius = 5.5f;
+
             [Header("暗区调色")]
             [Range(0f, 1f), Tooltip("近处/完全可见时的饱和度（0=全灰，1=保持原色）")]
             public float saturation_Near = 1f;
@@ -193,6 +199,23 @@ namespace ProjectII.Render
                 float blurEndRadius   = vol.blurEndRadius.overrideState   ? vol.blurEndRadius.value   : m_Settings.blurEndRadius;
                 int   blurIterations  = vol.blurIterations.overrideState  ? vol.blurIterations.value  : m_Settings.blurIterations;
                 float globalStrength  = vol.globalStrength.overrideState  ? vol.globalStrength.value  : m_Settings.globalStrength;
+
+                // 玩家视野参数
+                float halfAngle   = vol.halfAngle.overrideState   ? vol.halfAngle.value   : m_Settings.halfAngle;
+                float nearRadius  = vol.nearRadius.overrideState  ? vol.nearRadius.value  : m_Settings.nearRadius;
+                float featherDist = vol.featherDist.overrideState ? vol.featherDist.value : m_Settings.featherDist;
+                float outerRadius = vol.outerRadius.overrideState ? vol.outerRadius.value : m_Settings.outerRadius;
+
+                // 写入玩家位置/朝向/半径（从 GameSceneManager 获取玩家 Transform）
+                var playerTransform = vol.PlayerTransform;
+                if (playerTransform != null)
+                {
+                    var t = playerTransform;
+                    cmd.SetGlobalVector("_Player_PosWS_Direction_Angle",
+                        new Vector4(t.position.x, t.position.y, t.rotation.eulerAngles.z, halfAngle));
+                    cmd.SetGlobalVector("_Player_Radius_Eye_Inner_Outter_Blank",
+                        new Vector4(nearRadius, featherDist, outerRadius, 0));
+                }
 
                 // 写入调色参数
                 cmd.SetGlobalFloat("_PlayerVision_Saturation_Near", saturation_Near);

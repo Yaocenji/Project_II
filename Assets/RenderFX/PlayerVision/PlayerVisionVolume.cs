@@ -1,14 +1,34 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using ProjectII.Manager;
 
 namespace ProjectII.Render
 {
     [VolumeComponentMenu("Project II/Player Vision")]
     public class PlayerVisionVolume : VolumeComponent, IPostProcessComponent
     {
+        /// <summary>
+        /// 运行时通过 GameSceneManager 获取玩家 Transform
+        /// </summary>
+        public Transform PlayerTransform
+        {
+            get
+            {
+                var mgr = GameSceneManager.Instance;
+                if (mgr != null && mgr.CurrentPlayerCharacter != null)
+                    return mgr.CurrentPlayerCharacter.transform;
+                return null;
+            }
+        }
         [Header("全局强度")]
         public ClampedFloatParameter globalStrength = new ClampedFloatParameter(1f, 0f, 1f);
+
+        [Header("玩家视野")]
+        public FloatParameter halfAngle = new FloatParameter(45f);
+        public FloatParameter nearRadius = new FloatParameter(0.45f);
+        public FloatParameter featherDist = new FloatParameter(0.25f);
+        public FloatParameter outerRadius = new FloatParameter(5.5f);
 
         [Header("暗区调色")]
         public ClampedFloatParameter saturation_Near = new ClampedFloatParameter(1f,    0f, 1f);

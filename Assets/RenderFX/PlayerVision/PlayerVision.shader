@@ -342,6 +342,9 @@ Shader "ProjectII/PlayerVision"
                 float forwardAngleRad = _Player_PosWS_Direction_Angle.z * (3.14159265 / 180.0);
                 float2 forwardDir = float2(cos(forwardAngleRad), sin(forwardAngleRad));
                 float halfAngleRad = _Player_PosWS_Direction_Angle.w * (3.14159265 / 180.0);
+                
+                float nearRadius = _Player_Radius_Eye_Inner_Outter_Blank.x;
+                float outerRadius = _Player_Radius_Eye_Inner_Outter_Blank.z;
 
                 float criterion2 = 0.0;
                 if (distToFrag > 1e-4)
@@ -351,8 +354,7 @@ Shader "ProjectII/PlayerVision"
 
                     if (cosAngle >= cosHalf)
                     {
-                        // 扇形内
-                        criterion2 = 1.0;
+                        criterion2 = 1.0 - smoothstep(nearRadius, outerRadius, distToFrag);
                     }
                     else
                     {
@@ -374,11 +376,11 @@ Shader "ProjectII/PlayerVision"
 
                         float distToSector = min(distL, distR);
                         criterion2 = 1.0 - smoothstep(0.0, featherDist, distToSector);
+                        criterion2 *= 1.0 - smoothstep(nearRadius, outerRadius, distToFrag);
                     }
                 }
 
                 // ── 判据3：近身距离，带空间羽化 ──
-                float nearRadius = _Player_Radius_Eye_Inner_Outter_Blank.x;
                 float criterion3 = 1.0 - smoothstep(nearRadius, nearRadius + featherDist, distToFrag);
 
                 // ── 拆分两个独立通道 ──

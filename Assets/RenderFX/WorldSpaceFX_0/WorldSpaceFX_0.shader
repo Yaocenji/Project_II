@@ -90,66 +90,8 @@ Shader "ProjectII/WorldSpaceFX_0"
                 float2 worldPos = UVToWorldPos(uv);
                 float io = SampleIOFieldClamped(worldPos, 1.0); // 0=室内, 1=室外
 
-                // 雨水涟漪
-                half3 rainTex = SAMPLE_TEXTURE2D(_WSFX0_RainWaveTex, sampler_PointClamp, frac(worldPos.xy / _WSFX0_RainWaveScale));
-
-                half2 gradR = half2(ddx(rainTex.r), ddy(rainTex.r));
-                half2 gradG = half2(ddx(rainTex.g), ddy(rainTex.g));
-                half2 gradB = half2(ddx(rainTex.b), ddy(rainTex.b));
-
-                half3 valid = rainTex > half3(0, 0, 0) ? 1 : 0;
-                half3 trueVal = clamp(rainTex - 1.0/256.0, 0, 1) * 256.0/255.0;
-                // 归一化时间 [0,1)
-                float t = frac(_WSFX0_RainPhase / _WSFX0_RainPeriod);
-                // 环绕距离
-                half3 dist = half3(
-                    min(abs(trueVal.r - t), 1.0 - abs(trueVal.r - t)),
-                    min(abs(trueVal.g - t), 1.0 - abs(trueVal.g - t)),
-                    min(abs(trueVal.b - t), 1.0 - abs(trueVal.b - t))
-                );
-                float rainTimeThreshold = 0.03 / _WSFX0_RainPeriod;
-                half3 isRainWave = valid * pow(dist, 10) * 50;
-                half rainWave = max(isRainWave.r, max(isRainWave.g, isRainWave.b));
-                half3 isRainWhiteWave = valid * (dist < rainTimeThreshold);
-                half rainWhiteWave = dot(isRainWhiteWave, half3(1,1,1)) > 0 ? 1 : 0;
-
-                // 水塘遮罩：静态 Perlin 采样，值高的区域才有积水涟漪
-                float puddleRaw = 
-                SAMPLE_TEXTURE2D(_WSFX0_PuddleTex, sampler_WSFX0_PuddleTex, worldPos / _WSFX0_PuddleScale).r + 
-                SAMPLE_TEXTURE2D(_WSFX0_PuddleTex, sampler_WSFX0_PuddleTex, worldPos / _WSFX0_PuddleScale * 2).r + 
-                SAMPLE_TEXTURE2D(_WSFX0_PuddleTex, sampler_WSFX0_PuddleTex, worldPos / _WSFX0_PuddleScale * 4).r +
-                SAMPLE_TEXTURE2D(_WSFX0_PuddleTex, sampler_WSFX0_PuddleTex, worldPos / _WSFX0_PuddleScale * 8).r;
-
-                puddleRaw /= 4.0f;
-                float puddleMask = puddleRaw > 0.5f ? 1 : 0;
-                float puddleDepth = puddleMask > .5f ? (puddleRaw - .5f) * 2.0f : 0;
-                float puddleEdge0 = (puddleMask == 1) && (puddleDepth <= .005f );
-                float puddleEdge1 = (puddleMask == 1) && (puddleDepth <= .02f ) && (puddleDepth > .005f );
-                float puddleFBM = FBM(worldPos + _Time.y * .05, 4) >
-                 .51f;
-                puddleEdge1 *= puddleFBM;
-                float puddleEdge = max(puddleEdge0, puddleEdge1);
-
-                // 添加室内室外信息
-                float ioPow2 = io * io;
-                puddleMask *= ioPow2;
-                puddleDepth *= ioPow2;
-
-                // 室外才有雨
-                rainWave *= puddleMask;
-                rainWhiteWave *= puddleMask;
-                puddleEdge *= ioPow2;
-
                 // 涟漪来指导地面采样
-                half3 sceneColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv/* - rainWave * 5 * (gradR + gradG + gradB)*/);
-
-                // 水凼深度，对SceneColor进行指数减色
-                half3 sceneWatered = exp(-puddleDepth * 15) * sceneColor;
-
-                // 添加白水
-                half3 sceneRainWaved = sceneWatered + ((puddleEdge + rainWhiteWave) * .03f).xxx;
-
-                
+                half3 sceneColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv);
 
                 // 双层 FBM 雨雾
                 float2 fogUV1 = worldPos / _WSFX0_FogNoiseScale.x + _Time.y * _WSFX0_FogSpeed1;

@@ -50,10 +50,10 @@ MonoBehaviour:
     rayRange: 20
     bounceIntensity: 1
     skyColor: {r: 0.95283014, g: 0.98070323, b: 1, a: 1}
-    skyIntensity: 1
+    skyIntensity: 3
     sunColor: {r: 1, g: 0.9064465, b: 0.7327044, a: 1}
-    sunAngle: 0.5
-    sunIntensity: 200
+    sunAngle: 0
+    sunIntensity: 0
     sunHardness: 1024
     blurIterations: 2
     blurRadius: 2
@@ -141,6 +141,10 @@ MonoBehaviour:
   m_Active: 1
   settings:
     shader: {fileID: 4800000, guid: 686a8f4d0f0874d498bcba6edcf8d1cf, type: 3}
+    halfAngle: 45
+    nearRadius: 0.45
+    featherDist: 0.25
+    outerRadius: 5.5
     saturation_Near: 0.19
     brightness_Near: 0.39
     saturation_Far: 0

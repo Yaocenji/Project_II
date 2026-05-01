@@ -213,8 +213,12 @@ Shader "ProjectII/GroundRainFX"
                 // 水塘暗色：黑色 + alpha 模拟 exp(-depth*15) 衰减
                 float puddleAlpha = 1.0 - exp(-puddleDepth * 15);
 
+                // 获取全局光亮度
+                RcwbLightData lightData = GetBlurRcwbLightData(IN.positionCS.xy / _ScreenParams.xy, _ScreenParams.xy, MatrixInvVP);
+                float GI_Luminance = dot(lightData.color.rgb, half3(0.2126, 0.7152, 0.0722));
+
                 // 白水（边缘 + 涟漪）：略亮颜色 + 小 alpha
-                float whiteWave = saturate(max(puddleEdge, rainWhiteWave)) * 0.2;
+                float whiteWave = saturate(max(puddleEdge, rainWhiteWave)) * .2 * GI_Luminance;
                 half3 outColor = whiteWave.xxx;
                 float outAlpha = saturate(max(puddleAlpha, whiteWave));
 

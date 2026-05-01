@@ -30,7 +30,7 @@ MonoBehaviour:
     m_Value: {r: 0.40382093, g: 0.4411217, b: 0.51572317, a: 1}
   fogIntensity:
     m_OverrideState: 1
-    m_Value: 0.01
+    m_Value: 0.113
   fogNoiseTex:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -96,6 +96,49 @@ MonoBehaviour:
   saturation:
     m_OverrideState: 1
     m_Value: -30
+--- !u!114 &-238345680991057039
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f7f810dfffa3224eaa9bab995b8ba05, type: 3}
+  m_Name: RCWBVolume
+  m_EditorClassIdentifier: 
+  active: 1
+  skyColor:
+    m_OverrideState: 0
+    m_Value: {r: 0, g: 1, b: 1, a: 1}
+  skyIntensity:
+    m_OverrideState: 0
+    m_Value: 0
+  sunColor:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  sunAngle:
+    m_OverrideState: 0
+    m_Value: 0
+  sunIntensity:
+    m_OverrideState: 0
+    m_Value: 1
+  sunHardness:
+    m_OverrideState: 0
+    m_Value: 0.5
+  bounceIntensity:
+    m_OverrideState: 0
+    m_Value: 1
+  giHeight:
+    m_OverrideState: 0
+    m_Value: 1
+  historyScale:
+    m_OverrideState: 0
+    m_Value: 1
+  historyWeight:
+    m_OverrideState: 0
+    m_Value: 0.85
 --- !u!114 &-8107496828851967
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -111,7 +154,7 @@ MonoBehaviour:
   active: 0
   mode:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 0
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
@@ -154,6 +197,7 @@ MonoBehaviour:
   - {fileID: 2406758517539577976}
   - {fileID: -4696639662158161166}
   - {fileID: -4368126332757065583}
+  - {fileID: -238345680991057039}
   - {fileID: -6478738522530979961}
   - {fileID: 4183929196389345606}
 --- !u!114 &2406758517539577976
@@ -168,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   color:
     m_OverrideState: 1
     m_Value: {r: 0, g: 0, b: 0, a: 1}
@@ -177,12 +221,12 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.459
+    m_Value: 0.242
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.323
+    m_Value: 1
   rounded:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0
 --- !u!114 &3842169637289310909
 MonoBehaviour:
@@ -196,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2db86121404754db890f4c8dfe81b2, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   skipIterations:
     m_OverrideState: 0
     m_Value: 1
@@ -247,24 +291,36 @@ MonoBehaviour:
   globalStrength:
     m_OverrideState: 1
     m_Value: 1
+  halfAngle:
+    m_OverrideState: 1
+    m_Value: 45
+  nearRadius:
+    m_OverrideState: 1
+    m_Value: 0.45
+  featherDist:
+    m_OverrideState: 1
+    m_Value: 0.25
+  outerRadius:
+    m_OverrideState: 1
+    m_Value: 6
   saturation_Near:
     m_OverrideState: 1
-    m_Value: 0.18
+    m_Value: 0.246
   brightness_Near:
     m_OverrideState: 1
-    m_Value: 0.28
+    m_Value: 0.515
   saturation_Far:
     m_OverrideState: 1
-    m_Value: 0.1
+    m_Value: 0.092
   brightness_Far:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.159
   distFadeStart:
     m_OverrideState: 1
     m_Value: 0
   distFadeEnd:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 3
   noiseTexX:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -291,16 +347,16 @@ MonoBehaviour:
     m_Value: 0.9
   fogColor:
     m_OverrideState: 1
-    m_Value: {r: 0.050314426, g: 0.050314426, b: 0.050314426, a: 1}
+    m_Value: {r: 0.39739323, g: 0.43169957, b: 0.44654083, a: 1}
   fogIntensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.1
   fogDepthRange:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 8
   fogBlendMode:
     m_OverrideState: 1
-    m_Value: 0.882
+    m_Value: 0.325
   fogNoiseTex:
     m_OverrideState: 0
     m_Value: {fileID: 0}

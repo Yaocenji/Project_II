@@ -123,10 +123,6 @@ namespace ProjectII.Character
             // 更新方向和速度状态
             UpdateDirection();
             UpdateSpeedState();
-
-            // 虽然这样代码很不优雅，但是这是最简单的方法，因为之后会用SDF来计算玩家视野，所以需要一个玩家位置的变量
-            Shader.SetGlobalVector("_Player_PosWS_Direction_Angle", new Vector4(transform.position.x, transform.position.y, transform.rotation.eulerAngles.z, 45f));
-            Shader.SetGlobalVector("_Player_Radius_Eye_Inner_Outter_Blank", new Vector4(0.45f, .25f, 3.0f, 0));
         }
 
         private void FixedUpdate()
