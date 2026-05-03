@@ -200,6 +200,12 @@ namespace ProjectII.Render
                 int   blurIterations  = vol.blurIterations.overrideState  ? vol.blurIterations.value  : m_Settings.blurIterations;
                 float globalStrength  = vol.globalStrength.overrideState  ? vol.globalStrength.value  : m_Settings.globalStrength;
 
+                // 效果开关
+                bool enableBlur        = vol.enableBlur.overrideState        ? vol.enableBlur.value        : true;
+                bool enableColorGrading = vol.enableColorGrading.overrideState ? vol.enableColorGrading.value : true;
+                bool enableFog         = vol.enableFog.overrideState         ? vol.enableFog.value         : true;
+                bool enableVisionShape = vol.enableVisionShape.overrideState ? vol.enableVisionShape.value : true;
+
                 // 玩家视野参数
                 float halfAngle   = vol.halfAngle.overrideState   ? vol.halfAngle.value   : m_Settings.halfAngle;
                 float nearRadius  = vol.nearRadius.overrideState  ? vol.nearRadius.value  : m_Settings.nearRadius;
@@ -255,28 +261,38 @@ namespace ProjectII.Render
                 cmd.SetGlobalFloat("_PlayerVision_BlurEndRadius",   blurEndRadius);
                 cmd.SetGlobalFloat("_PlayerVision_GlobalStrength",  globalStrength);
 
+                // 写入效果开关
+                cmd.SetGlobalFloat("_PlayerVision_Enable_Blur",         enableBlur ? 1f : 0f);
+                cmd.SetGlobalFloat("_PlayerVision_Enable_ColorGrading", enableColorGrading ? 1f : 0f);
+                cmd.SetGlobalFloat("_PlayerVision_Enable_Fog",          enableFog ? 1f : 0f);
+                cmd.SetGlobalFloat("_PlayerVision_Enable_VisionShape",  enableVisionShape ? 1f : 0f);
+
                 RTHandle cameraColor = renderingData.cameraData.renderer.cameraColorTargetHandle;
                 int iter = Mathf.Clamp(blurIterations, 1, k_MaxIterations);
 
                 // Step 1：保留原始帧到 m_TempRT
                 Blitter.BlitCameraTexture(cmd, cameraColor, m_TempRT);
 
-                // Step 2：Dual Kawase 下采样链
-                // chain[0] = 全分辨率原始色副本，chain[1..iter] = 逐级降采样
-                Blitter.BlitCameraTexture(cmd, m_TempRT, m_BlurChain[0]);
-                for (int i = 0; i < iter; i++)
+                // Step 2-3：Dual Kawase（blur 关闭时跳过，省掉 draw call 和 RT 开销）
+                if (enableBlur)
                 {
-                    cmd.SetGlobalFloat("_KawaseOffset", i);
-                    Blitter.BlitCameraTexture(cmd, m_BlurChain[i], m_BlurChain[i + 1], m_Material, k_PassDown);
+                    Blitter.BlitCameraTexture(cmd, m_TempRT, m_BlurChain[0]);
+                    for (int i = 0; i < iter; i++)
+                    {
+                        cmd.SetGlobalFloat("_KawaseOffset", i);
+                        Blitter.BlitCameraTexture(cmd, m_BlurChain[i], m_BlurChain[i + 1], m_Material, k_PassDown);
+                    }
+                    for (int i = iter; i > 0; i--)
+                    {
+                        cmd.SetGlobalFloat("_KawaseOffset", i - 1);
+                        Blitter.BlitCameraTexture(cmd, m_BlurChain[i], m_BlurChain[i - 1], m_Material, k_PassUp);
+                    }
+                    cmd.SetGlobalTexture("_PlayerVision_BlurTex", m_BlurChain[0]);
                 }
-
-                // Step 3：Dual Kawase 上采样链（从最深层恢复回 chain[0]）
-                for (int i = iter; i > 0; i--)
+                else
                 {
-                    cmd.SetGlobalFloat("_KawaseOffset", i - 1);
-                    Blitter.BlitCameraTexture(cmd, m_BlurChain[i], m_BlurChain[i - 1], m_Material, k_PassUp);
+                    cmd.SetGlobalTexture("_PlayerVision_BlurTex", m_TempRT);
                 }
-                cmd.SetGlobalTexture("_PlayerVision_BlurTex", m_BlurChain[0]);
 
                 // Step 4：视野合成写回画面
                 Blitter.BlitCameraTexture(cmd, m_TempRT, cameraColor, m_Material, k_PassCompo);

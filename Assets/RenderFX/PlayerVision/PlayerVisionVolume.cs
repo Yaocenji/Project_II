@@ -21,6 +21,12 @@ namespace ProjectII.Render
                 return null;
             }
         }
+        [Header("效果开关")]
+        public BoolParameter enableBlur = new BoolParameter(true);
+        public BoolParameter enableColorGrading = new BoolParameter(true);
+        public BoolParameter enableFog = new BoolParameter(true);
+        public BoolParameter enableVisionShape = new BoolParameter(true);
+
         [Header("全局强度")]
         public ClampedFloatParameter globalStrength = new ClampedFloatParameter(1f, 0f, 1f);
 

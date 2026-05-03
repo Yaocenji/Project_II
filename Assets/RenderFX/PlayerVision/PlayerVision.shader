@@ -135,6 +135,12 @@ Shader "ProjectII/PlayerVision"
                 float _PlayerVision_BlurStartRadius;
                 float _PlayerVision_BlurEndRadius;
                 float _PlayerVision_GlobalStrength;
+
+                // 效果开关（0=关闭，1=开启，uniform 分支整个 warp 走同一路径）
+                float _PlayerVision_Enable_Blur;
+                float _PlayerVision_Enable_ColorGrading;
+                float _PlayerVision_Enable_Fog;
+                float _PlayerVision_Enable_VisionShape;
             CBUFFER_END
 
             TEXTURE2D(_PlayerVision_NoiseTexX);   SAMPLER(sampler_PlayerVision_NoiseTexX);
@@ -271,160 +277,172 @@ Shader "ProjectII/PlayerVision"
 
                 // 玩家世界坐标
                 float2 playerPos = _Player_PosWS_Direction_Angle.xy;
-                
-                // ── 距离模糊：玩家到片元世界空间距离，混合降采样模糊纹理 ──
                 float2 rawFragWorldPos = UVToWorldPos(uv);
                 float distToPlayer = length(rawFragWorldPos - playerPos);
-                float blurWeight = smoothstep(_PlayerVision_BlurStartRadius, _PlayerVision_BlurEndRadius, distToPlayer);
-                half4 blurColor = SAMPLE_TEXTURE2D(_PlayerVision_BlurTex, sampler_PlayerVision_BlurTex, uv);
-                half3 finalColorBlurred = lerp(sceneColor.xyz, blurColor.rgb, blurWeight);
 
-
-                // 1. 将当前片元重建为世界空间坐标
-                float2 fragWorldPos = UVToWorldPos(uv);
-
-                // ── 噪声扰动：用世界坐标采样，偏移 fragWorldPos ──
-                float2 noiseUV = fragWorldPos / _PlayerVision_NoiseWorldScale;
-                noiseUV = frac(noiseUV);
-                float noiseX = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTexX, sampler_PlayerVision_NoiseTexX, noiseUV).r * 2.0f - 1.0;
-                float noiseY = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTexY, sampler_PlayerVision_NoiseTexY, noiseUV).r * 2.0f - 1.0;
-                fragWorldPos += float2(noiseX, noiseY) * _PlayerVision_NoiseStrength;
-
-                // 3. 从玩家出发射向片元的射线
-                float2 toFrag = fragWorldPos - playerPos;
-                float distToFrag = length(toFrag);
-
-                // 公共参数
-                float featherDist = _Player_Radius_Eye_Inner_Outter_Blank.y;
-
-                // ── 判据1：BVH 遮挡，Beer-Lambert 指数衰减（density 决定半透明程度） ──
-                float criterion1 = 1.0;
-                float2 fragDir = float2(0, 0);
-                float distHitToFrag = distToFrag; // 未命中时退化为玩家到片元距离
-                if (distToFrag > 1e-4)
+                // ── 距离模糊 ──
+                half3 finalColorBlurred;
+                if (_PlayerVision_Enable_Blur > 0.5)
                 {
-                    fragDir = toFrag / distToFrag;
-                    RayWS ray;
-                    ray.Origin    = playerPos;
-                    ray.Direction = fragDir;
+                    float blurWeight = smoothstep(_PlayerVision_BlurStartRadius, _PlayerVision_BlurEndRadius, distToPlayer);
+                    half4 blurColor = SAMPLE_TEXTURE2D(_PlayerVision_BlurTex, sampler_PlayerVision_BlurTex, uv);
+                    finalColorBlurred = lerp(sceneColor.xyz, blurColor.rgb, blurWeight);
+                }
+                else
+                {
+                    finalColorBlurred = sceneColor.xyz;
+                }
 
-                    IntersectsRaySegmentResultArray hitArray;
-                    // 返回 false 表示超出容量仍有遮挡，直接完全遮挡
-                    bool withinCapacity = IntersectRayBVHArray_Vision(ray, distToFrag, hitArray);
-                    if (!withinCapacity)
-                    {
-                        criterion1 = 0.0;
-                        distHitToFrag = 0.0;
-                    }
-                    else if (hitArray.intersectsCount > 0)
-                    {
-                        RayMarchingInterval intervals[MAX_RAYMARCHING_INTERVALS];
-                        int intervalCount = 0;
-                        GetIntervals(ray, hitArray, distToFrag, intervals, intervalCount);
+                // ── 视野形状（扇形 + 近身 + 遮挡）──
+                float inSight = 1.0;
+                float notOccluded = 1.0;
+                float distHitToFrag = distToPlayer;
 
-                        float transmittance = 1.0;
-                        for (int ii = 0; ii < intervalCount; ii++)
+                if (_PlayerVision_Enable_VisionShape > 0.5)
+                {
+                    float2 fragWorldPos = UVToWorldPos(uv);
+
+                    // 噪声扰动：用世界坐标采样，偏移 fragWorldPos
+                    float2 noiseUV = fragWorldPos / _PlayerVision_NoiseWorldScale;
+                    noiseUV = frac(noiseUV);
+                    float noiseX = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTexX, sampler_PlayerVision_NoiseTexX, noiseUV).r * 2.0f - 1.0;
+                    float noiseY = SAMPLE_TEXTURE2D(_PlayerVision_NoiseTexY, sampler_PlayerVision_NoiseTexY, noiseUV).r * 2.0f - 1.0;
+                    fragWorldPos += float2(noiseX, noiseY) * _PlayerVision_NoiseStrength;
+
+                    float2 toFrag = fragWorldPos - playerPos;
+                    float distToFrag = length(toFrag);
+                    float featherDist = _Player_Radius_Eye_Inner_Outter_Blank.y;
+                    float nearRadius  = _Player_Radius_Eye_Inner_Outter_Blank.x;
+                    float outerRadius = _Player_Radius_Eye_Inner_Outter_Blank.z;
+
+                    // 判据1：BVH 遮挡
+                    float criterion1 = 1.0;
+                    float2 fragDir = float2(0, 0);
+                    distHitToFrag = distToFrag;
+                    if (distToFrag > 1e-4)
+                    {
+                        fragDir = toFrag / distToFrag;
+                        RayWS ray;
+                        ray.Origin    = playerPos;
+                        ray.Direction = fragDir;
+
+                        IntersectsRaySegmentResultArray hitArray;
+                        bool withinCapacity = IntersectRayBVHArray_Vision(ray, distToFrag, hitArray);
+                        if (!withinCapacity)
                         {
-                            MaterialData mat = _BVH_Material_Buffer[intervals[ii].matIdx];
-                            float segDist = length(intervals[ii].end - intervals[ii].start);
-                            transmittance *= exp(-segDist * mat.Density);
-                            if (transmittance < 0.001) { transmittance = 0.0; break; }
+                            criterion1 = 0.0;
+                            distHitToFrag = 0.0;
                         }
-                        criterion1 = transmittance;
+                        else if (hitArray.intersectsCount > 0)
+                        {
+                            RayMarchingInterval intervals[MAX_RAYMARCHING_INTERVALS];
+                            int intervalCount = 0;
+                            GetIntervals(ray, hitArray, distToFrag, intervals, intervalCount);
 
-                        // 用最近交点估算 distHitToFrag（供 depthFactor 使用）
-                        if (intervalCount > 0)
-                            distHitToFrag = distance(intervals[0].start, fragWorldPos);
+                            float transmittance = 1.0;
+                            for (int ii = 0; ii < intervalCount; ii++)
+                            {
+                                MaterialData mat = _BVH_Material_Buffer[intervals[ii].matIdx];
+                                float segDist = length(intervals[ii].end - intervals[ii].start);
+                                transmittance *= exp(-segDist * mat.Density);
+                                if (transmittance < 0.001) { transmittance = 0.0; break; }
+                            }
+                            criterion1 = transmittance;
+
+                            if (intervalCount > 0)
+                                distHitToFrag = distance(intervals[0].start, fragWorldPos);
+                        }
                     }
+
+                    // 判据2：视野角（扇形），带空间羽化
+                    float forwardAngleRad = _Player_PosWS_Direction_Angle.z * (3.14159265 / 180.0);
+                    float2 forwardDir = float2(cos(forwardAngleRad), sin(forwardAngleRad));
+                    float halfAngleRad = _Player_PosWS_Direction_Angle.w * (3.14159265 / 180.0);
+
+                    float criterion2 = 0.0;
+                    if (distToFrag > 1e-4)
+                    {
+                        float cosHalf = cos(halfAngleRad);
+                        float cosAngle = dot(fragDir, forwardDir);
+
+                        if (cosAngle >= cosHalf)
+                        {
+                            criterion2 = 1.0 - smoothstep(nearRadius, outerRadius, distToFrag);
+                        }
+                        else
+                        {
+                            float2 rayL = float2(cos(forwardAngleRad + halfAngleRad), sin(forwardAngleRad + halfAngleRad));
+                            float2 rayR = float2(cos(forwardAngleRad - halfAngleRad), sin(forwardAngleRad - halfAngleRad));
+
+                            float projL = dot(toFrag, rayL);
+                            float distL = projL > 0.0
+                                ? length(toFrag - rayL * projL)
+                                : distToFrag;
+
+                            float projR = dot(toFrag, rayR);
+                            float distR = projR > 0.0
+                                ? length(toFrag - rayR * projR)
+                                : distToFrag;
+
+                            float distToSector = min(distL, distR);
+                            criterion2 = 1.0 - smoothstep(0.0, featherDist, distToSector);
+                            criterion2 *= 1.0 - smoothstep(nearRadius, outerRadius, distToFrag);
+                        }
+                    }
+
+                    // 判据3：近身距离
+                    float criterion3 = 1.0 - smoothstep(nearRadius, nearRadius + featherDist, distToFrag);
+
+                    inSight     = saturate(criterion2 + criterion3);
+                    notOccluded = criterion1;
+
+                    // S 曲线各自独立重映射
+                    inSight     = smoothstep(_PlayerVision_ShadowEdge_Sight,   _PlayerVision_LightEdge_Sight,   inSight);
+                    notOccluded = smoothstep(_PlayerVision_ShadowEdge_Occlude, _PlayerVision_LightEdge_Occlude, notOccluded);
                 }
 
-                // ── 判据2：视野角（扇形），带空间羽化 ──
-                float forwardAngleRad = _Player_PosWS_Direction_Angle.z * (3.14159265 / 180.0);
-                float2 forwardDir = float2(cos(forwardAngleRad), sin(forwardAngleRad));
-                float halfAngleRad = _Player_PosWS_Direction_Angle.w * (3.14159265 / 180.0);
-                
-                float nearRadius = _Player_Radius_Eye_Inner_Outter_Blank.x;
-                float outerRadius = _Player_Radius_Eye_Inner_Outter_Blank.z;
-
-                float criterion2 = 0.0;
-                if (distToFrag > 1e-4)
+                // ── 调色 ──
+                half3 afterSight;
+                if (_PlayerVision_Enable_ColorGrading > 0.5)
                 {
-                    float cosHalf = cos(halfAngleRad);
-                    float cosAngle = dot(fragDir, forwardDir);
-
-                    if (cosAngle >= cosHalf)
-                    {
-                        criterion2 = 1.0 - smoothstep(nearRadius, outerRadius, distToFrag);
-                    }
-                    else
-                    {
-                        // 扇形外：计算片元到最近扇形射线（半直线）的世界空间距离
-                        // 左右两条边射线
-                        float2 rayL = float2(cos(forwardAngleRad + halfAngleRad), sin(forwardAngleRad + halfAngleRad));
-                        float2 rayR = float2(cos(forwardAngleRad - halfAngleRad), sin(forwardAngleRad - halfAngleRad));
-
-                        // 点到半直线距离：投影若 < 0 则最近点是 playerPos
-                        float projL = dot(toFrag, rayL);
-                        float distL = projL > 0.0
-                            ? length(toFrag - rayL * projL)
-                            : distToFrag;
-
-                        float projR = dot(toFrag, rayR);
-                        float distR = projR > 0.0
-                            ? length(toFrag - rayR * projR)
-                            : distToFrag;
-
-                        float distToSector = min(distL, distR);
-                        criterion2 = 1.0 - smoothstep(0.0, featherDist, distToSector);
-                        criterion2 *= 1.0 - smoothstep(nearRadius, outerRadius, distToFrag);
-                    }
+                    float distFactor = 1.0 - smoothstep(_PlayerVision_DistFadeStart, _PlayerVision_DistFadeEnd, distToPlayer);
+                    float colorT = lerp(0.0, distFactor, notOccluded);
+                    float sat = lerp(_PlayerVision_Saturation_Far, _PlayerVision_Saturation_Near, colorT);
+                    float bri = lerp(_PlayerVision_Brightness_Far, _PlayerVision_Brightness_Near, colorT);
+                    float lum = dot(finalColorBlurred.rgb, half3(0.2126, 0.7152, 0.0722));
+                    half3 desaturated = lerp((half3)lum, finalColorBlurred.rgb, sat);
+                    half3 colorToned = desaturated * bri;
+                    afterSight = lerp(colorToned, finalColorBlurred.rgb, inSight * notOccluded);
+                }
+                else
+                {
+                    afterSight = finalColorBlurred;
                 }
 
-                // ── 判据3：近身距离，带空间羽化 ──
-                float criterion3 = 1.0 - smoothstep(nearRadius, nearRadius + featherDist, distToFrag);
+                // ── 迷雾 ──
+                half3 finalColor;
+                if (_PlayerVision_Enable_Fog > 0.5)
+                {
+                    float depthFactor = saturate(distHitToFrag / max(_PlayerVision_FogDepthRange, 0.001));
 
-                // ── 拆分两个独立通道 ──
-                float inSight     = saturate(criterion2 + criterion3); // 视野范围内
-                float notOccluded = criterion1;                         // 未被遮挡
+                    float2 rawWorldPos = UVToWorldPos(uv);
+                    float2 fogUV1 = rawWorldPos / _PlayerVision_FogNoiseScale.x + _Time.y * _PlayerVision_FogNoiseSpeed1;
+                    float2 fogUV2 = rawWorldPos / _PlayerVision_FogNoiseScale.y + _Time.y * _PlayerVision_FogNoiseSpeed2;
+                    float fogNoise = SAMPLE_TEXTURE2D(_PlayerVision_FogNoiseTex, sampler_PlayerVision_FogNoiseTex, fogUV1).r * 0.6
+                                   + SAMPLE_TEXTURE2D(_PlayerVision_FogNoiseTex, sampler_PlayerVision_FogNoiseTex, fogUV2).r * 0.4;
+                    half3 fogColorFinal = _PlayerVision_FogColor.rgb;
+                    float fogAlpha = saturate(fogNoise * _PlayerVision_FogIntensity * depthFactor);
 
-                // S 曲线各自独立重映射
-                inSight     = smoothstep(_PlayerVision_ShadowEdge_Sight,   _PlayerVision_LightEdge_Sight,   inSight);
-                notOccluded = smoothstep(_PlayerVision_ShadowEdge_Occlude, _PlayerVision_LightEdge_Occlude, notOccluded);
+                    half3 fogMultiply = afterSight * lerp((half3)1.0, fogColorFinal, fogAlpha);
+                    half3 fogScreen   = 1.0 - (1.0 - afterSight) * (1.0 - fogColorFinal * fogAlpha);
+                    half3 colorOccluded = lerp(fogMultiply, fogScreen, _PlayerVision_FogBlendMode);
+                    finalColor = lerp(colorOccluded, afterSight, notOccluded);
+                }
+                else
+                {
+                    finalColor = afterSight;
+                }
 
-                // ── 调色：distFactor 基于玩家距离，notOccluded 作为加速器将 t 压向 Far 端 ──
-                // notOccluded=1：t = distFactor（正常距离驱动）
-                // notOccluded=0：t = 0（直接取最暗/最灰的 Far 值）
-                float distFactor = 1.0 - smoothstep(_PlayerVision_DistFadeStart, _PlayerVision_DistFadeEnd, distToPlayer);
-                float colorT = lerp(0.0, distFactor, notOccluded); // notOccluded 加速 distFactor 向 0 压
-                float sat = lerp(_PlayerVision_Saturation_Far, _PlayerVision_Saturation_Near, colorT);
-                float bri = lerp(_PlayerVision_Brightness_Far, _PlayerVision_Brightness_Near, colorT);
-                float lum = dot(finalColorBlurred.rgb, half3(0.2126, 0.7152, 0.0722));
-                half3 desaturated = lerp((half3)lum, finalColorBlurred.rgb, sat);
-                half3 colorToned = desaturated * bri;
-                // inSight=1 且 notOccluded=1（完全可见）时还原原色；其余情况显示调色结果
-                half3 afterSight = lerp(colorToned, finalColorBlurred.rgb, inSight * notOccluded);
-
-                // ── 深度感：遮挡交点到片元的距离驱动迷雾（与调色距离独立） ──
-                float depthFactor = saturate(distHitToFrag / max(_PlayerVision_FogDepthRange, 0.001));
-
-                // ── 迷雾：双层噪声流动，浓度随遮挡深度增加 ──
-                float2 rawWorldPos = UVToWorldPos(uv);
-                float2 fogUV1 = rawWorldPos / _PlayerVision_FogNoiseScale.x + _Time.y * _PlayerVision_FogNoiseSpeed1;
-                float2 fogUV2 = rawWorldPos / _PlayerVision_FogNoiseScale.y + _Time.y * _PlayerVision_FogNoiseSpeed2;
-                float fogNoise = SAMPLE_TEXTURE2D(_PlayerVision_FogNoiseTex, sampler_PlayerVision_FogNoiseTex, fogUV1).r * 0.6
-                               + SAMPLE_TEXTURE2D(_PlayerVision_FogNoiseTex, sampler_PlayerVision_FogNoiseTex, fogUV2).r * 0.4;
-                half3 fogColorFinal = _PlayerVision_FogColor.rgb;
-                float fogAlpha = saturate(fogNoise * _PlayerVision_FogIntensity * depthFactor);
-
-                // 混合模式：乘法（保留结构）与屏幕（暗区透光）按权重混合
-                half3 fogMultiply = afterSight * lerp((half3)1.0, fogColorFinal, fogAlpha);
-                half3 fogScreen   = 1.0 - (1.0 - afterSight) * (1.0 - fogColorFinal * fogAlpha);
-                half3 colorOccluded = lerp(fogMultiply, fogScreen, _PlayerVision_FogBlendMode);
-                // notOccluded=1 时绕过迷雾直接用 afterSight，遮挡区才叠迷雾
-                half3 finalColor = lerp(colorOccluded, afterSight, notOccluded);
-
-                //return half4(noiseX, noiseY, 0, 1) * 5;
-                
                 return half4(lerp(sceneColor.rgb, finalColor.rgb, _PlayerVision_GlobalStrength), 1);
             }
             ENDHLSL

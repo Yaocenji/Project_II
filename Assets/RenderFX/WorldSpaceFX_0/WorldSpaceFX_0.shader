@@ -29,7 +29,8 @@ Shader "ProjectII/WorldSpaceFX_0"
                 float4 _Player_PosWS_Direction_Angle;
 
                 float _WSFX0_RainWaveScale;
-                float _WSFX0_PuddleScale;      // 水塘噪声世界空间缩放
+                float _WSFX0_PuddleScale;
+                float _WSFX0_PuddleThreshold;
                 float4 _WSFX0_FogColor;
                 float  _WSFX0_FogIntensity;
                 float2 _WSFX0_FogNoiseScale;   // x=层1缩放, y=层2缩放

@@ -16,6 +16,8 @@ namespace ProjectII.Render
         public Texture2DParameter puddleTex = new Texture2DParameter(null);
         [Tooltip("水塘噪声世界空间缩放")]
         public FloatParameter puddleScale = new FloatParameter(10f);
+        [Tooltip("水塘遮罩阈值（越高水塘越少）")]
+        public ClampedFloatParameter puddleThreshold = new ClampedFloatParameter(0.5f, 0f, 1f);
 
         [Header("雨雾")]
         [ColorUsage(false, true), Tooltip("雨雾颜色")]

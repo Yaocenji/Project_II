@@ -17,6 +17,8 @@ namespace ProjectII.Render
             public float rainWaveScale = 1.0f;
             public Texture2D puddleTex;
             public float puddleScale = 10f;
+            [Range(0f, 1f)]
+            public float puddleThreshold = 0.5f;
 
             [Header("雨雾默认值")]
             [ColorUsage(false, true)]
@@ -117,6 +119,7 @@ namespace ProjectII.Render
                 Texture puddleTex = (vol.puddleTex.overrideState && vol.puddleTex.value != null)
                                          ? vol.puddleTex.value : s.puddleTex;
                 float puddleScale = vol.puddleScale.overrideState ? vol.puddleScale.value : s.puddleScale;
+                float puddleThreshold = vol.puddleThreshold.overrideState ? vol.puddleThreshold.value : s.puddleThreshold;
 
                 Color   fogColor      = vol.fogColor.overrideState      ? vol.fogColor.value      : s.fogColor;
                 float   fogIntensity  = vol.fogIntensity.overrideState  ? vol.fogIntensity.value  : s.fogIntensity;
@@ -137,6 +140,7 @@ namespace ProjectII.Render
                 if (puddleTex != null)
                     cmd.SetGlobalTexture("_WSFX0_PuddleTex", puddleTex);
                 cmd.SetGlobalFloat("_WSFX0_PuddleScale", puddleScale);
+                cmd.SetGlobalFloat("_WSFX0_PuddleThreshold", puddleThreshold);
                 
 
                 cmd.SetGlobalColor("_WSFX0_FogColor", fogColor);

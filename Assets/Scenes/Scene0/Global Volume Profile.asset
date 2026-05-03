@@ -25,6 +25,9 @@ MonoBehaviour:
   puddleScale:
     m_OverrideState: 1
     m_Value: 50
+  puddleThreshold:
+    m_OverrideState: 1
+    m_Value: 0.5
   fogColor:
     m_OverrideState: 1
     m_Value: {r: 0.40382093, g: 0.4411217, b: 0.51572317, a: 1}
@@ -151,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c23e3b12dc18c42a140437e53d3951, type: 3}
   m_Name: Tonemapping
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   mode:
     m_OverrideState: 1
     m_Value: 0
@@ -221,7 +224,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.242
+    m_Value: 0.14
   smoothness:
     m_OverrideState: 1
     m_Value: 1
@@ -288,6 +291,18 @@ MonoBehaviour:
   m_Name: PlayerVisionVolume
   m_EditorClassIdentifier: 
   active: 1
+  enableBlur:
+    m_OverrideState: 0
+    m_Value: 1
+  enableColorGrading:
+    m_OverrideState: 0
+    m_Value: 1
+  enableFog:
+    m_OverrideState: 0
+    m_Value: 1
+  enableVisionShape:
+    m_OverrideState: 0
+    m_Value: 1
   globalStrength:
     m_OverrideState: 1
     m_Value: 1
@@ -350,7 +365,7 @@ MonoBehaviour:
     m_Value: {r: 0.39739323, g: 0.43169957, b: 0.44654083, a: 1}
   fogIntensity:
     m_OverrideState: 1
-    m_Value: 0.1
+    m_Value: 0
   fogDepthRange:
     m_OverrideState: 1
     m_Value: 8

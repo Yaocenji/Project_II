@@ -69,6 +69,7 @@ Shader "ProjectII/GroundRainFX"
             // ---------------------------------------------------------
             float  _WSFX0_RainWaveScale;
             float  _WSFX0_PuddleScale;
+            float  _WSFX0_PuddleThreshold;
             float2 _WSFX0_FogNoiseScale;
             float  _WSFX0_RainPhase;
             float  _WSFX0_RainPeriod;
@@ -192,8 +193,10 @@ Shader "ProjectII/GroundRainFX"
                     SAMPLE_TEXTURE2D(_WSFX0_PuddleTex, sampler_WSFX0_PuddleTex, worldPos / _WSFX0_PuddleScale * 8).r;
                 puddleRaw /= 4.0f;
 
-                float puddleMask = puddleRaw > 0.5f ? 1 : 0;
-                float puddleDepth = puddleMask > .5f ? (puddleRaw - .5f) * 2.0f : 0;
+                float puddleMask = puddleRaw > _WSFX0_PuddleThreshold ? 1 : 0;
+
+                float puddleDepthRange = 1.0 - _WSFX0_PuddleThreshold;
+                float puddleDepth = puddleMask > .5f ? saturate((puddleRaw - _WSFX0_PuddleThreshold) / puddleDepthRange) : 0;
                 float puddleEdge0 = (puddleMask == 1) && (puddleDepth <= .005f);
                 float puddleEdge1 = (puddleMask == 1) && (puddleDepth <= .02f) && (puddleDepth > .005f);
                 float puddleFBM = FBM(worldPos + _Time.y * .05, 4) > .51f;
