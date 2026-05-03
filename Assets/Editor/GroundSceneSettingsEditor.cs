@@ -72,6 +72,12 @@ namespace ProjectII.Render
                 var spritesProp = layerProp.FindPropertyRelative("tileSprites");
                 EditorGUILayout.PropertyField(spritesProp, new GUIContent("地砖 Sprite 列表"), true);
 
+                // Hex-Tile 开关
+                EditorGUILayout.PropertyField(layerProp.FindPropertyRelative("useHexTile"));
+
+                // 整体旋转
+                EditorGUILayout.PropertyField(layerProp.FindPropertyRelative("tileRotation"));
+
                 // 地砖世界尺寸
                 EditorGUILayout.PropertyField(layerProp.FindPropertyRelative("tileWorldSize"));
 
@@ -288,13 +294,15 @@ namespace ProjectII.Render
                 return;
             }
 
+            Texture2D bumpTex;
             Texture2D tex = GroundBuilder.Build(
                 aabb,
                 m_Target.splatLayers,
                 m_Target.splatmap,
                 regions,
                 m_Target.pixelsPerUnit,
-                m_Target.randomSeed);
+                m_Target.randomSeed,
+                out bumpTex);
 
             if (tex == null)
             {
@@ -306,6 +314,31 @@ namespace ProjectII.Render
                 m_Target.gameObject.name + "_GroundTex.png");
             File.WriteAllBytes(pngPath, tex.EncodeToPNG());
             Object.DestroyImmediate(tex);
+
+            // 保存法线纹理
+            string bumpPath = null;
+            if (bumpTex != null)
+            {
+                bumpPath = GetAssetSavePath(m_Target.gameObject.scene.path,
+                    m_Target.gameObject.name + "_GroundBumpTex.png");
+                File.WriteAllBytes(bumpPath, bumpTex.EncodeToPNG());
+                Object.DestroyImmediate(bumpTex);
+                AssetDatabase.ImportAsset(bumpPath, ImportAssetOptions.ForceUpdate);
+
+                var bumpImporter = AssetImporter.GetAtPath(bumpPath) as TextureImporter;
+                if (bumpImporter != null)
+                {
+                    bumpImporter.textureType = TextureImporterType.Default;
+                    bumpImporter.sRGBTexture = false;
+                    bumpImporter.textureCompression = TextureImporterCompression.Uncompressed;
+                    bumpImporter.isReadable = true;
+                    bumpImporter.filterMode = FilterMode.Point;
+                    bumpImporter.wrapMode = TextureWrapMode.Clamp;
+                    bumpImporter.alphaSource = TextureImporterAlphaSource.FromInput;
+                    bumpImporter.SaveAndReimport();
+                }
+            }
+
             AssetDatabase.ImportAsset(pngPath, ImportAssetOptions.ForceUpdate);
 
             var importer = AssetImporter.GetAtPath(pngPath) as TextureImporter;
@@ -329,8 +362,38 @@ namespace ProjectII.Render
                 settings.spriteAlignment = (int)SpriteAlignment.Custom;
                 settings.spritePivot = new Vector2(0f, 0f);
                 importer.SetTextureSettings(settings);
-                EditorUtility.SetDirty(importer);
-                importer.SaveAndReimport();
+
+                // 附加 _BumpMap secondary texture
+                if (bumpPath != null)
+                {
+                    EditorUtility.SetDirty(importer);
+                    importer.SaveAndReimport();
+
+                    // 通过 SerializedObject 设置 secondaryTextures（兼容旧版 Unity）
+                    var importer2 = AssetImporter.GetAtPath(pngPath) as TextureImporter;
+                    if (importer2 != null)
+                    {
+                        var so = new SerializedObject(importer2);
+                        var secTexProp = so.FindProperty("m_SpriteSheet.secondaryTextures");
+                        if (secTexProp != null)
+                        {
+                            secTexProp.ClearArray();
+                            secTexProp.InsertArrayElementAtIndex(0);
+                            var elem = secTexProp.GetArrayElementAtIndex(0);
+                            elem.FindPropertyRelative("name").stringValue = "_BumpMap";
+                            elem.FindPropertyRelative("texture").objectReferenceValue =
+                                AssetDatabase.LoadAssetAtPath<Texture2D>(bumpPath);
+                            so.ApplyModifiedProperties();
+                        }
+                        EditorUtility.SetDirty(importer2);
+                        importer2.SaveAndReimport();
+                    }
+                }
+                else
+                {
+                    EditorUtility.SetDirty(importer);
+                    importer.SaveAndReimport();
+                }
             }
 
             var assets = AssetDatabase.LoadAllAssetsAtPath(pngPath);

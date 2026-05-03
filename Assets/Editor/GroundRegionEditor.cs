@@ -33,6 +33,8 @@ namespace ProjectII.Render
             serializedObject.Update();
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("tileSprites"), true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("useHexTile"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("tileRotation"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("tileWorldSize"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("featherWidth"));
 

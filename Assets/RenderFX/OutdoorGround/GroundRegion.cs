@@ -14,6 +14,13 @@ namespace ProjectII.Render
         [Tooltip("该区域的地砖 Sprite 列表（必须共享同一 Texture，且 PPU 一致）")]
         public List<Sprite> tileSprites = new List<Sprite>();
 
+        [Tooltip("使用 Hex-Tile 采样（六边形网格 + 三邻域混合 + 随机旋转），消除平铺重复感")]
+        public bool useHexTile = false;
+
+        [Tooltip("整体旋转角度（度），旋转该区域的地砖排列方向")]
+        [Range(0f, 360f)]
+        public float tileRotation = 0f;
+
         [Tooltip("单块地砖的世界尺寸（米）")]
         public Vector2 tileWorldSize = new Vector2(1f, 1f);
 

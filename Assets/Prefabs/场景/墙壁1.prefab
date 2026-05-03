@@ -104,7 +104,7 @@ MonoBehaviour:
   ifCloseTransparent: 0
   pseudoPerspectiveStrength: 1
   blurStrength: 0.3
-  offsetStrength: 0.75
+  offsetStrength: 0.2
   scaleStrength: 1
 --- !u!1 &5605936402902164043
 GameObject:

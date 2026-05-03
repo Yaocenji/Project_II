@@ -13,6 +13,8 @@ Shader "RadianceCascadesWB/Foreground_Object"
         [Header(Radiance Cascades Data)]
         _IsWall ("Is Wall (1=Block Light)", Float) = 1.0
         _Occlusion ("Occlusion (0=Transparent, 1=Opaque)", Range(0.0, 1.0)) = 1.0
+
+        _MaxAlpha ("Max Alpha", Float) = 0.5
         
     }
 
@@ -63,6 +65,8 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 float4 _MainTex_ST;
                 float4 _BumpMap_ST;
                 half4 _Emission;
+
+                float _MaxAlpha;
 
                 // 全局变量：玩家属性
                 float4 _Player_PosWS_Direction_Angle;
@@ -224,10 +228,10 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // 特效
                 // 1 离人物越近越透明
                 float distancePlayer = length(posWS - _Player_PosWS_Direction_Angle.xy);
-                alpha *= _CloseTransparent == 1 ? smoothstep(.3, 1, distancePlayer) : 1;
+                alpha *= lerp(_MaxAlpha, 1, _CloseTransparent == 1 ? smoothstep(.3, 1, distancePlayer) : 1);
                 // 2 离鼠标越近越透明
                 float distanceMouse = length(posWS - _FG_MousePosition.xy);
-                alpha *= _CloseTransparent == 1 ? smoothstep(.3, 1, distanceMouse) : 1;
+                alpha *= lerp(_MaxAlpha, 1, _CloseTransparent == 1 ? smoothstep(.3, 1, distanceMouse) : 1);
 
                 //return lumParam;
                 //return half4(skyLightParam, skyLightParam, skyLightParam, 1);

@@ -19,6 +19,7 @@ Shader "ProjectII/WorldSpaceFX_0"
             #pragma fragment Frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/RCW_BVH_Inc.hlsl"
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
             #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/IOField.hlsl"
 
@@ -113,6 +114,12 @@ Shader "ProjectII/WorldSpaceFX_0"
 
                 // 雾气本身的颜色
                 half3 fogColor = fogAlpha * _WSFX0_FogColor.rgb;
+
+                // 获取全局光亮度
+                RcwbLightData lightData = GetBlurRcwbLightData(uv, _ScreenParams.xy, MatrixInvVP);
+
+                fogColor *= lightData.color;
+                
                 // 原本的颜色经过雾气的指数衰减
                 float attenParam = exp(-fogAlphaNormalized * 5);
                 half3 attenedSceneColor = sceneColor * attenParam;
