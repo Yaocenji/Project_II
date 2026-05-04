@@ -16,6 +16,13 @@ namespace ProjectII.Render
         [Tooltip("单块地砖的世界尺寸（米）")]
         public Vector2 tileWorldSize = new Vector2(1f, 1f);
 
+        [Tooltip("使用 Hex-Tile 采样（六边形网格 + 三邻域混合 + 随机旋转），消除平铺重复感")]
+        public bool useHexTile = false;
+
+        [Tooltip("整体旋转角度（度），旋转该区域的地砖排列方向")]
+        [Range(0f, 360f)]
+        public float tileRotation = 0f;
+
         [Tooltip("随机种子（同种子+同顶点 → 同一套地砖分布）")]
         public int randomSeed = 0;
 
@@ -25,10 +32,33 @@ namespace ProjectII.Render
         [Tooltip("烘焙后的 SpriteRenderer 使用此材质（RCWB 材质）")]
         public Material rcwbMaterial;
 
+        [Header("Color Grading")]
+        [Tooltip("HSL 色相偏移（度）[0,360]")]
+        [Range(0f, 360f)]
+        public float hueShift = 0f;
+
+        [Tooltip("HSL 饱和度缩放 [0,2]，0=灰度，1=原始，2=过饱和")]
+        [Range(0f, 2f)]
+        public float saturation = 1f;
+
+        [Tooltip("HSL 亮度缩放 [0,2]，0=全黑，1=原始，2=过曝")]
+        [Range(0f, 2f)]
+        public float brightness = 1f;
+
+        [Tooltip("RGB 着色叠加颜色")]
+        public Color tintColor = Color.white;
+
+        [Tooltip("着色混合权重 [0,1]，0=无着色，1=完全着色")]
+        [Range(0f, 1f)]
+        public float tintBlend = 0f;
+
         private void OnValidate()
         {
             if (tileWorldSize.x < 0.01f) tileWorldSize.x = 0.01f;
             if (tileWorldSize.y < 0.01f) tileWorldSize.y = 0.01f;
+            saturation = Mathf.Clamp(saturation, 0f, 2f);
+            brightness = Mathf.Clamp(brightness, 0f, 2f);
+            tintBlend  = Mathf.Clamp(tintBlend, 0f, 1f);
         }
 
         public Vector2[] GetWorldVertices()

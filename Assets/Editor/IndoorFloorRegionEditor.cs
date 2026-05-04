@@ -39,8 +39,43 @@ namespace ProjectII.Render
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("tileSprites"), true);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("tileWorldSize"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("useHexTile"));
+            if (m_Target.useHexTile)
+                EditorGUILayout.Slider(serializedObject.FindProperty("tileRotation"), 0f, 360f, new GUIContent("Tile Rotation"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("randomSeed"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("rcwbMaterial"));
+
+            // Color Grading
+            EditorGUILayout.Space(4);
+            EditorGUILayout.LabelField("Color Grading", EditorStyles.boldLabel);
+
+            var hueShiftProp  = serializedObject.FindProperty("hueShift");
+            var satProp       = serializedObject.FindProperty("saturation");
+            var brightProp    = serializedObject.FindProperty("brightness");
+            var tintColProp   = serializedObject.FindProperty("tintColor");
+            var tintBlendProp = serializedObject.FindProperty("tintBlend");
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.Slider(hueShiftProp, 0f, 360f, new GUIContent("Hue Shift"));
+            EditorGUILayout.LabelField($"{hueShiftProp.floatValue:F0}°", GUILayout.Width(40));
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.Slider(satProp, 0f, 2f, new GUIContent("Saturation"));
+            EditorGUILayout.Slider(brightProp, 0f, 2f, new GUIContent("Brightness"));
+
+            EditorGUILayout.PropertyField(tintColProp, new GUIContent("Tint Color"));
+            EditorGUILayout.Slider(tintBlendProp, 0f, 1f, new GUIContent("Tint Blend"));
+
+            if (GUILayout.Button("Reset Color Grading"))
+            {
+                Undo.RecordObject(m_Target, "Reset Color Grading");
+                hueShiftProp.floatValue  = 0f;
+                satProp.floatValue       = 1f;
+                brightProp.floatValue    = 1f;
+                tintColProp.colorValue   = Color.white;
+                tintBlendProp.floatValue = 0f;
+                EditorUtility.SetDirty(m_Target);
+            }
 
             // 校验
             if (m_Target.tileSprites != null && m_Target.tileSprites.Count > 0)
@@ -140,7 +175,10 @@ namespace ProjectII.Render
                 m_Target.tileSprites,
                 m_Target.tileWorldSize,
                 m_Target.randomSeed,
-                out Vector2 originLocal);
+                m_Target.useHexTile,
+                m_Target.tileRotation,
+                out Vector2 originLocal,
+                out Texture2D bumpTex);
 
             if (tex == null)
             {
@@ -148,13 +186,48 @@ namespace ProjectII.Render
                 return;
             }
 
-            // 写 PNG 文件（放在场景文件旁边），让 Unity 重新导入生成带 Importer 的 Texture2D
+            // 调色后处理
+            FloorTextureBuilder.ApplyColorGrading(tex,
+                m_Target.hueShift, m_Target.saturation, m_Target.brightness,
+                m_Target.tintColor, m_Target.tintBlend);
+
+            // 写 PNG 文件（放在场景专属子文件夹），让 Unity 重新导入生成带 Importer 的 Texture2D
             string pngPath = GetAssetSavePath(m_Target.gameObject.scene.path, m_Target.gameObject.name + "_FloorTex.png");
+            string bumpPath = bumpTex != null
+                ? GetAssetSavePath(m_Target.gameObject.scene.path, m_Target.gameObject.name + "_FloorBump.png")
+                : null;
+
+            // 删除旧的 PNG（重新烘焙时避免残留 meta 文件）
+            if (System.IO.File.Exists(pngPath))
+                AssetDatabase.DeleteAsset(pngPath);
+            if (bumpPath != null && System.IO.File.Exists(bumpPath))
+                AssetDatabase.DeleteAsset(bumpPath);
+
             File.WriteAllBytes(pngPath, tex.EncodeToPNG());
             Object.DestroyImmediate(tex);
             AssetDatabase.ImportAsset(pngPath, ImportAssetOptions.ForceUpdate);
 
-            // 配置导入参数（Sprite 模式、PPU、读/写、纹理类型等）
+            // 保存法线贴图 PNG
+            if (bumpTex != null)
+            {
+                File.WriteAllBytes(bumpPath, bumpTex.EncodeToPNG());
+                Object.DestroyImmediate(bumpTex);
+                AssetDatabase.ImportAsset(bumpPath, ImportAssetOptions.ForceUpdate);
+
+                // 配置法线贴图导入参数
+                var bumpImporter = AssetImporter.GetAtPath(bumpPath) as TextureImporter;
+                if (bumpImporter != null)
+                {
+                    bumpImporter.textureType  = TextureImporterType.NormalMap;
+                    bumpImporter.filterMode   = FilterMode.Point;
+                    bumpImporter.textureCompression = TextureImporterCompression.Uncompressed;
+                    bumpImporter.isReadable   = true;
+                    bumpImporter.alphaSource  = TextureImporterAlphaSource.FromInput;
+                    bumpImporter.SaveAndReimport();
+                }
+            }
+
+            // 配置 Albedo 导入参数（Sprite 模式、PPU、读/写、纹理类型等）
             var importer = AssetImporter.GetAtPath(pngPath) as TextureImporter;
             if (importer != null)
             {
@@ -173,8 +246,37 @@ namespace ProjectII.Render
                 settings.spriteAlignment = (int)SpriteAlignment.Custom;
                 settings.spritePivot = new Vector2(0f, 0f);
                 importer.SetTextureSettings(settings);
-                EditorUtility.SetDirty(importer);
-                importer.SaveAndReimport();
+
+                // 附加 _BumpMap secondary texture
+                if (bumpPath != null)
+                {
+                    EditorUtility.SetDirty(importer);
+                    importer.SaveAndReimport();
+
+                    var importer2 = AssetImporter.GetAtPath(pngPath) as TextureImporter;
+                    if (importer2 != null)
+                    {
+                        var so = new SerializedObject(importer2);
+                        var secTexProp = so.FindProperty("m_SpriteSheet.secondaryTextures");
+                        if (secTexProp != null)
+                        {
+                            secTexProp.ClearArray();
+                            secTexProp.InsertArrayElementAtIndex(0);
+                            var elem = secTexProp.GetArrayElementAtIndex(0);
+                            elem.FindPropertyRelative("name").stringValue = "_BumpMap";
+                            elem.FindPropertyRelative("texture").objectReferenceValue =
+                                AssetDatabase.LoadAssetAtPath<Texture2D>(bumpPath);
+                            so.ApplyModifiedProperties();
+                        }
+                        EditorUtility.SetDirty(importer2);
+                        importer2.SaveAndReimport();
+                    }
+                }
+                else
+                {
+                    EditorUtility.SetDirty(importer);
+                    importer.SaveAndReimport();
+                }
             }
 
             // 加载导入后的 Texture2D / Sprite
@@ -250,6 +352,17 @@ namespace ProjectII.Render
 
         private void DeleteBaked()
         {
+            // 删除对应的 PNG 资源文件
+            string pngPath = GetAssetSavePath(m_Target.gameObject.scene.path,
+                m_Target.gameObject.name + "_FloorTex.png");
+            string bumpPath = GetAssetSavePath(m_Target.gameObject.scene.path,
+                m_Target.gameObject.name + "_FloorBump.png");
+
+            if (System.IO.File.Exists(pngPath))
+                AssetDatabase.DeleteAsset(pngPath);
+            if (System.IO.File.Exists(bumpPath))
+                AssetDatabase.DeleteAsset(bumpPath);
+
             var child = m_Target.transform.Find(k_BakedChildName);
             if (child != null)
                 Undo.DestroyObjectImmediate(child.gameObject);
@@ -260,9 +373,21 @@ namespace ProjectII.Render
 
         private static string GetAssetSavePath(string scenePath, string fileName)
         {
+            string dir;
             if (string.IsNullOrEmpty(scenePath))
-                return "Assets/" + fileName;
-            string dir = Path.GetDirectoryName(scenePath).Replace('\\', '/');
+            {
+                dir = "Assets";
+            }
+            else
+            {
+                string sceneDir = Path.GetDirectoryName(scenePath).Replace('\\', '/');
+                string sceneName = Path.GetFileNameWithoutExtension(scenePath);
+                dir = sceneDir + "/" + sceneName + "_IndoorRegionSprites";
+            }
+
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             return dir + "/" + fileName;
         }
 
