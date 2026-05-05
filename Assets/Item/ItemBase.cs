@@ -43,6 +43,13 @@ namespace ProjectII.Item
         public GameObject worldItemPrefab;
 
         /// <summary>
+        /// 锚点名称，用于匹配玩家身上的 ItemAnchor。
+        /// 为空则不挂接锚点。
+        /// </summary>
+        [Header("锚点")]
+        public string anchorName;
+
+        /// <summary>
         /// 附加槽列表，在 Inspector 里配置槽名和初始物品
         /// </summary>
         [Header("附加槽")]
@@ -146,6 +153,36 @@ namespace ProjectII.Item
         public virtual void ReloadPress() { }
 
         #endregion
+
+        /// <summary>
+        /// 查找玩家身上匹配的 ItemAnchor 并将自身挂接上去，Transform 归零。
+        /// anchorName 为空时不做任何操作。
+        /// </summary>
+        public void BindToAnchor()
+        {
+            if (string.IsNullOrEmpty(anchorName)) return;
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null)
+            {
+                Debug.LogWarning($"Item.Base: 找不到 Player，无法绑定锚点。", this);
+                return;
+            }
+
+            ItemAnchor[] anchors = player.GetComponentsInChildren<ItemAnchor>();
+            foreach (ItemAnchor anchor in anchors)
+            {
+                if (anchor.anchorName == anchorName)
+                {
+                    transform.SetParent(anchor.transform, false);
+                    transform.localPosition = Vector3.zero;
+                    transform.localRotation = Quaternion.identity;
+                    return;
+                }
+            }
+
+            Debug.LogWarning($"Item.Base: 在玩家身上找不到 anchorName 为 '{anchorName}' 的 ItemAnchor。", this);
+        }
 
         #region 装备回调 - 由快捷栏在切换格子时调用
 

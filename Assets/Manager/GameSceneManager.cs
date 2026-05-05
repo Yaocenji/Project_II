@@ -35,13 +35,6 @@ namespace ProjectII.Manager
             private set => currentMouse = value; 
         }
 
-        private List<SceneItems.InteractableBase> nearbyInteractables = new List<SceneItems.InteractableBase>();
-
-        /// <summary>
-        /// 当前玩家附近的可交互物品列表（只读）
-        /// </summary>
-        public IReadOnlyList<SceneItems.InteractableBase> NearbyInteractables => nearbyInteractables;
-
         private static GameSceneManager instance;
 
         /// <summary>
@@ -140,31 +133,6 @@ namespace ProjectII.Manager
             {
                 currentMouse = null;
                 Debug.Log($"鼠标对象已注销: {mouse.name}");
-            }
-        }
-
-        /// <summary>
-        /// 注册附近可交互物品
-        /// 当可交互物品进入玩家交互范围时调用
-        /// </summary>
-        public void RegisterNearbyInteractable(SceneItems.InteractableBase item)
-        {
-            if (item != null && !nearbyInteractables.Contains(item))
-            {
-                nearbyInteractables.Add(item);
-                Debug.Log($"可交互物品已加入附近列表: {item.name}，当前数量: {nearbyInteractables.Count}");
-            }
-        }
-
-        /// <summary>
-        /// 注销附近可交互物品
-        /// 当可交互物品离开玩家交互范围或被销毁时调用
-        /// </summary>
-        public void UnregisterNearbyInteractable(SceneItems.InteractableBase item)
-        {
-            if (nearbyInteractables.Remove(item))
-            {
-                Debug.Log($"可交互物品已从附近列表移除: {item.name}，当前数量: {nearbyInteractables.Count}");
             }
         }
 

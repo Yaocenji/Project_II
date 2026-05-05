@@ -7,7 +7,7 @@ namespace ProjectII.Item
     /// 持有对应手持物的 Prefab 引用，被拾取时实例化手持物并交给背包。
     /// 继承 InteractableBase，玩家进入范围后可按交互键拾取。
     /// </summary>
-    public class WorldItem : ProjectII.SceneItems.InteractableBase
+    public class WorldItem : ProjectII.Interact.InteractableBase
     {
         /// <summary>
         /// 对应的手持物 Prefab（挂有 Item.Base 派生类的预制体）
@@ -15,6 +15,9 @@ namespace ProjectII.Item
         /// </summary>
         [Header("物品设置")]
         public GameObject heldItemPrefab;
+        
+        [Header("地面物品")]
+        public GameObject itemGameObject;
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -30,6 +33,8 @@ namespace ProjectII.Item
 
         protected override void OnInteract()
         {
+            Debug.Log("触发捡拾函数。");
+            
             if (heldItemPrefab == null)
             {
                 Debug.LogWarning($"WorldItem: heldItemPrefab 未指定，无法拾取。", this);
@@ -46,11 +51,15 @@ namespace ProjectII.Item
                 return;
             }
 
+            // 绑定到玩家锚点
+            item.BindToAnchor();
+
             // 尝试放入背包
             Backpack backpack = FindBackpack();
             if (backpack != null && backpack.PutItemAuto(item))
             {
-                Destroy(gameObject);
+                if (itemGameObject != null)
+                    Destroy(itemGameObject);
                 return;
             }
 

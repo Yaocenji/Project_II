@@ -84,6 +84,7 @@ namespace ProjectII.Item
             {
                 if (items[i] != null)
                 {
+                    items[i].BindToAnchor();
                     items[i].gameObject.SetActive(i == currentSlotIndex);
                     if (i == currentSlotIndex)
                         items[i].OnEquip();
@@ -235,6 +236,7 @@ namespace ProjectII.Item
             if (items[slotIndex] != null) return false;
 
             items[slotIndex] = item;
+            item.BindToAnchor();
             // 当前装备格显示，其余隐藏
             item.gameObject.SetActive(slotIndex == currentSlotIndex);
             OnSlotChanged?.Invoke(slotIndex, item);

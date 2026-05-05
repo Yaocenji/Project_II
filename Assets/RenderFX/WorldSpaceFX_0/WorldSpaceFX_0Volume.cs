@@ -18,6 +18,8 @@ namespace ProjectII.Render
         public FloatParameter puddleScale = new FloatParameter(10f);
         [Tooltip("水塘遮罩阈值（越高水塘越少）")]
         public ClampedFloatParameter puddleThreshold = new ClampedFloatParameter(0.5f, 0f, 1f);
+        [Range(0f, 2f), Tooltip("白水强度")]
+        public ClampedFloatParameter whiteWaterIntensity = new ClampedFloatParameter(1f, 0f, 2f);
 
         [Header("雨雾")]
         [ColorUsage(false, true), Tooltip("雨雾颜色")]

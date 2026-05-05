@@ -19,6 +19,10 @@ namespace ProjectII.Item
 
         [Tooltip("每秒消耗的电量")]
         public float drainRate = 5f;
+        
+        [Header("FMOD")]
+        [Tooltip("开关音效")]
+        public FMODUnity.StudioEventEmitter switchEmiter;
 
         private bool isOn = false;
 
@@ -39,7 +43,10 @@ namespace ProjectII.Item
         public override void MainInteractPress()
         {
             if (CurrentBattery != null)
+            {
                 SetLight(!isOn);
+                switchEmiter.Play();
+            }
         }
 
         private void Update()

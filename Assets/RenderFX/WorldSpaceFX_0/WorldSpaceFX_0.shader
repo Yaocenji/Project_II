@@ -46,6 +46,7 @@ Shader "ProjectII/WorldSpaceFX_0"
                 // 时间系数
                 float  _WSFX0_RainPhase;       // 周期性时间 [0, _WSFX0_RainPeriod)
                 float  _WSFX0_RainPeriod;      // 周期长度
+                float  _WSFX0_WhiteWaterIntensity;
             CBUFFER_END
 
             TEXTURE2D(_WSFX0_RainWaveTex);

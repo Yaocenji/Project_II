@@ -106,21 +106,26 @@ namespace ProjectII.Render
             Vector2[] vertexNormals = ComputeVertexNormals(polyline, m_Spline.Closed);
 
             int N = polyline.Length;
+
+            // 生成偏移折线
+            var offsetPts = new List<Vector2>(N);
+            for (int i = 0; i < N; i++)
+                offsetPts.Add(polyline[i] + vertexNormals[i] * m_Offset);
+
+            // Miter 限幅：消除凹角处的自交
+            ApplyMiterClamp(offsetPts, m_Spline.Closed);
+
             List<Vector2> polygon;
 
             if (m_Spline.Closed)
             {
-                // 闭合曲线：Polygon = 偏移折线闭合环（逆时针）
-                polygon = new List<Vector2>(N);
-                for (int i = 0; i < N; i++)
-                    polygon.Add(polyline[i] + vertexNormals[i] * m_Offset);
+                polygon = offsetPts;
             }
             else
             {
                 // 开放曲线：Polygon = 偏移折线正向 + 原折线反向（逆时针条带）
-                polygon = new List<Vector2>(N * 2);
-                for (int i = 0; i < N; i++)
-                    polygon.Add(polyline[i] + vertexNormals[i] * m_Offset);
+                polygon = new List<Vector2>(offsetPts.Count + N);
+                polygon.AddRange(offsetPts);
                 for (int i = N - 1; i >= 0; i--)
                     polygon.Add(polyline[i]);
             }
@@ -328,6 +333,104 @@ namespace ProjectII.Render
             }
 
             return normals;
+        }
+
+        private static void ApplyMiterClamp(List<Vector2> pts, bool closed)
+        {
+            // 多轮迭代：每轮找到最内侧的自交对，用交点替换中间所有自交点
+            bool changed = true;
+            int guard = pts.Count;
+            while (changed && guard-- > 0)
+            {
+                changed = false;
+
+                // 找到第一个自交：段 i→i+1 与段 j→j+1 相交（j > i+1）
+                // 交点替换 pts[i+1..j]，即删除中间所有自交点
+                int bestI = -1, bestJ = -1;
+                Vector2 bestHit = default;
+                float bestDist = float.MaxValue;
+
+                int segCount = closed ? pts.Count : pts.Count - 1;
+
+                for (int i = 0; i < segCount && !changed; i++)
+                {
+                    int iNext = closed ? (i + 1) % pts.Count : i + 1;
+                    Vector2 a0 = pts[i], a1 = pts[iNext];
+
+                    for (int j = i + 2; j < segCount; j++)
+                    {
+                        // 跳过相邻段（共享端点不算自交）
+                        if (j == i + 1) continue;
+                        // 闭合曲线首尾相邻
+                        if (closed && i == 0 && j == segCount - 1) continue;
+
+                        int jNext = closed ? (j + 1) % pts.Count : j + 1;
+                        Vector2 b0 = pts[j], b1 = pts[jNext];
+
+                        if (SegmentSegmentIntersection(a0, a1, b0, b1, out Vector2 hit))
+                        {
+                            // 选择距离 a0 最近的交点（最内侧的自交）
+                            float dist = (hit - a0).sqrMagnitude;
+                            if (dist < bestDist)
+                            {
+                                bestDist = dist;
+                                bestI = i;
+                                bestJ = j;
+                                bestHit = hit;
+                            }
+                            // 找到一个就可以停止内层循环，优先处理最近的
+                            break;
+                        }
+                    }
+                }
+
+                if (bestI >= 0)
+                {
+                    // 删除 pts[bestI+1 .. bestJ]，用交点替代
+                    pts[bestI + 1] = bestHit;
+                    int removeCount = bestJ - bestI - 1;
+                    if (removeCount > 0)
+                        pts.RemoveRange(bestI + 2, removeCount);
+                    changed = true;
+                }
+            }
+        }
+
+        private static bool SegmentSegmentIntersection(Vector2 a0, Vector2 a1, Vector2 b0, Vector2 b1, out Vector2 result)
+        {
+            result = default;
+            Vector2 da = a1 - a0;
+            Vector2 db = b1 - b0;
+            float denom = da.x * db.y - da.y * db.x;
+            if (Mathf.Abs(denom) < 1e-10f)
+                return false;
+
+            Vector2 d = b0 - a0;
+            float t = (d.x * db.y - d.y * db.x) / denom;
+            float u = (d.x * da.y - d.y * da.x) / denom;
+
+            if (t > 1e-6f && t < 1f - 1e-6f && u > 1e-6f && u < 1f - 1e-6f)
+            {
+                result = a0 + da * t;
+                return true;
+            }
+            return false;
+        }
+
+        private static void MergeClosePoints(List<Vector2> pts, float threshold)
+        {
+            float sqThreshold = threshold * threshold;
+            int writeIdx = 1;
+            for (int i = 1; i < pts.Count; i++)
+            {
+                if ((pts[i] - pts[writeIdx - 1]).sqrMagnitude >= sqThreshold)
+                {
+                    pts[writeIdx] = pts[i];
+                    writeIdx++;
+                }
+            }
+            if (writeIdx < pts.Count)
+                pts.RemoveRange(writeIdx, pts.Count - writeIdx);
         }
     }
 }

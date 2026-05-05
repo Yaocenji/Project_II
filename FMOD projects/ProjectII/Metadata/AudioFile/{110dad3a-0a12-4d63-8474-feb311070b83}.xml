@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{110dad3a-0a12-4d63-8474-feb311070b83}">
+		<property name="assetPath">
+			<value>Xiaosenpin/room_door_O.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.1279999999999999</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{7778a130-3b56-46ce-b95b-ed241850be89}</destination>
+		</relationship>
+	</object>
+</objects>

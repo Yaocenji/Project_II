@@ -5,7 +5,7 @@
 			<value>-1</value>
 		</property>
 		<property name="name">
-			<value>SFX_FootStep_Reverb</value>
+			<value>SFX_Directional_Reverb</value>
 		</property>
 		<relationship name="effectChain">
 			<destination>{ad26f45e-b972-487d-a69c-dfa3f622eb1f}</destination>

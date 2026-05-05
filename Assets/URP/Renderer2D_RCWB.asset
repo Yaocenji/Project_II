@@ -19,6 +19,8 @@ MonoBehaviour:
     rainWaveScale: 1
     puddleTex: {fileID: 2800000, guid: 4fc39dca59224dd4fba99e3a39ccb374, type: 3}
     puddleScale: 50
+    puddleThreshold: 0.5
+    whiteWaterIntensity: 0.5
     fogColor: {r: 0.5, g: 0.55, b: 0.65, a: 1}
     fogIntensity: 0.25
     fogNoiseTex: {fileID: 2800000, guid: 4fc39dca59224dd4fba99e3a39ccb374, type: 3}
@@ -45,16 +47,16 @@ MonoBehaviour:
   m_Active: 1
   rcShader: {fileID: 7200000, guid: cdc61e057e943ef489e0982686b62e09, type: 3}
   settings:
-    renderScale: 0.125
+    renderScale: 0.25
     cascadeCount: 5
     rayRange: 20
     bounceIntensity: 1
     skyColor: {r: 0.95283014, g: 0.98070323, b: 1, a: 1}
-    skyIntensity: 3
+    skyIntensity: 1
     sunColor: {r: 1, g: 0.9064465, b: 0.7327044, a: 1}
-    sunAngle: 0
-    sunIntensity: 0
-    sunHardness: 1024
+    sunAngle: -0.1
+    sunIntensity: 20
+    sunHardness: 50
     blurIterations: 2
     blurRadius: 2
     giHeight: 1
