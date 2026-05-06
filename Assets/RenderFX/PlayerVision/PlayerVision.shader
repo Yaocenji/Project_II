@@ -160,6 +160,96 @@ Shader "ProjectII/PlayerVision"
 
             // ── BVH 多交点收集（带排除逻辑），最多收集 MAX_INTERSECTS 个 ──
             // 若收集满后仍有未排除的交点（即遮挡物超出容量），直接返回 false 表示完全遮挡
+            bool InsertVisionHit(inout IntersectsRaySegmentResultArray result, inout float hitDistances[MAX_INTERSECTS], IntersectsRaySegmentResult hit, int nodeIdx, float dist)
+            {
+                if (result.intersectsCount == MAX_INTERSECTS)
+                    return false;
+
+                int insertPos = result.intersectsCount;
+                [unroll]
+                for (int k = 0; k < MAX_INTERSECTS; k++)
+                {
+                    if (dist < hitDistances[k])
+                        insertPos = min(insertPos, k);
+                }
+
+                if (insertPos < MAX_INTERSECTS)
+                {
+                    [unroll]
+                    for (int m = MAX_INTERSECTS - 1; m > 0; m--)
+                    {
+                        if (m > insertPos)
+                        {
+                            result.results[m] = result.results[m - 1];
+                            hitDistances[m] = hitDistances[m - 1];
+                        }
+                    }
+                    [unroll]
+                    for (int n = 0; n < MAX_INTERSECTS; n++)
+                    {
+                        if (n == insertPos)
+                        {
+                            result.results[n] = hit;
+                            result.results[n].nodeIndex = nodeIdx;
+                            hitDistances[n] = dist;
+                        }
+                    }
+                    result.intersectsCount++;
+                }
+
+                return true;
+            }
+
+            bool CollectRayBVHArrayVisionTree(int treeId, RayWS ray, float maxDistance, inout IntersectsRaySegmentResultArray result, inout float hitDistances[MAX_INTERSECTS])
+            {
+                int rootIndex = GetBVHRootIndex(treeId);
+                if (rootIndex == -1) return true;
+
+                float2 dir = ray.Direction;
+                if (abs(dir.x) < 1e-9) dir.x = 1e-9 * (dir.x >= 0 ? 1.0 : -1.0);
+                if (abs(dir.y) < 1e-9) dir.y = 1e-9 * (dir.y >= 0 ? 1.0 : -1.0);
+                float2 invDir = 1.0 / dir;
+
+                int nodeStack[MAX_RECUR_DEEP];
+                int stackTop = 0;
+                nodeStack[0] = rootIndex;
+
+                [loop]
+                while (stackTop >= 0)
+                {
+                    int nodeIdx = nodeStack[stackTop--];
+                    if (nodeIdx == -1) continue;
+
+                    LBVHNodeGpu node = GetBVHNode(treeId, nodeIdx);
+                    bool isLeaf = (node.IndexData < 0);
+
+                    if (isLeaf)
+                    {
+                        int matIdx = ~node.IndexData;
+                        if (IsExcludedMatIdx(matIdx)) continue;
+
+                        IntersectsRaySegmentResult tempResult;
+                        if (!IntersectsRaySegment(ray, node, matIdx, tempResult)) continue;
+
+                        float dist = distance(ray.Origin, tempResult.hitPoint);
+                        if (dist <= 0.01 || dist > maxDistance) continue;
+
+                        if (!InsertVisionHit(result, hitDistances, tempResult, nodeIdx, dist))
+                            return false;
+                    }
+                    else
+                    {
+                        if (!IntersectsRayAABB(ray, invDir, node)) continue;
+                        if (stackTop < MAX_RECUR_DEEP - 2)
+                        {
+                            nodeStack[++stackTop] = node.RightChild;
+                            nodeStack[++stackTop] = node.IndexData;
+                        }
+                    }
+                }
+                return true;
+            }
+
             bool IntersectRayBVHArray_Vision(RayWS ray, float maxDistance, out IntersectsRaySegmentResultArray result)
             {
                 result.intersectsCount = 0;
@@ -176,87 +266,14 @@ Shader "ProjectII/PlayerVision"
                 [unroll]
                 for (int j = 0; j < MAX_INTERSECTS; j++) hitDistances[j] = 1e30;
 
-                if (_BVH_Root_Index == -1) return true; // 无 BVH，完全透明
+                if (!CollectRayBVHArrayVisionTree(0, ray, maxDistance, result, hitDistances))
+                    return false;
+                if (!CollectRayBVHArrayVisionTree(1, ray, maxDistance, result, hitDistances))
+                    return false;
 
-                float2 dir = ray.Direction;
-                if (abs(dir.x) < 1e-9) dir.x = 1e-9 * (dir.x >= 0 ? 1.0 : -1.0);
-                if (abs(dir.y) < 1e-9) dir.y = 1e-9 * (dir.y >= 0 ? 1.0 : -1.0);
-                float2 invDir = 1.0 / dir;
-
-                int nodeStack[MAX_RECUR_DEEP];
-                int stackTop = 0;
-                nodeStack[0] = _BVH_Root_Index;
-
-                [loop]
-                while (stackTop >= 0)
-                {
-                    int nodeIdx = nodeStack[stackTop--];
-                    if (nodeIdx == -1) continue;
-
-                    LBVHNodeGpu node = _BVH_NodeEdge_Buffer[nodeIdx];
-                    bool isLeaf = (node.IndexData < 0);
-
-                    if (isLeaf)
-                    {
-                        int matIdx = ~node.IndexData;
-                        if (IsExcludedMatIdx(matIdx)) continue;
-
-                        IntersectsRaySegmentResult tempResult;
-                        if (!IntersectsRaySegment(ray, node, matIdx, tempResult)) continue;
-
-                        float dist = distance(ray.Origin, tempResult.hitPoint);
-                        if (dist <= 0.01 || dist > maxDistance) continue;
-
-                        // 容量已满：存在更多有效遮挡，直接完全遮挡
-                        if (result.intersectsCount == MAX_INTERSECTS)
-                            return false;
-
-                        // 插入排序
-                        int insertPos = result.intersectsCount;
-                        [unroll]
-                        for (int k = 0; k < MAX_INTERSECTS; k++)
-                        {
-                            if (dist < hitDistances[k])
-                                insertPos = min(insertPos, k);
-                        }
-
-                        if (insertPos < MAX_INTERSECTS)
-                        {
-                            [unroll]
-                            for (int m = MAX_INTERSECTS - 1; m > 0; m--)
-                            {
-                                if (m > insertPos)
-                                {
-                                    result.results[m]  = result.results[m - 1];
-                                    hitDistances[m]    = hitDistances[m - 1];
-                                }
-                            }
-                            [unroll]
-                            for (int n = 0; n < MAX_INTERSECTS; n++)
-                            {
-                                if (n == insertPos)
-                                {
-                                    result.results[n]            = tempResult;
-                                    result.results[n].nodeIndex  = nodeIdx;
-                                    hitDistances[n]              = dist;
-                                }
-                            }
-                            if (result.intersectsCount < MAX_INTERSECTS)
-                                result.intersectsCount++;
-                        }
-                    }
-                    else
-                    {
-                        if (!IntersectsRayAABB(ray, invDir, node)) continue;
-                        if (stackTop < MAX_RECUR_DEEP - 2)
-                        {
-                            nodeStack[++stackTop] = node.RightChild;
-                            nodeStack[++stackTop] = node.IndexData; // LeftChild
-                        }
-                    }
-                }
                 return true;
             }
+
 
             // ── UV → 世界空间（与 RC Feature 中 posPixel2World 完全一致） ──
             float2 UVToWorldPos(float2 uv)
