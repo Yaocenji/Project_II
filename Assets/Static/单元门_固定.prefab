@@ -204,9 +204,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &3082150483476076951
@@ -307,9 +308,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &3229375806678381499
@@ -410,9 +412,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &3434251460664141650
@@ -513,6 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 0
+  GeometryMobility: 0
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Density: 50000
@@ -616,9 +620,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &3485864993937477540
@@ -719,9 +724,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &3486179870339422653
@@ -822,9 +828,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &4481365322376820487
@@ -925,9 +932,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &4788651634487242078
@@ -1152,9 +1160,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &6564324850884908662
@@ -1255,9 +1264,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &7492693540756293974
@@ -1358,9 +1368,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &7774748914997767433
@@ -1461,9 +1472,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &8879848862061316353
@@ -1564,9 +1576,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &9186359418851554876
@@ -1667,8 +1680,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1

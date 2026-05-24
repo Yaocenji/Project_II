@@ -98,9 +98,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &2292887652292077675
@@ -201,9 +202,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &2689309878692784770
@@ -304,9 +306,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &3049648368465700081
@@ -513,9 +516,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1
 --- !u!1 &5605936402902164043
@@ -699,8 +703,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0, g: 0, b: 0, a: 0}
-  Density: 5
+  Density: 12
   Emission: {r: 0, g: 0, b: 0, a: 0}
   giCoefficient: 1

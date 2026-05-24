@@ -212,7 +212,7 @@ MonoBehaviour:
     m_Value: {r: 0.54700005, g: 0.83390003, b: 1, a: 1}
   skyIntensity:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 1
   sunColor:
     m_OverrideState: 1
     m_Value: {r: 1, g: 0.3471426, b: 0, a: 1}
@@ -221,7 +221,7 @@ MonoBehaviour:
     m_Value: 0.3
   sunIntensity:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   sunHardness:
     m_OverrideState: 1
     m_Value: 1

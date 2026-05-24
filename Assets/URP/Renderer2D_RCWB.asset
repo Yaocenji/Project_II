@@ -57,7 +57,7 @@ MonoBehaviour:
     sunAngle: -0.1
     sunIntensity: 20
     sunHardness: 50
-    blurIterations: 2
+    blurIterations: 3
     blurRadius: 2
     giHeight: 1
     enableTranslucentObjects: 0
