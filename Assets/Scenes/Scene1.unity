@@ -937,7 +937,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2061284998}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.6398559
+  m_Size: 0.9999978
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10500,7 +10500,7 @@ MonoBehaviour:
   - {x: 0.69631225, y: 3.0923214}
   - {x: 0.028563112, y: 2.8679717}
   - {x: -0.33779204, y: 2.452562}
-  rcwbMaterial: {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
+  lv2dMaterial: {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   hueShift: 0
   saturation: 1
   brightness: 0.9
@@ -11237,7 +11237,7 @@ MonoBehaviour:
   - {x: 0.63171107, y: -0.3177171}
   - {x: 0.10284197, y: -0.538489}
   - {x: -0.67864966, y: -0.49598023}
-  rcwbMaterial: {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
+  lv2dMaterial: {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   hueShift: 0
   saturation: 1
   brightness: 0.9
@@ -16040,7 +16040,7 @@ MonoBehaviour:
   - {x: -5.3581486, y: -2.7426474}
   - {x: -5.4082174, y: -2.143254}
   - {x: -5.847361, y: -2.1394784}
-  rcwbMaterial: {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
+  lv2dMaterial: {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   hueShift: 0
   saturation: 1
   brightness: 1.7
@@ -18128,7 +18128,7 @@ MonoBehaviour:
   - {x: -3.1360054, y: -2.1188104}
   - {x: -0.48389912, y: -1.9372612}
   - {x: 2.1893795, y: -1.960928}
-  rcwbMaterial: {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
+  lv2dMaterial: {fileID: 2100000, guid: 52f69bdba5958bf4a9b45c169e87aaf7, type: 2}
   hueShift: 0
   saturation: 1
   brightness: 1.5
@@ -24137,7 +24137,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000000497441}
+  m_AnchoredPosition: {x: 0, y: 0.0000006639918}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1941769376
@@ -26478,7 +26478,7 @@ MonoBehaviour:
     tileWorldSize: {x: 1, y: 1}
   splatmap: {fileID: 2800000, guid: 549d54a3f41f17f4a98bf831a48ab7d2, type: 3}
   pixelsPerUnit: 32
-  rcwbMaterial: {fileID: 2100000, guid: da068b00cedf5414995d11a9600cc6ed, type: 2}
+  lv2dMaterial: {fileID: 2100000, guid: da068b00cedf5414995d11a9600cc6ed, type: 2}
   previewMaterial: {fileID: 2100000, guid: c2cfca42c4b40b046981a0df9204ce0b, type: 2}
   sortingOrder: -10
   randomSeed: 1

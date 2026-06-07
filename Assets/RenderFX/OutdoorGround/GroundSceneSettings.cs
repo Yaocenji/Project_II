@@ -58,7 +58,7 @@ namespace ProjectII.Render
         public float pixelsPerUnit = 32f;
 
         [Tooltip("烘焙后 SpriteRenderer 使用此材质（Lumivara 2D 材质）")]
-        public Material rcwbMaterial;
+        public Material lv2dMaterial;
 
         [Tooltip("Splatmap 预览使用的材质（为空则使用默认材质）")]
         public Material previewMaterial;

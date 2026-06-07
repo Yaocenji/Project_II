@@ -11,7 +11,7 @@ namespace ProjectII.Item
     {
         [Header("手电筒设置")]
         [Tooltip("挂接的 LV2DObject，控制其 Emission 实现发光")]
-        public LV2DObject rcwbObject;
+        public LV2DObject lv2dObject;
 
         [ColorUsage(false, true)]
         [Tooltip("开灯时的 HDR 发光颜色")]
@@ -71,8 +71,8 @@ namespace ProjectII.Item
         private void SetLight(bool on)
         {
             isOn = on;
-            if (rcwbObject != null)
-                rcwbObject.Emission = isOn ? onEmission : Color.black;
+            if (lv2dObject != null)
+                lv2dObject.Emission = isOn ? onEmission : Color.black;
         }
     }
 }

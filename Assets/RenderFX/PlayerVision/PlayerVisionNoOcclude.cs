@@ -10,21 +10,21 @@ namespace ProjectII.Render
     [RequireComponent(typeof(LV2DObject))]
     public class PlayerVisionNoOcclude : MonoBehaviour
     {
-        private LV2DObject m_RcwbObject;
+        private LV2DObject m_Lv2dObject;
 
         private void Awake()
         {
-            m_RcwbObject = GetComponent<LV2DObject>();
+            m_Lv2dObject = GetComponent<LV2DObject>();
         }
 
         private void OnEnable()
         {
-            PlayerVisionOccludeSystem.Instance?.RegisterStatic(m_RcwbObject);
+            PlayerVisionOccludeSystem.Instance?.RegisterStatic(m_Lv2dObject);
         }
 
         private void OnDisable()
         {
-            PlayerVisionOccludeSystem.Instance?.UnregisterStatic(m_RcwbObject);
+            PlayerVisionOccludeSystem.Instance?.UnregisterStatic(m_Lv2dObject);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ProjectII.Render
         public List<Vector2> localVertices = new List<Vector2>();
 
         [Tooltip("烘焙后的 SpriteRenderer 使用此材质（Lumivara 2D 材质）")]
-        public Material rcwbMaterial;
+        public Material lv2dMaterial;
 
         [Header("Color Grading")]
         [Tooltip("HSL 色相偏移（度）[0,360]")]

@@ -223,7 +223,7 @@ namespace ProjectII.Render
             // ── 烘焙设置 ──
             EditorGUILayout.LabelField("烘焙设置", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("pixelsPerUnit"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("rcwbMaterial"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("lv2dMaterial"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("sortingOrder"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("randomSeed"));
 
@@ -450,13 +450,13 @@ namespace ProjectII.Render
             var sr = childGO.GetComponent<SpriteRenderer>();
             if (sr == null) sr = childGO.AddComponent<SpriteRenderer>();
             sr.sprite = savedSprite;
-            sr.sharedMaterial = m_Target.rcwbMaterial;
+            sr.sharedMaterial = m_Target.lv2dMaterial;
             sr.sortingLayerID = SortingLayer.NameToID("Default");
             sr.sortingOrder   = m_Target.sortingOrder;
 
-            var rcwb = childGO.GetComponent<LV2DObject>();
-            if (rcwb == null) rcwb = childGO.AddComponent<LV2DObject>();
-            rcwb.IsWall = false;
+            var lv2dObject = childGO.GetComponent<LV2DObject>();
+            if (lv2dObject == null) lv2dObject = childGO.AddComponent<LV2DObject>();
+            lv2dObject.IsWall = false;
 
             EditorUtility.SetDirty(childGO);
             EditorUtility.SetDirty(m_Target);

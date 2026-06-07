@@ -56,7 +56,7 @@ MonoBehaviour:
   attachmentSlots:
   - slotName: "\u7535\u6C60"
     currentItem: {fileID: 0}
-  rcwbObject: {fileID: 6406641867487091934}
+  lv2dObject: {fileID: 6406641867487091934}
   onEmission: {r: 10.077566, g: 10.077566, b: 10.077566, a: 1}
   drainRate: 0.1
   switchEmiter: {fileID: 2368119432882003400}
@@ -341,6 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 0
   ContourProfile: {fileID: 0}
   BasicColor: {r: 1, g: 1, b: 1, a: 1}
   Density: 15
