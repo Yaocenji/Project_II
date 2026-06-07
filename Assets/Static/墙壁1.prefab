@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsWall: 1
+  GeometryMobility: 1
   ContourProfile: {fileID: 0}
   BasicColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Density: 50000

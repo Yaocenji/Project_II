@@ -31,8 +31,7 @@ namespace ProjectII.Interact
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            GameObject obj = other.gameObject;
-            if (GameSceneManager.Instance.CurrentPlayerCharacter.gameObject == obj)
+            if (other.CompareTag("Player"))
             {
                 EnterInteractableRange();
             }
@@ -40,8 +39,7 @@ namespace ProjectII.Interact
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            GameObject obj = other.gameObject;
-            if (GameSceneManager.Instance.CurrentPlayerCharacter.gameObject == obj)
+            if (other.CompareTag("Player"))
             {
                 ExitInteractableRange();
             }
