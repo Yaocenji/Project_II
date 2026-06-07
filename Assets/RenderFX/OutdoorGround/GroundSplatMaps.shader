@@ -1,4 +1,4 @@
-Shader "ProjectII/GroundSplatMaps"
+﻿Shader "ProjectII/GroundSplatMaps"
 {
     Properties
     {
@@ -37,7 +37,7 @@ Shader "ProjectII/GroundSplatMaps"
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
-            #pragma multi_compile_fragment _ RCWB_EDITOR_SCENE_PREVIEW
+            #pragma multi_compile_fragment _ LV2D_EDITOR_SCENE_PREVIEW
             #pragma multi_compile_fragment _ ENABLE_TRANSLUCENT_OBJECTS
             
             // 引入 URP 核心库
@@ -51,7 +51,7 @@ Shader "ProjectII/GroundSplatMaps"
                 float4 _BumpMap_ST;
             CBUFFER_END
 
-            float _RCWB_GI_Height;
+            float _LV2D_GI_Height;
 
             // ---------------------------------------------------------
             // 2. 纹理定义 (分离采样器以提高性能)

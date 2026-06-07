@@ -1,4 +1,4 @@
-Shader "Lumivara 2D/Foreground Object"
+﻿Shader "Lumivara 2D/Foreground Object"
 {
     Properties
     {
@@ -40,7 +40,7 @@ Shader "Lumivara 2D/Foreground Object"
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
-            #pragma multi_compile_fragment _ RCWB_EDITOR_SCENE_PREVIEW
+            #pragma multi_compile_fragment _ LV2D_EDITOR_SCENE_PREVIEW
             #pragma multi_compile_fragment _ ENABLE_TRANSLUCENT_OBJECTS
             
             // 引入 URP 核心库
@@ -55,12 +55,12 @@ Shader "Lumivara 2D/Foreground Object"
             // ---------------------------------------------------------
             CBUFFER_START(UnityPerMaterial)
                 // Lumivara 2D 天光信息
-                float3 _RCWB_SkyColor;
-                float _RCWB_SkyIntensity;
-                float3 _RCWB_SunColor;
-                float _RCWB_SunAngle;
-                float _RCWB_SunIntensity;
-                float _RCWB_SunHardness;
+                float3 _LV2D_SkyColor;
+                float _LV2D_SkyIntensity;
+                float3 _LV2D_SunColor;
+                float _LV2D_SunAngle;
+                float _LV2D_SunIntensity;
+                float _LV2D_SunHardness;
             
                 float4 _MainTex_ST;
                 float4 _BumpMap_ST;
@@ -99,7 +99,7 @@ Shader "Lumivara 2D/Foreground Object"
                 float _SDFWorldScale;
             CBUFFER_END
 
-            float _RCWB_GI_Height;
+            float _LV2D_GI_Height;
 
             // ---------------------------------------------------------
             // 2. 纹理定义 (分离采样器以提高性能)
@@ -107,7 +107,7 @@ Shader "Lumivara 2D/Foreground Object"
             TEXTURE2D(_MainTex);        SAMPLER(sampler_MainTex);
             TEXTURE2D(_BumpMap);        SAMPLER(sampler_BumpMap);
             TEXTURE2D(_SDFTex);         SAMPLER(sampler_SDFTex);
-            TEXTURE2D(_RCWB_HistoryColor);SAMPLER(sampler_RCWB_HistoryColor);
+            TEXTURE2D(_LV2D_HistoryColor);SAMPLER(sampler_LV2D_HistoryColor);
 
             // ---------------------------------------------------------
             // 3. 输入/输出 结构体
@@ -164,7 +164,7 @@ Shader "Lumivara 2D/Foreground Object"
             {
                 half4 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv);
 
-                #if defined(RCWB_EDITOR_SCENE_PREVIEW)
+                #if defined(LV2D_EDITOR_SCENE_PREVIEW)
                 return half4(albedo.rgb * IN.color.rgb, albedo.a * IN.color.a);
                 #endif
 
@@ -186,7 +186,7 @@ Shader "Lumivara 2D/Foreground Object"
                 float2 sdfUV   = (IN.uv - _SDFLocalUVTransform.xy) / _SDFLocalUVTransform.zw;
                 float sdfValue = SAMPLE_TEXTURE2D(_SDFTex, sampler_SDFTex, sdfUV).r * _SDFWorldScale;
                 // SDF低于这个的，才会被照亮；virtualHeight=0 时视为无穷大（地面物体全部被照亮）
-                float lumMaxSDF = _VirtualHeight > 0.001 ? _RCWB_GI_Height / _VirtualHeight : 99999.0;
+                float lumMaxSDF = _VirtualHeight > 0.001 ? _LV2D_GI_Height / _VirtualHeight : 99999.0;
                 // 通过SDF计算照亮系数
                 float lumParam = sdfValue <= lumMaxSDF ? 1 - max(0,sdfValue) / lumMaxSDF : 0;
                 
@@ -201,11 +201,11 @@ Shader "Lumivara 2D/Foreground Object"
                 float directionLength = length(lightRCWBGI.direction.xy);
 
                 // 使用统一的兰伯特函数计算 Lumivara 2D GI 光照
-                half3 realDirectionRCWBGI = normalize(half3(normalize(lightRCWBGI.direction.xy), _RCWB_GI_Height - _RCWB_GI_Height * _VirtualHeight / _MaxHeight));
+                half3 realDirectionRCWBGI = normalize(half3(normalize(lightRCWBGI.direction.xy), _LV2D_GI_Height - _LV2D_GI_Height * _VirtualHeight / _MaxHeight));
                 half lambertRCWBGI = CalculateLighting(normalWS, realDirectionRCWBGI);
 
                 // 高度衰减
-                float attenHeight = exp(-.5f * abs(_VirtualHeight - _RCWB_GI_Height));
+                float attenHeight = exp(-.5f * abs(_VirtualHeight - _LV2D_GI_Height));
 
                 // 物体内部的光，为了过渡平滑，需要乘上这个
                 lambertRCWBGI *= clamp(directionLength, 0, 1);
@@ -218,7 +218,7 @@ Shader "Lumivara 2D/Foreground Object"
 
                 // Lumivara 2D 天光
                 float skyLightLambert = ConfigurableLambert(normalWS, float3(0, 0, 1), 0);
-                float3 skyLight = _RCWB_SkyColor * _RCWB_SkyIntensity * skyLightLambert;
+                float3 skyLight = _LV2D_SkyColor * _LV2D_SkyIntensity * skyLightLambert;
                 float skyLightParam = (1 - attenHeight) * .01f;
                 
                 half3 ansColor = IN.color.xyz * albedo.xyz * (_GICoefficient * lumParam * lightRCWBGI.color * lambertRCWBGI * attenHeight + globalLight + skyLight * skyLightParam);

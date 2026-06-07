@@ -1,4 +1,4 @@
-Shader "ProjectII/GroundRainFX"
+﻿Shader "ProjectII/GroundRainFX"
 {
     Properties
     {
@@ -31,7 +31,7 @@ Shader "ProjectII/GroundRainFX"
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
-            #pragma multi_compile_fragment _ RCWB_EDITOR_SCENE_PREVIEW
+            #pragma multi_compile_fragment _ LV2D_EDITOR_SCENE_PREVIEW
             #pragma multi_compile_fragment _ ENABLE_TRANSLUCENT_OBJECTS
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -52,14 +52,14 @@ Shader "ProjectII/GroundRainFX"
                 float4x4 MatrixVP;
                 float4x4 MatrixVP_Prev;
                 float4x4 MatrixInvVP_Prev;
-                float4 _RCWB_HistoryColor_TexelSize;
+                float4 _LV2D_HistoryColor_TexelSize;
 
-                float _RCWB_HistoryWeight;
+                float _LV2D_HistoryWeight;
 
                 float _IsWall;
             CBUFFER_END
 
-            float _RCWB_GI_Height;
+            float _LV2D_GI_Height;
 
             // 全局变量：玩家属性
             float4 _Player_PosWS_Direction_Angle;
@@ -162,7 +162,7 @@ Shader "ProjectII/GroundRainFX"
             {
                 half4 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv);
 
-                #if defined(RCWB_EDITOR_SCENE_PREVIEW)
+                #if defined(LV2D_EDITOR_SCENE_PREVIEW)
                 return half4(albedo.rgb * IN.color.rgb, albedo.a * IN.color.a);
                 #endif
 
