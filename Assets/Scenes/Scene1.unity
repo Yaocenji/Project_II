@@ -18861,7 +18861,7 @@ GameObject:
   - component: {fileID: 1532355179}
   - component: {fileID: 1532355180}
   m_Layer: 0
-  m_Name: "RCWB\u7BA1\u7406\u5668"
+  m_Name: "Lumivara 2D \u7BA1\u7406\u5668"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

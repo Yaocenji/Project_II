@@ -1,4 +1,4 @@
-Shader "RadianceCascadesWB/Foreground_Object"
+Shader "Lumivara 2D/Foreground Object"
 {
     Properties
     {
@@ -46,15 +46,15 @@ Shader "RadianceCascadesWB/Foreground_Object"
             // 引入 URP 核心库
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            // RCWB库
-            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/RCW_BVH_Inc.hlsl"
-            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/SpotLight2D_Inc.hlsl"
+            // Lumivara 2D library
+            #include "Packages/com.lumivara.lumivara-2d/Shaders/LV2D_BVH_Inc.hlsl"
+            #include "Packages/com.lumivara.lumivara-2d/Shaders/SpotLight2D_Inc.hlsl"
 
             // ---------------------------------------------------------
             // 1. CBUFFER 定义 (严格匹配 SRP Batcher)
             // ---------------------------------------------------------
             CBUFFER_START(UnityPerMaterial)
-                // RCWB 天光信息
+                // Lumivara 2D 天光信息
                 float3 _RCWB_SkyColor;
                 float _RCWB_SkyIntensity;
                 float3 _RCWB_SunColor;
@@ -182,7 +182,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
                                + unpackednorm.y * IN.bitangentWS
                                + unpackednorm.z * IN.normalWS;
 
-                // RCWB GI
+                // Lumivara 2D GI
                 float2 sdfUV   = (IN.uv - _SDFLocalUVTransform.xy) / _SDFLocalUVTransform.zw;
                 float sdfValue = SAMPLE_TEXTURE2D(_SDFTex, sampler_SDFTex, sdfUV).r * _SDFWorldScale;
                 // SDF低于这个的，才会被照亮；virtualHeight=0 时视为无穷大（地面物体全部被照亮）
@@ -190,7 +190,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // 通过SDF计算照亮系数
                 float lumParam = sdfValue <= lumMaxSDF ? 1 - max(0,sdfValue) / lumMaxSDF : 0;
                 
-                RcwbLightData lightRCWBGI = GetBlurRcwbLightData(screenUV,  _ScreenParams.xy, MatrixInvVP);
+                LV2DLightData lightRCWBGI = GetBlurLV2DLightData(screenUV,  _ScreenParams.xy, MatrixInvVP);
 
                 if (length(_Emission.rgb) > 0.0001f)
                 {
@@ -200,7 +200,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // 计算安全统一规范化向量
                 float directionLength = length(lightRCWBGI.direction.xy);
 
-                // 使用统一的兰伯特函数计算 RCWB GI 光照
+                // 使用统一的兰伯特函数计算 Lumivara 2D GI 光照
                 half3 realDirectionRCWBGI = normalize(half3(normalize(lightRCWBGI.direction.xy), _RCWB_GI_Height - _RCWB_GI_Height * _VirtualHeight / _MaxHeight));
                 half lambertRCWBGI = CalculateLighting(normalWS, realDirectionRCWBGI);
 
@@ -216,7 +216,7 @@ Shader "RadianceCascadesWB/Foreground_Object"
                 // 全局光
                 float3 globalLight = .0;
 
-                // RCWB天光
+                // Lumivara 2D 天光
                 float skyLightLambert = ConfigurableLambert(normalWS, float3(0, 0, 1), 0);
                 float3 skyLight = _RCWB_SkyColor * _RCWB_SkyIntensity * skyLightLambert;
                 float skyLightParam = (1 - attenHeight) * .01f;

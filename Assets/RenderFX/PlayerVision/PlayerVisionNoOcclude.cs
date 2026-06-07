@@ -1,20 +1,20 @@
 using UnityEngine;
-using RadianceCascadesWorldBVH;
+using Lumivara2D;
 
 namespace ProjectII.Render
 {
     /// <summary>
-    /// 挂载到含 RCWBObject 的 GameObject 上，使该物体不参与玩家视野遮挡计算。
+    /// 挂载到含 LV2DObject 的 GameObject 上，使该物体不参与玩家视野遮挡计算。
     /// OnEnable/OnDisable 自动向 PlayerVisionOccludeSystem 注册/反注册。
     /// </summary>
-    [RequireComponent(typeof(RCWBObject))]
+    [RequireComponent(typeof(LV2DObject))]
     public class PlayerVisionNoOcclude : MonoBehaviour
     {
-        private RCWBObject m_RcwbObject;
+        private LV2DObject m_RcwbObject;
 
         private void Awake()
         {
-            m_RcwbObject = GetComponent<RCWBObject>();
+            m_RcwbObject = GetComponent<LV2DObject>();
         }
 
         private void OnEnable()

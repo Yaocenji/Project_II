@@ -5,7 +5,7 @@ namespace ProjectII.Render
 {
     /// <summary>
     /// 室内地板区域描述器（纯数据，编辑器工具）。
-    /// 运行时本身不做任何事；实际渲染由编辑器烘焙产生的子物体（SpriteRenderer + RCWBObject）承担。
+    /// 运行时本身不做任何事；实际渲染由编辑器烘焙产生的子物体（SpriteRenderer + LV2DObject）承担。
     /// </summary>
     [DisallowMultipleComponent]
     public class IndoorFloorRegion : MonoBehaviour
@@ -29,7 +29,7 @@ namespace ProjectII.Render
         [Tooltip("多边形顶点（局部空间）。整体朝向/位置由 transform 控制")]
         public List<Vector2> localVertices = new List<Vector2>();
 
-        [Tooltip("烘焙后的 SpriteRenderer 使用此材质（RCWB 材质）")]
+        [Tooltip("烘焙后的 SpriteRenderer 使用此材质（Lumivara 2D 材质）")]
         public Material rcwbMaterial;
 
         [Header("Color Grading")]

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using RadianceCascadesWorldBVH;
+using Lumivara2D;
 
 namespace ProjectII.Render
 {
@@ -16,9 +16,9 @@ namespace ProjectII.Render
         public static PlayerVisionOccludeSystem Instance { get; private set; }
 
         // 静态排除：PlayerVisionNoOcclude 注册
-        private readonly HashSet<RCWBObject> m_StaticExcludes = new HashSet<RCWBObject>();
+        private readonly HashSet<LV2DObject> m_StaticExcludes = new HashSet<LV2DObject>();
         // 动态排除：PlayerVisionExcludeList 每帧覆盖写入
-        private readonly HashSet<RCWBObject> m_DynamicExcludes = new HashSet<RCWBObject>();
+        private readonly HashSet<LV2DObject> m_DynamicExcludes = new HashSet<LV2DObject>();
 
         private ComputeBuffer m_FlagBuffer;
         private int[] m_Flags = new int[64];
@@ -46,19 +46,19 @@ namespace ProjectII.Render
 
         // ── 静态排除注册（PlayerVisionNoOcclude 调用） ──
 
-        public void RegisterStatic(RCWBObject obj)
+        public void RegisterStatic(LV2DObject obj)
         {
             if (obj != null) m_StaticExcludes.Add(obj);
         }
 
-        public void UnregisterStatic(RCWBObject obj)
+        public void UnregisterStatic(LV2DObject obj)
         {
             m_StaticExcludes.Remove(obj);
         }
 
         // ── 动态排除（PlayerVisionExcludeList 每帧调用，覆盖上一帧） ──
 
-        public void SetDynamicExcludes(IEnumerable<RCWBObject> objs)
+        public void SetDynamicExcludes(IEnumerable<LV2DObject> objs)
         {
             m_DynamicExcludes.Clear();
             foreach (var obj in objs)
@@ -69,10 +69,10 @@ namespace ProjectII.Render
 
         private void LateUpdate()
         {
-            var core = PolygonManagerCore.Instance;
+            var core = LV2DManager.Instance;
             if (core == null) return;
 
-            List<RCWBObject> allObjects = core.RcwObjects;
+            List<LV2DObject> allObjects = core.Objects;
             int matCount = allObjects.Count;
             if (matCount == 0) return;
 

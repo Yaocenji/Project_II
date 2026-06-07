@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using RadianceCascadesWorldBVH;
+using Lumivara2D;
 
 namespace ProjectII.Render
 {
@@ -41,8 +41,8 @@ namespace ProjectII.Render
         {
             serializedObject.Update();
 
-            // ── 场景 AABB（从 RCWB 系统读取，只读显示）──
-            EditorGUILayout.LabelField("场景 AABB（来自 RCWB）", EditorStyles.boldLabel);
+            // ── 场景 AABB（从 Lumivara 2D 系统读取，只读显示）──
+            EditorGUILayout.LabelField("场景 AABB（来自 Lumivara 2D）", EditorStyles.boldLabel);
             Vector4 aabbDisplay = GroundSceneSettings.GetSceneAABB();
             EditorGUILayout.Vector4Field("AABB (minX, minY, maxX, maxY)", aabbDisplay);
 
@@ -261,7 +261,7 @@ namespace ProjectII.Render
             Vector4 aabb = GroundSceneSettings.GetSceneAABB();
             if (aabb.z - aabb.x < 0.001f || aabb.w - aabb.y < 0.001f)
             {
-                EditorUtility.DisplayDialog("烘焙失败", "场景 AABB 范围无效。请检查 RCWBSceneSettings 或 PolygonManagerSettings。", "OK");
+                EditorUtility.DisplayDialog("烘焙失败", "场景 AABB 范围无效。请检查 LV2DSceneSettings 或 LV2DSettings。", "OK");
                 return;
             }
 
@@ -454,8 +454,8 @@ namespace ProjectII.Render
             sr.sortingLayerID = SortingLayer.NameToID("Default");
             sr.sortingOrder   = m_Target.sortingOrder;
 
-            var rcwb = childGO.GetComponent<RCWBObject>();
-            if (rcwb == null) rcwb = childGO.AddComponent<RCWBObject>();
+            var rcwb = childGO.GetComponent<LV2DObject>();
+            if (rcwb == null) rcwb = childGO.AddComponent<LV2DObject>();
             rcwb.IsWall = false;
 
             EditorUtility.SetDirty(childGO);

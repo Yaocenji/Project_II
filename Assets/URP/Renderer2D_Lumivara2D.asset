@@ -42,14 +42,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee415872df4202a45b31d398e0248924, type: 3}
-  m_Name: RadianceCascadesWBFeature
+  m_Name: Lumivara 2D Render Feature
   m_EditorClassIdentifier: 
   m_Active: 1
   rcShader: {fileID: 7200000, guid: cdc61e057e943ef489e0982686b62e09, type: 3}
   settings:
     renderScale: 0.25
     cascadeCount: 5
-    rayRange: 20
+    rayRange: 15
     bounceIntensity: 1
     skyColor: {r: 0.95283014, g: 0.98070323, b: 1, a: 1}
     skyIntensity: 1
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11145981673336645838492a2d98e247, type: 3}
-  m_Name: Renderer2D_RCWB
+  m_Name: Renderer2D_Lumivara2D
   m_EditorClassIdentifier: 
   debugShaders:
     debugReplacementPS: {fileID: 4800000, guid: cf852408f2e174538bcd9b7fda1c5ae7, type: 3}

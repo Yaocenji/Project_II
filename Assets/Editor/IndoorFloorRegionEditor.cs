@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using RadianceCascadesWorldBVH;
+using Lumivara2D;
 
 namespace ProjectII.Render
 {
@@ -338,9 +338,9 @@ namespace ProjectII.Render
             sr.sortingLayerID  = GetDefaultSortingLayer();
             sr.sortingOrder    = 0;
 
-            // RCWBObject
-            var rcwb = childGO.GetComponent<RCWBObject>();
-            if (rcwb == null) rcwb = childGO.AddComponent<RCWBObject>();
+            // LV2DObject
+            var rcwb = childGO.GetComponent<LV2DObject>();
+            if (rcwb == null) rcwb = childGO.AddComponent<LV2DObject>();
             rcwb.IsWall = false;
 
             EditorUtility.SetDirty(childGO);

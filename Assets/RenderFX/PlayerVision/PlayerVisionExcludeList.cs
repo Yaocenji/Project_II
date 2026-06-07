@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using RadianceCascadesWorldBVH;
+using Lumivara2D;
 
 namespace ProjectII.Render
 {
@@ -10,8 +10,8 @@ namespace ProjectII.Render
     /// </summary>
     public class PlayerVisionExcludeList : MonoBehaviour
     {
-        [Tooltip("需要排除遮挡判断的 RCWBObject（例如玩家自身的 Polygon）")]
-        [SerializeField] private List<RCWBObject> excludedObjects = new List<RCWBObject>();
+        [Tooltip("需要排除遮挡判断的 LV2DObject（例如玩家自身的 Polygon）")]
+        [SerializeField] private List<LV2DObject> excludedObjects = new List<LV2DObject>();
 
         private void LateUpdate()
         {
@@ -19,13 +19,13 @@ namespace ProjectII.Render
         }
 
         /// <summary>运行时动态增减排除列表</summary>
-        public void AddExclude(RCWBObject obj)
+        public void AddExclude(LV2DObject obj)
         {
             if (obj != null && !excludedObjects.Contains(obj))
                 excludedObjects.Add(obj);
         }
 
-        public void RemoveExclude(RCWBObject obj)
+        public void RemoveExclude(LV2DObject obj)
         {
             excludedObjects.Remove(obj);
         }

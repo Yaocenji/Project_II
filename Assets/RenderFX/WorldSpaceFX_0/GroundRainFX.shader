@@ -35,8 +35,8 @@ Shader "ProjectII/GroundRainFX"
             #pragma multi_compile_fragment _ ENABLE_TRANSLUCENT_OBJECTS
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/RCW_BVH_Inc.hlsl"
-            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/IOField.hlsl"
+            #include "Packages/com.lumivara.lumivara-2d/Shaders/LV2D_BVH_Inc.hlsl"
+            #include "Packages/com.lumivara.lumivara-2d/Shaders/LV2D_IOField.hlsl"
 
             // ---------------------------------------------------------
             // 1. CBUFFER 定义 (严格匹配 SRP Batcher)
@@ -221,7 +221,7 @@ Shader "ProjectII/GroundRainFX"
                 float puddleAlpha = 1.0 - exp(-puddleDepth * 10);
 
                 // 获取全局光亮度
-                RcwbLightData lightData = GetBlurRcwbLightData(IN.positionCS.xy / _ScreenParams.xy, _ScreenParams.xy, MatrixInvVP);
+                LV2DLightData lightData = GetBlurLV2DLightData(IN.positionCS.xy / _ScreenParams.xy, _ScreenParams.xy, MatrixInvVP);
                 float GI_Luminance = dot(lightData.color.rgb, half3(0.2126, 0.7152, 0.0722));
 
                 // 白水（边缘 + 涟漪）：略亮颜色 + 小 alpha

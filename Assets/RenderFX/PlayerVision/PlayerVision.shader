@@ -92,8 +92,8 @@ Shader "ProjectII/PlayerVision"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
-            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/RCW_BVH_Inc.hlsl"
-            #include "Packages/yaocenji.radiance-cascades-world-bvh/Shaders/IOField.hlsl"
+            #include "Packages/com.lumivara.lumivara-2d/Shaders/LV2D_BVH_Inc.hlsl"
+            #include "Packages/com.lumivara.lumivara-2d/Shaders/LV2D_IOField.hlsl"
 
             CBUFFER_START(UnityPerMaterial)
                 // 全局变量：玩家属性

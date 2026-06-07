@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using RadianceCascadesWorldBVH;
+using Lumivara2D;
 
 namespace ProjectII.Render
 {
@@ -37,7 +37,7 @@ namespace ProjectII.Render
     /// <summary>
     /// 场景级地面烘焙设置（单例）。
     /// 持有 Splatmap（RGBA 四通道权重图）、4个 SplatLayer 定义。
-    /// 场景 AABB 直接从 RCWB 系统读取（RCWBSceneSettings → PolygonManagerSettings），不单独维护。
+    /// 场景 AABB 直接从 Lumivara 2D 系统读取（LV2DSceneSettings → LV2DSettings），不单独维护。
     /// 整个场景只烘焙出一张覆盖 AABB 的 Albedo 纹理。
     /// </summary>
     [DisallowMultipleComponent]
@@ -57,7 +57,7 @@ namespace ProjectII.Render
         [Tooltip("输出纹理的像素密度（像素/世界单位）")]
         public float pixelsPerUnit = 32f;
 
-        [Tooltip("烘焙后 SpriteRenderer 使用此材质（RCWB 材质）")]
+        [Tooltip("烘焙后 SpriteRenderer 使用此材质（Lumivara 2D 材质）")]
         public Material rcwbMaterial;
 
         [Tooltip("Splatmap 预览使用的材质（为空则使用默认材质）")]
@@ -89,16 +89,16 @@ namespace ProjectII.Render
         }
 
         /// <summary>
-        /// 从 RCWB 系统读取场景 AABB。
-        /// 优先级：RCWBSceneSettings（场景级）→ PolygonManagerSettings（全局）→ 默认值。
+        /// 从 Lumivara 2D 系统读取场景 AABB。
+        /// 优先级：LV2DSceneSettings（场景级）→ LV2DSettings（全局）→ 默认值。
         /// </summary>
         public static Vector4 GetSceneAABB()
         {
-            var sceneSettings = FindObjectOfType<RCWBSceneSettings>();
+            var sceneSettings = FindObjectOfType<LV2DSceneSettings>();
             if (sceneSettings != null)
                 return sceneSettings.sceneAABB;
 
-            var globalSettings = PolygonManagerSettings.Instance;
+            var globalSettings = LV2DSettings.Instance;
             if (globalSettings != null)
                 return globalSettings.sceneAABB;
 

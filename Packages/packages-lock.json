@@ -284,8 +284,8 @@
       },
       "url": "https://packages.unity.com"
     },
-    "yaocenji.radiance-cascades-world-bvh": {
-      "version": "file:E:/Unity/MyProjects/Radiance_Cascade_1/Radiance_Cascade_1/Assets/RadianceCascadesWorldBVH",
+    "com.lumivara.lumivara-2d": {
+      "version": "file:E:/Unity/MyProjects/Radiance_Cascade_1/Radiance_Cascade_1/Assets/Lumivara2D",
       "depth": 0,
       "source": "local",
       "dependencies": {
